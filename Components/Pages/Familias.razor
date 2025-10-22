@@ -1,0 +1,116 @@
+@page "/familias"
+@inject PaginaListagemViewModel ViewModel
+@implements IDisposable
+
+@* Adiciona um overlay de loading baseado no BaseViewModel *@
+@if (ViewModel.IsBusy)
+{
+    <div class="loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+    </div>
+}
+
+<div class="container-fluid pt-3">
+    
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">Famílias Referenciadas</h3>
+        
+        <button class="btn btn-primary" @onclick="ViewModel.AddNewFamilyCommand">
+            <i class="bi bi-plus-circle-fill me-2"></i>
+            Novo Cadastro
+        </button>
+    </div>
+
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+            <div class="input-group">
+                <input type="text" 
+                       class="form-control" 
+                       placeholder="Buscar por Nome, CPF ou NIS..." 
+                       @bind="ViewModel.SearchTerm"
+                       @bind:event="oninput" />
+                       
+                <button class="btn btn-outline-secondary" 
+                        type="button" 
+                        @onclick="ViewModel.SearchFamiliesCommand"
+                        disabled="@ViewModel.IsBusy">
+                    <i class="bi bi-search"></i>
+                    Buscar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            Resultados da Busca
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">Prontuário</th>
+                        <th scope="col">Nome Responsável</th>
+                        <th scope="col">Data Nasc.</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewModel.Familias.Any())
+                    {
+                        @foreach (var familia in ViewModel.Familias)
+                        {
+                            <tr @onclick="() => ViewModel.SelectFamilyCommand.ExecuteAsync(familia)" style="cursor: pointer;">
+                                <td>@familia.Prontuario</td>
+                                <td>@familia.NomeResponsavel</td>
+                                <td>@familia.DataNascimentoResponsavel.ToShortDateString()</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary"
+                                            @onclick="() => ViewModel.SelectFamilyCommand.ExecuteAsync(familia)"
+                                            @onclick:stopPropagation="true"> @* Impede o clique da <tr> *@
+                                        <i class="bi bi-eye-fill"></i>
+                                        Ver
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else if (!ViewModel.IsBusy)
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-muted p-4">
+                                Nenhuma família encontrada. Realize uma busca ou cadastre uma nova.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+    }
+
+    private async void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        // Desconecta da UI
+        ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
+        
+        // Chama o Dispose do próprio ViewModel (se ele implementar IDisposable)
+        if (ViewModel is IDisposable disposableVm)
+        {
+            disposableVm.Dispose();
+        }
+    }
+}

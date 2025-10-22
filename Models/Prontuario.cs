@@ -22,4 +22,8 @@ public partial class Prontuario : ObservableObject
     string _FormaDeAcesso;
     [ObservableProperty]
     DateOnly _DataCriacao;
+    [ObservableProperty]
+    DateOnly? _DataSaida;
+
+    public bool Ativo => _DataSaida != null; 
 }
