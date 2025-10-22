@@ -71,7 +71,7 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
 
         modelBuilder.Entity<TecnicoCras>(entity =>
         {
-            entity.HasKey(tc => new { tc.TecnicoId, tc.CrasId });
+            entity.HasKey(tc => new { tc.Id });
 
             entity.HasOne(tc => tc.Cras)
                 .WithMany(c => c.TecnicosCras)
