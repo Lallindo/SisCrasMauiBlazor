@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.AspNetCore.Components; // Adicione este using
 using SisCras.Services;
 using SisCras.Models;
 
@@ -7,18 +8,20 @@ namespace SisCras.ViewModels;
 
 public partial class HeaderViewModel : ObservableObject
 {
-    ILoggedUserService _LoggedUserService { get; }
+    private readonly ILoggedUserService _LoggedUserService;
+    private readonly NavigationManager _NavigationManager; // Injete NavigationManager
 
-    public HeaderViewModel(ILoggedUserService loggedUserService)
+    public HeaderViewModel(ILoggedUserService loggedUserService, NavigationManager navigationManager)
     {
         _LoggedUserService = loggedUserService;
+        _NavigationManager = navigationManager; // Injete NavigationManager
         _LoggedUserService.UserStateChanged += ChangeTecnicoState;
     }
 
     [ObservableProperty]
-    Tecnico? _Tecnico = new(){Nome="Bruno", CrasInfo=new(0, "Testando")};
+    Tecnico? _Tecnico = new();
     [ObservableProperty]
-    bool _IsTecnicoLoggedIn = true;
+    bool _IsTecnicoLoggedIn = false;
 
     private void ChangeTecnicoState()
     {
@@ -26,10 +29,15 @@ public partial class HeaderViewModel : ObservableObject
         Tecnico = _LoggedUserService.GetCurrentUser();
     }
 
+    public void GoToLogin()
+    {
+        _NavigationManager.NavigateTo("/login");
+    }
+
     [RelayCommand]
     private async Task LogoutTecnico()
     {
         _LoggedUserService.ClearCurrentUser();
-        await Shell.Current.GoToAsync("//PaginaLogin");
+        _NavigationManager.NavigateTo("/login"); // Use NavigationManager
     }
 } 

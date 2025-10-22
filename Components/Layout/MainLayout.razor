@@ -6,8 +6,20 @@
     </div>
 
     <main>
-        <article class="content px-4">
-            @Body
-        </article>
+        @try
+        {
+            <article class="content px-4">
+                @Body
+            </article>
+        }
+        catch (Exception e)
+        {
+            <div class="m-2 p-2">
+                <h3 class="text-danger">Ocorreu um erro ao renderizar a página.</h3>
+                <p><strong>Exceção:</strong> @e.Message</p>
+                <p><strong>Stack Trace:</strong></p>
+                <pre>@e.StackTrace</pre>
+            </div>
+        }
     </main>
 </div>

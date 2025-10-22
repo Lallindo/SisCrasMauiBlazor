@@ -1,15 +1,16 @@
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.AspNetCore.Components; // Adicione este using
 using SisCras.Models;
 using SisCras.Services;
 
 namespace SisCras.ViewModels;
 
-public partial class PaginaLoginViewModel(ITecnicoService tecnicoService, IPasswordService passwordService) : ObservableObject
+public partial class PaginaLoginViewModel(ITecnicoService tecnicoService, NavigationManager navigationManager) : ObservableObject
 {
     ITecnicoService _TecnicoService = tecnicoService;
-    IPasswordService _PasswordService = passwordService;
+    NavigationManager _NavigationManager = navigationManager; // Injete NavigationManager
 
     [ObservableProperty]
     Tecnico _Tecnico = new();
@@ -22,7 +23,7 @@ public partial class PaginaLoginViewModel(ITecnicoService tecnicoService, IPassw
         if (await _TecnicoService.TryLoginAsync(Tecnico.Login, Tecnico.Senha))
         {
             LoginError = false;
-            await Shell.Current.GoToAsync("PaginaListagem");
+            _NavigationManager.NavigateTo("/"); // Use NavigationManager
         }
         else
         {

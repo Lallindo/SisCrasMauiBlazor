@@ -2,6 +2,7 @@
 using SisCras.ViewModels;
 using SisCras.Repositories;
 using SisCras.Services;
+using SisCras.Database;
 
 namespace SisCras;
 
@@ -19,13 +20,18 @@ public static class MauiProgram
 
 		builder.Services.AddMauiBlazorWebView();
 
+#if DEBUG
+		builder.Services.AddBlazorWebViewDeveloperTools();
+		builder.Logging.AddDebug();
+#endif
+
 		// ViewModels
 		builder.Services.AddTransient<PaginaLoginViewModel>();
 		builder.Services.AddTransient<PaginaListagemViewModel>();
 		builder.Services.AddTransient<PaginaRegistramentoViewModel>();
 		builder.Services.AddTransient<PaginaTestesViewModel>();
 		builder.Services.AddTransient<PaginaRegTecnicoViewModel>();
-		builder.Services.AddSingleton<HeaderViewModel>();
+		builder.Services.AddScoped<HeaderViewModel>();
 
 		// Services
 		builder.Services.AddSingleton<ITecnicoService, TecnicoService>();
@@ -43,10 +49,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
 		builder.Services.AddTransient<ICrasRepository, CrasRepository>();
 
-#if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
-		builder.Logging.AddDebug();
-#endif
+		// Database
+		builder.Services.AddDbContext<SisCrasDbContext>();
 
 		return builder.Build();
 	}
