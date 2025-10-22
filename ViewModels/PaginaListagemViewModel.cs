@@ -50,11 +50,6 @@ public partial class PaginaListagemViewModel(IFamiliaService familiaService, ILo
         }
     }
     [RelayCommand]
-    private void OnSearchTermChanged(string? value)
-    {
-        FilterFamilias();
-    }
-    [RelayCommand]
     private void ClearSearch()
     {
         SearchTerm = string.Empty;

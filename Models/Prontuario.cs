@@ -23,7 +23,7 @@ public partial class Prontuario : ObservableObject
     [ObservableProperty]
     DateOnly _DataCriacao;
     [ObservableProperty]
-    DateOnly? _DataSaida;
+    DateOnly? _DataSaida = null;
 
     public bool Ativo => _DataSaida != null; 
 }

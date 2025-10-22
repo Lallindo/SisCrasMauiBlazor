@@ -4,6 +4,7 @@ namespace SisCras.Models;
 
 public partial class TecnicoCras : ObservableObject
 {
+    public int Id { get; private set; }
     public int CrasId { get; set; }
     public int TecnicoId { get; set; }
     public bool Ativo { get => DataSaida != null; }

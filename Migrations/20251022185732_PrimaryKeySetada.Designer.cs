@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SisCras.Database;
 
@@ -10,9 +11,11 @@ using SisCras.Database;
 namespace SisCras.Migrations
 {
     [DbContext(typeof(SisCrasDbContext))]
-    partial class SisCrasDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251022185732_PrimaryKeySetada")]
+    partial class PrimaryKeySetada
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
@@ -138,7 +141,8 @@ namespace SisCras.Migrations
 
             modelBuilder.Entity("SisCras.Models.TecnicoCras", b =>
                 {
-                    b.Property<int>("TecnicoId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("CrasId")
@@ -150,12 +154,14 @@ namespace SisCras.Migrations
                     b.Property<DateOnly?>("DataSaida")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("TecnicoId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("TecnicoId", "CrasId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CrasId");
+
+                    b.HasIndex("TecnicoId");
 
                     b.ToTable("TecnicoCras");
                 });

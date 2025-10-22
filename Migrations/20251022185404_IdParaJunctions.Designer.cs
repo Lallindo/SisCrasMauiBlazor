@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SisCras.Database;
 
@@ -10,9 +11,11 @@ using SisCras.Database;
 namespace SisCras.Migrations
 {
     [DbContext(typeof(SisCrasDbContext))]
-    partial class SisCrasDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251022185404_IdParaJunctions")]
+    partial class IdParaJunctions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
@@ -48,26 +51,23 @@ namespace SisCras.Migrations
 
             modelBuilder.Entity("SisCras.Models.FamiliaUsuario", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("FamiliaId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("Ativo")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("FamiliaId")
+                    b.Property<int>("Id")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Parentesco")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FamiliaId");
+                    b.HasKey("FamiliaId", "UsuarioId");
 
                     b.HasIndex("UsuarioId");
 
@@ -138,10 +138,10 @@ namespace SisCras.Migrations
 
             modelBuilder.Entity("SisCras.Models.TecnicoCras", b =>
                 {
-                    b.Property<int>("TecnicoId")
+                    b.Property<int>("CrasId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CrasId")
+                    b.Property<int>("TecnicoId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateOnly>("DataEntrada")
@@ -153,9 +153,9 @@ namespace SisCras.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("TecnicoId", "CrasId");
+                    b.HasKey("CrasId", "TecnicoId");
 
-                    b.HasIndex("CrasId");
+                    b.HasIndex("TecnicoId");
 
                     b.ToTable("TecnicoCras");
                 });

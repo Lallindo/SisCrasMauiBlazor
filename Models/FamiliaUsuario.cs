@@ -4,6 +4,7 @@ namespace SisCras.Models;
 
 public partial class FamiliaUsuario : ObservableObject
 {
+    public int Id { get; private set; }
     public int FamiliaId { get; set; }
     public int UsuarioId { get; set; }
 

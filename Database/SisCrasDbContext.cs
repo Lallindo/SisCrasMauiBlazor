@@ -14,8 +14,6 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
     public DbSet<Cras> Cras { get; set; }
     public DbSet<TecnicoCras> TecnicoCras { get; set; }
 
-    // The following configures EF to create a Sqlite database file in the
-    // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={GetSQLiteConnection()}");
 
@@ -38,17 +36,17 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
 
         modelBuilder.Entity<Prontuario>(entity =>
         {
-            // Relationship with Tecnico
             entity.HasOne(p => p.Tecnico)
                 .WithMany(t => t.Prontuarios)
-                .HasForeignKey(p => p.TecnicoId)  // Changed from Id to TecnicoId
+                .HasForeignKey(p => p.TecnicoId)  
                 .IsRequired();
 
-            // Relationship with Familia
             entity.HasOne(p => p.Familia)
                 .WithMany(f => f.Prontuarios)
                 .HasForeignKey(p => p.FamiliaId)
                 .IsRequired();
+
+            entity.Ignore(p => p.Ativo);
         });
 
         modelBuilder.Entity<Familia>(entity =>
@@ -58,16 +56,13 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
 
         modelBuilder.Entity<FamiliaUsuario>(entity =>
         {
-            // Composite primary key
-            entity.HasKey(fu => new { fu.FamiliaId, fu.UsuarioId });
+            entity.HasKey(fu => new { fu.Id });
 
-            // Relationship with Familia
             entity.HasOne(fu => fu.Familia)
                 .WithMany(f => f.FamiliaUsuarios)
                 .HasForeignKey(fu => fu.FamiliaId)
                 .IsRequired();
 
-            // Relationship with Usuario
             entity.HasOne(fu => fu.Usuario)
                 .WithMany(u => u.FamiliaUsuarios)
                 .HasForeignKey(fu => fu.UsuarioId)
@@ -76,16 +71,13 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
 
         modelBuilder.Entity<TecnicoCras>(entity =>
         {
-            // Composite primary key
-            entity.HasKey(tc => new { tc.CrasId, tc.TecnicoId });
+            entity.HasKey(tc => new { tc.TecnicoId, tc.CrasId });
 
-            // Relationship with Cras
             entity.HasOne(tc => tc.Cras)
                 .WithMany(c => c.TecnicosCras)
                 .HasForeignKey(tc => tc.CrasId)
                 .IsRequired();
 
-            // Relationship with Tecnico
             entity.HasOne(tc => tc.Tecnico)
                 .WithMany(t => t.TecnicoCras)
                 .HasForeignKey(tc => tc.TecnicoId)
