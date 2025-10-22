@@ -1,0 +1,28 @@
+@inject PaginaLoginViewModel ViewModel
+
+@page "/login"
+@using System.Diagnostics
+
+<form method="get" @onsubmit="HandleValidSubmit" @oninvalid="HandleInvalidSubmit">
+  <div class="form-group">
+    <label for="inp_login">Usuário: </label>
+    <input type="text" class="form-control" id="inp_login" @bind-value="@ViewModel.Tecnico.Login">
+  </div>
+  <div class="form-group">
+    <label for="inp_senha">Senha: </label>
+    <input type="password" class="form-control" id="inp_senha" @bind-value="@ViewModel.Tecnico.Senha">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@code {
+    private void HandleValidSubmit()
+    {
+        Debug.WriteLine($"{ViewModel.Tecnico.Nome}; {ViewModel.Tecnico.Senha}");
+    }
+
+    private void HandleInvalidSubmit()
+    {
+        Debug.WriteLine("Erro");
+    }
+}
