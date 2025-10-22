@@ -11,7 +11,7 @@ public partial class PaginaRegistramentoViewModel(
     IProntuarioService prontuarioService,
     IFamiliaService familiaService,
     ILoggedUserService loggedUserService
-    ) : ObservableObject
+    ) : BaseViewModel
 {
     private readonly IProntuarioService _prontuarioService = prontuarioService;
     private readonly IFamiliaService _familiaService = familiaService;

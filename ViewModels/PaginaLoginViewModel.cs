@@ -6,8 +6,7 @@ using SisCras.Models;
 using SisCras.Services;
 
 namespace SisCras.ViewModels;
-
-public partial class PaginaLoginViewModel(ITecnicoService tecnicoService, NavigationManager navigationManager) : ObservableObject
+public partial class PaginaLoginViewModel(ITecnicoService tecnicoService, NavigationManager navigationManager) : BaseViewModel
 {
     ITecnicoService _TecnicoService = tecnicoService;
     NavigationManager _NavigationManager = navigationManager; // Injete NavigationManager
@@ -23,7 +22,7 @@ public partial class PaginaLoginViewModel(ITecnicoService tecnicoService, Naviga
         if (await _TecnicoService.TryLoginAsync(Tecnico.Login, Tecnico.Senha))
         {
             LoginError = false;
-            _NavigationManager.NavigateTo("/"); // Use NavigationManager
+            _NavigationManager.NavigateTo("/home");
         }
         else
         {

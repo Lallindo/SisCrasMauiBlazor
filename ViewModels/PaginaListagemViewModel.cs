@@ -6,8 +6,7 @@ using SisCras.Models;
 using SisCras.Services;
 
 namespace SisCras.ViewModels;
-
-public partial class PaginaListagemViewModel(ITecnicoService tecnicoService) : ObservableObject
+public partial class PaginaListagemViewModel(ITecnicoService tecnicoService) : BaseViewModel
 {
     ITecnicoService _TecnicoService { get; } = tecnicoService;
 

@@ -32,6 +32,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<PaginaTestesViewModel>();
 		builder.Services.AddTransient<PaginaRegTecnicoViewModel>();
 		builder.Services.AddScoped<HeaderViewModel>();
+		builder.Services.AddScoped<MainLayoutViewModel>();
 
 		// Services
 		builder.Services.AddSingleton<ITecnicoService, TecnicoService>();
@@ -43,11 +44,11 @@ public static class MauiProgram
 		builder.Services.AddSingleton<IPasswordService, PasswordService>();
 
 		// Repositories
-		builder.Services.AddTransient<ITecnicoRepository, TecnicoRepository>();
-		builder.Services.AddTransient<IProntuarioRepository, ProntuarioRepository>();
-		builder.Services.AddTransient<IFamiliaRepository, FamiliaRepository>();
-		builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
-		builder.Services.AddTransient<ICrasRepository, CrasRepository>();
+		builder.Services.AddScoped<ITecnicoRepository, TecnicoRepository>();
+		builder.Services.AddScoped<IProntuarioRepository, ProntuarioRepository>();
+		builder.Services.AddScoped<IFamiliaRepository, FamiliaRepository>();
+		builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+		builder.Services.AddScoped<ICrasRepository, CrasRepository>();
 
 		// Database
 		builder.Services.AddDbContext<SisCrasDbContext>();

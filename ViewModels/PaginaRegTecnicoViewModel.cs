@@ -8,7 +8,7 @@ using SisCras.Models.ValueObjects;
 
 namespace SisCras.ViewModels;
 
-public partial class PaginaRegTecnicoViewModel : ObservableObject
+public partial class PaginaRegTecnicoViewModel : BaseViewModel
 {
     public PaginaRegTecnicoViewModel(ITecnicoService tecnicoService, ICrasService crasService, IPasswordService passwordService, NavigationManager navigationManager)
     {

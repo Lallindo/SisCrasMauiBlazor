@@ -8,7 +8,7 @@ namespace SisCras.Services;
 public class TecnicoService(ITecnicoRepository tecnicoRepository, ILoggedUserService loggedUserService, IPasswordService passwordService) : BaseService<Tecnico>(tecnicoRepository), ITecnicoService
 {
     ITecnicoRepository _TecnicoRepository { get; } = tecnicoRepository;
-    ILoggedUserService _LoggedUser { get; } = loggedUserService;
+    ILoggedUserService _LoggedUserService { get; } = loggedUserService;
     IPasswordService _PasswordService { get; } = passwordService;
 
     public async Task<bool> TryLoginAsync(string login, string plainSenha)
@@ -21,7 +21,7 @@ public class TecnicoService(ITecnicoRepository tecnicoRepository, ILoggedUserSer
         if (senhaCorreta)
         {
             tecnico.SetCrasInfo(await _TecnicoRepository.GetCurrentCrasByIdAsync(tecnico.Id));
-            _LoggedUser.SetCurrentUser(tecnico);
+            _LoggedUserService.SetCurrentUser(tecnico);
             return true;
         }
         

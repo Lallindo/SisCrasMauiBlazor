@@ -5,7 +5,7 @@ using SisCras.Services;
 
 namespace SisCras.ViewModels;
 
-public partial class PaginaTestesViewModel(ICrasService crasService) : ObservableObject
+public partial class PaginaTestesViewModel(ICrasService crasService) : BaseViewModel
 {
     ICrasService Service { get; set; } = crasService;
 
