@@ -9,6 +9,6 @@ public class CrasService(ICrasRepository crasRepository) : BaseService<Cras>(cra
 
     public async Task<List<Tecnico>> GetAllTecnicos(int id)
     {
-        return await _CrasRepository.ReturnTecnicosFromCras(id);
+        return await _CrasRepository.GetTecnicosFromCras(id);
     }
 }

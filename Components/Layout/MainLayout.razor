@@ -31,17 +31,11 @@
 @code {
     protected override void OnInitialized()
     {
-        // Conecta a UI às mudanças do ViewModel
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
-
-        // Chama o método no VM uma vez na inicialização 
-        // para definir o estado inicial corretamente
     }
 
     private async void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        // Se qualquer propriedade notificada mudar (como IsVisible), atualiza a UI
-        // Verifica se a propriedade que mudou é a que nos interessa (opcional, mas bom)
         if (e.PropertyName == nameof(ViewModel.IsVisible)) 
         {
             await InvokeAsync(StateHasChanged);
@@ -50,10 +44,7 @@
 
     public void Dispose()
     {
-        // Desconecta da UI
         ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
-
-        // Chama o Dispose do próprio ViewModel para limpar a inscrição do NavigationManager
         ViewModel.Dispose(); 
     }
 }

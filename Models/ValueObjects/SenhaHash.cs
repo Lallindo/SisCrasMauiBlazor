@@ -11,6 +11,7 @@ public class PasswordHash(string hash)
     }
     public bool Verify(string plainSenha)
     {
+        if (plainSenha == null) return false;
         return BCrypt.Net.BCrypt.Verify(plainSenha, Hash);
     }
 }
