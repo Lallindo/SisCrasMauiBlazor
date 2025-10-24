@@ -18,9 +18,9 @@ public partial class PaginaRegistramentoViewModel(
     private readonly ILoggedUserService _loggedUserService = loggedUserService;
 
     [ObservableProperty]
-    Prontuario _Prontuario = new();
+    private Prontuario _prontuario = new();
     [ObservableProperty]
-    ObservableCollection<Usuario> _Usuarios = [new()];
+    private ObservableCollection<Usuario> _usuarios = [new()];
 
     [RelayCommand]
     private async Task CreateNewUsuario()

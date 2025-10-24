@@ -1,27 +1,50 @@
+using Microsoft.EntityFrameworkCore;
 using SisCras.Database;
 using SisCras.Models;
+using SisCras.Models.Enums;
 
 namespace SisCras.Repositories;
 
 public class FamiliaRepository(SisCrasDbContext dbContext) : EfRepository<Familia>(dbContext), IFamiliaRepository
 {
-    public Task<List<Usuario>> GetActiveUsuariosFromFamilia(Familia familia)
+    public async Task<List<Usuario?>> GetActiveUsuariosFromFamilia(int id)
     {
-        throw new NotImplementedException();
+        return await DbContext.Familias
+            .Where(f => f.Id == id)
+            .SelectMany(fu => fu.FamiliaUsuarios)
+            .Where(fu => fu.Ativo)
+            .Select(u => u.Usuario)
+            .Distinct()
+            .ToListAsync();
     }
-
-    public Task<List<Usuario>> GetActiveUsuariosFromFamilia(int id)
+    public async Task<List<Usuario?>> GetActiveUsuariosFromFamilia(Familia familia)
     {
-        throw new NotImplementedException();
+        return await GetActiveUsuariosFromFamilia(familia.Id);
     }
-
-    public Task<List<Usuario>> GetUsuariosFromFamilia(Familia familia)
+    public async Task<List<Usuario?>> GetUsuariosFromFamilia(int id)
     {
-        throw new NotImplementedException();
+        return await DbContext.Familias
+            .Where(f => f.Id == id)
+            .SelectMany(fu => fu.FamiliaUsuarios)
+            .Select(u => u.Usuario)
+            .Distinct()
+            .ToListAsync();
     }
-
-    public Task<List<Usuario>> GetUsuariosFromFamilia(int id)
+    public async Task<List<Usuario?>> GetUsuariosFromFamilia(Familia familia)
     {
-        throw new NotImplementedException();
+        return await GetUsuariosFromFamilia(familia.Id);
+    }
+    public async Task<Usuario?> GetResponsavelFromFamilia(int id)
+    {
+        return await DbContext.Familias
+            .Where(f => f.Id == id)
+            .SelectMany(fu => fu.FamiliaUsuarios)
+            .Where(fu => fu.Ativo && fu.Parentesco == ParentescoEnum.Responsavel)
+            .Select(u => u.Usuario)
+            .FirstOrDefaultAsync();
+    }
+    public async Task<Usuario?> GetResponsavelFromFamilia(Familia familia)
+    {
+        return await GetResponsavelFromFamilia(familia.Id);
     }
 }

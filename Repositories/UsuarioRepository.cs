@@ -8,7 +8,7 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : EfRepository<Usuari
 {
     public async Task<Familia?> GetActiveFamiliaFromUsuario(int id)
     {
-        return await _DbContext.Familias
+        return await DbContext.Familias
             .Include(f => f.Prontuarios)
             .Where(f => f.FamiliaUsuarios.Any(fu => fu.UsuarioId == id && fu.Ativo))
             .FirstOrDefaultAsync();
@@ -21,7 +21,7 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : EfRepository<Usuari
 
     public async Task<List<Familia>> GetFamiliasFromUsuario(int id)
     {
-        return await _DbContext.Familias
+        return await DbContext.Familias
             .Include(f => f.Prontuarios)
             .Where(f => f.FamiliaUsuarios.Any(fu => fu.UsuarioId == id))
             .ToListAsync();

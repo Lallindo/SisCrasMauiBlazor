@@ -5,11 +5,11 @@ namespace SisCras.Models;
 public partial class Cras : ObservableObject
 {
     [ObservableProperty]
-    int _Id;
+    private int _id;
     [ObservableProperty]
-    string _Nome;
+    private string _nome;
     [ObservableProperty]
-    ICollection<TecnicoCras> _TecnicosCras;
+    private ICollection<TecnicoCras> _tecnicosCras;
     [ObservableProperty]
-    ICollection<Prontuario> _Prontuarios;
+    private ICollection<Prontuario> _prontuarios;
 }

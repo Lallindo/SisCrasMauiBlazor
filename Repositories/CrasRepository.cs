@@ -9,7 +9,11 @@ public class CrasRepository(SisCrasDbContext dbContext) : EfRepository<Cras>(dbC
 {
     public async Task<List<Familia>> GetFamiliasFromCras(int id)
     {
-        throw new NotImplementedException();
+        return await DbContext.Cras
+            .Where(c => c.Id == id)
+            .SelectMany(c => c.Prontuarios)
+            .Select(p => p.Familia)
+            .ToListAsync();
     }
 
     public async Task<List<Familia>> GetFamiliasFromCras(Cras cras)
@@ -19,7 +23,10 @@ public class CrasRepository(SisCrasDbContext dbContext) : EfRepository<Cras>(dbC
 
     public async Task<List<Prontuario>> GetProntuariosFromCras(int id)
     {
-        throw new NotImplementedException();
+        return await DbContext.Cras
+            .Where(c => c.Id == id)
+            .SelectMany(c => c.Prontuarios)
+            .ToListAsync();
     }
 
     public async Task<List<Prontuario>> GetProntuariosFromCras(Cras cras)
@@ -29,7 +36,8 @@ public class CrasRepository(SisCrasDbContext dbContext) : EfRepository<Cras>(dbC
 
     public async Task<List<Tecnico>> GetTecnicosFromCras(int id)
     {
-        return await _DbContext.Cras
+        return await DbContext.Cras
+            .Where(c => c.Id == id)
             .SelectMany(c => c.TecnicosCras)
             .Select(tc => tc.Tecnico)
             .ToListAsync();

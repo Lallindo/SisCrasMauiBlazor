@@ -15,7 +15,7 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
     public DbSet<TecnicoCras> TecnicoCras { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={GetSQLiteConnection()}");
+        => options.UseSqlite($"Data Source={GetSqLiteConnection()}");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -57,7 +57,9 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
         modelBuilder.Entity<FamiliaUsuario>(entity =>
         {
             entity.HasKey(fu => new { fu.Id });
-
+            
+            entity.Property(fu => fu.Parentesco ).HasConversion<int>();
+            
             entity.HasOne(fu => fu.Familia)
                 .WithMany(f => f.FamiliaUsuarios)
                 .HasForeignKey(fu => fu.FamiliaId)
@@ -85,7 +87,7 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
         });
     }
 
-    private static string GetSQLiteConnection()
+    private static string GetSqLiteConnection()
     {
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);

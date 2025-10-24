@@ -9,21 +9,21 @@ public partial class Prontuario : ObservableObject
     public int CrasId { get; set; }
 
     [ObservableProperty]
-    int _Id;
+    private int _id;
     [ObservableProperty]
-    int _Codigo;
+    private int _codigo;
     [ObservableProperty]
-    Tecnico _Tecnico;
+    private Tecnico _tecnico;
     [ObservableProperty]
-    Familia _Familia;
+    private Familia _familia;
     [ObservableProperty]
-    Cras _Cras;
+    private Cras _cras;
     [ObservableProperty]
-    string _FormaDeAcesso;
+    private string _formaDeAcesso;
     [ObservableProperty]
-    DateOnly _DataCriacao;
+    private DateOnly _dataCriacao;
     [ObservableProperty]
-    DateOnly? _DataSaida = null;
+    private DateOnly? _dataSaida = null;
 
-    public bool Ativo => _DataSaida != null; 
+    public bool Ativo => _dataSaida != null; 
 }

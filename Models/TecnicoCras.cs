@@ -10,11 +10,11 @@ public partial class TecnicoCras : ObservableObject
     public bool Ativo { get => DataSaida != null; }
 
     [ObservableProperty]
-    Tecnico _Tecnico;
+    private Tecnico _tecnico;
     [ObservableProperty]
-    Cras _Cras;
+    private Cras _cras;
     [ObservableProperty]
-    DateOnly _DataEntrada;
+    private DateOnly _dataEntrada;
     [ObservableProperty]
-    DateOnly? _DataSaida = null;
+    private DateOnly? _dataSaida = null;
 }

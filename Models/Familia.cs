@@ -6,11 +6,11 @@ namespace SisCras.Models;
 public partial class Familia : ObservableObject
 {
     [ObservableProperty]
-    int _Id;
+    private int _id;
     [ObservableProperty]
-    ICollection<Prontuario> _Prontuarios = [];
+    private ICollection<Prontuario> _prontuarios = [];
     [ObservableProperty]
-    ICollection<FamiliaUsuario> _FamiliaUsuarios = [];
+    private ICollection<FamiliaUsuario> _familiaUsuarios = [];
     [ObservableProperty]
-    ConfiguracaoFamiliarEnum _ConfiguracaoFamiliar;
+    private ConfiguracaoFamiliarEnum _configuracaoFamiliar;
 }

@@ -58,9 +58,8 @@ namespace SisCras.Migrations
                     b.Property<int>("FamiliaId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Parentesco")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Parentesco")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("INTEGER");

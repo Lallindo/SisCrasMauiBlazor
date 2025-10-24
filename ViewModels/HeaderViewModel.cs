@@ -9,43 +9,43 @@ namespace SisCras.ViewModels;
 
 public partial class HeaderViewModel : BaseViewModel, IDisposable
 {
-    private readonly ILoggedUserService _LoggedUserService;
-    private readonly NavigationManager _NavigationManager;
+    private readonly ILoggedUserService _loggedUserService;
+    private readonly NavigationManager _navigationManager;
 
     public HeaderViewModel(ILoggedUserService loggedUserService, NavigationManager navigationManager)
     {
-        _LoggedUserService = loggedUserService;
-        _NavigationManager = navigationManager; 
-        _LoggedUserService.UserStateChanged += ChangeTecnicoState;
+        _loggedUserService = loggedUserService;
+        _navigationManager = navigationManager; 
+        _loggedUserService.UserStateChanged += ChangeTecnicoState;
         // Sincroniza o estado inicial ao ser criado
         ChangeTecnicoState();
     }
 
     [ObservableProperty]
-    Tecnico? _Tecnico = new();
+    private Tecnico? _tecnico = new();
     [ObservableProperty]
-    bool _IsTecnicoLoggedIn;
+    private bool _isTecnicoLoggedIn;
 
     private void ChangeTecnicoState()
     {
-        IsTecnicoLoggedIn = _LoggedUserService.GetCurrentUser() != null;
-        Tecnico = _LoggedUserService.GetCurrentUser();
+        IsTecnicoLoggedIn = _loggedUserService.GetCurrentUser() != null;
+        Tecnico = _loggedUserService.GetCurrentUser();
     }
 
     public void GoToLogin()
     {
-        _NavigationManager.NavigateTo("/");
+        _navigationManager.NavigateTo("/");
     }
 
     [RelayCommand]
     private async Task LogoutTecnico()
     {
-        _LoggedUserService.ClearCurrentUser();
-        _NavigationManager.NavigateTo("/");
+        _loggedUserService.ClearCurrentUser();
+        _navigationManager.NavigateTo("/");
     }
 
     public void Dispose()
     {
-        _LoggedUserService.UserStateChanged -= ChangeTecnicoState;
+        _loggedUserService.UserStateChanged -= ChangeTecnicoState;
     }
 } 

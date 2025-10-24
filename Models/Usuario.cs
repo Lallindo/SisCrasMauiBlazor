@@ -6,37 +6,37 @@ namespace SisCras.Models;
 public partial class Usuario : ObservableObject
 {
     [ObservableProperty]
-    int _Id;
+    private int _id;
     [ObservableProperty]
-    string _Nome;
+    private string _nome;
     [ObservableProperty]
-    ICollection<FamiliaUsuario> _FamiliaUsuarios;
+    private ICollection<FamiliaUsuario> _familiaUsuarios;
     [ObservableProperty]
-    string _Nis;
+    private string _nis;
     [ObservableProperty]
-    string? _NomeSocial;
+    private string? _nomeSocial;
     [ObservableProperty]
-    string _Rg;
+    private string _rg;
     [ObservableProperty]
-    string _Cpf;
+    private string _cpf;
     [ObservableProperty]
-    DateOnly _DataNascimento;
+    private DateOnly _dataNascimento;
     [ObservableProperty]
-    SexoEnum _Sexo;
+    private SexoEnum _sexo;
     [ObservableProperty]
-    EstadoCivilEnum _EstadoCivil;
+    private EstadoCivilEnum _estadoCivil;
     [ObservableProperty]
-    OrientacaoSexualEnum _OrientacaoSexual;
+    private OrientacaoSexualEnum _orientacaoSexual;
     [ObservableProperty]
-    RacaEnum _Raca;
+    private RacaEnum _raca;
     [ObservableProperty]
-    EscolaridadeEnum _Escolaridade;
+    private EscolaridadeEnum _escolaridade;
     [ObservableProperty]
-    float _RendaBruta;
+    private float _rendaBruta;
     [ObservableProperty]
-    string _Profissao;
+    private string _profissao;
     [ObservableProperty]
-    string _Ocupacao;
+    private string _ocupacao;
     [ObservableProperty]
-    FonteRendaEnum _FonteRenda;
+    private FonteRendaEnum _fonteRenda;
 }

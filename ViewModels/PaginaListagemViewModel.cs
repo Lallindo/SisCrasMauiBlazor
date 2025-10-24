@@ -9,19 +9,19 @@ using SisCras.Services;
 namespace SisCras.ViewModels;
 public partial class PaginaListagemViewModel(IFamiliaService familiaService, ILoggedUserService loggedUserService, NavigationManager navigationManager) : BaseViewModel
 {
-    IFamiliaService _FamiliaService { get; } = familiaService;
-    ILoggedUserService _LoggedUserService { get; } = loggedUserService;
-    NavigationManager _NavigationManager { get; } = navigationManager;
-    int _CrasTecnicoId;
-    bool HasSearchTerm => !string.IsNullOrEmpty(SearchTerm);
-    Familia? _FamiliaParaRemover;
+    private IFamiliaService FamiliaService { get; } = familiaService;
+    private ILoggedUserService LoggedUserService { get; } = loggedUserService;
+    private NavigationManager NavigationManager { get; } = navigationManager;
+    private int _crasTecnicoId;
+    private bool HasSearchTerm => !string.IsNullOrEmpty(SearchTerm);
+    private Familia? _familiaParaRemover;
 
     [ObservableProperty]
-    Tecnico? _LoggedTecnico = new();
+    private Tecnico? _loggedTecnico = new();
     [ObservableProperty]
-    ObservableCollection<Familia> _Familias = new();
+    private ObservableCollection<Familia> _familias = new();
     [ObservableProperty]
-    string _SearchTerm = string.Empty;
+    private string _searchTerm = string.Empty;
 
     [RelayCommand]
     private async Task GoToRegistramento()
@@ -36,9 +36,9 @@ public partial class PaginaListagemViewModel(IFamiliaService familiaService, ILo
 
         try
         {
-            LoggedTecnico = _LoggedUserService.GetCurrentUser();
-            _CrasTecnicoId = LoggedTecnico?.CrasInfo.Id ?? 0;
-            Familias = new(await _FamiliaService.GetAllAsync());
+            LoggedTecnico = LoggedUserService.GetCurrentUser();
+            _crasTecnicoId = LoggedTecnico?.CrasInfo.Id ?? 0;
+            Familias = new(await FamiliaService.GetAllAsync());
         }
         catch (Exception ex)
         {
@@ -57,14 +57,14 @@ public partial class PaginaListagemViewModel(IFamiliaService familiaService, ILo
     [RelayCommand]
     private void GoToRegistrarFamilia()
     {
-        _NavigationManager.NavigateTo("/familia/nova");
+        NavigationManager.NavigateTo("/familia/nova");
     }
     [RelayCommand]
     private void ViewFamilia(Familia familia)
     {
         if (familia == null) return;
 
-        _NavigationManager.NavigateTo($"/familias/editar/{familia.Id}");
+        NavigationManager.NavigateTo($"/familias/editar/{familia.Id}");
     }
     [RelayCommand]
     private void RequestDeleteFamilia(Familia familia)

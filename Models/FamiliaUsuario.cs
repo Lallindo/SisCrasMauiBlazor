@@ -1,19 +1,20 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using SisCras.Models.Enums;
 
 namespace SisCras.Models;
 
 public partial class FamiliaUsuario : ObservableObject
 {
     public int Id { get; private set; }
-    public int FamiliaId { get; set; }
-    public int UsuarioId { get; set; }
+    public int FamiliaId { get; }
+    public int UsuarioId { get; }
 
     [ObservableProperty]
-    Familia _Familia;
+    private Familia? _familia;
     [ObservableProperty]
-    Usuario _Usuario;
+    private Usuario? _usuario;
     [ObservableProperty]
-    bool _Ativo;
+    private bool _ativo = true;
     [ObservableProperty]
-    string _Parentesco; // TODO Deve ser alterada por Enum 
+    private ParentescoEnum _parentesco;
 }

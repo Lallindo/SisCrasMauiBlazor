@@ -9,12 +9,12 @@ public class TecnicoRepository(SisCrasDbContext dbContext) : EfRepository<Tecnic
 {
     public async Task<Tecnico> GetTecnicoByLoginAsync(string login)
     {
-        return await _DbContext.Tecnicos.FirstOrDefaultAsync(t => t.Login == login);
+        return await DbContext.Tecnicos.FirstOrDefaultAsync(t => t.Login == login);
     }
 
     public async Task<CrasInfo?> GetCurrentCrasByIdAsync(int id)
     {
-        return await _DbContext.TecnicoCras
+        return await DbContext.TecnicoCras
             .Where(tc => tc.TecnicoId == id && tc.DataSaida == null)
             .Select(tc => new CrasInfo(tc.Cras.Id, tc.Cras.Nome))
             .FirstOrDefaultAsync();
