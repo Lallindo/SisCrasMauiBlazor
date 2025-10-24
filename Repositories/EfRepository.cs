@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using SisCras.Database;
 
@@ -22,7 +21,7 @@ public class EfRepository<T>(SisCrasDbContext dbContext) : IRepository<T> where 
         await DbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public virtual async Task<ICollection<T>> GetAllAsync(CancellationToken cancellationToken = default)
+    virtual public async Task<ICollection<T>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await DbContext.Set<T>().ToListAsync(cancellationToken: cancellationToken);
     }

@@ -5,21 +5,21 @@ using SisCras.Services;
 namespace SisCras.Models;
 
 public partial class Tecnico : ObservableObject
-{   
+{
+    [ObservableProperty]
+    private CrasInfo _crasInfo;
     [ObservableProperty]
     private int _id;
     [ObservableProperty]
-    private string _nome;
-    [ObservableProperty]
     private string _login;
     [ObservableProperty]
-    private string _senha;
+    private string _nome;
     [ObservableProperty]
     private ICollection<Prontuario> _prontuarios;
     [ObservableProperty]
-    private ICollection<TecnicoCras> _tecnicoCras;
+    private string _senha;
     [ObservableProperty]
-    private CrasInfo _crasInfo;
+    private ICollection<TecnicoCras> _tecnicoCras;
 
     public void ChangeSenhaForHash(string plainSenha, IPasswordService passwordService)
     {

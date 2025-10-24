@@ -1,11 +1,13 @@
 ﻿@inherits LayoutComponentBase
-@inject MainLayoutViewModel ViewModel 
+@inject MainLayoutViewModel ViewModel
+@using System.ComponentModel
 @implements IDisposable
 
 <div class="page">
-    @if (ViewModel.IsVisible) {
+    @if (ViewModel.IsVisible)
+    {
         <div class="sidebar">
-            <NavMenu />
+            <NavMenu/>
         </div>
     }
 
@@ -34,9 +36,9 @@
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
     }
 
-    private async void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    private async void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(ViewModel.IsVisible)) 
+        if (e.PropertyName == nameof(ViewModel.IsVisible))
         {
             await InvokeAsync(StateHasChanged);
         }
@@ -45,6 +47,6 @@
     public void Dispose()
     {
         ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
-        ViewModel.Dispose(); 
+        ViewModel.Dispose();
     }
 }

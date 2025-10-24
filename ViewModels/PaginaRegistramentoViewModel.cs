@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SisCras.Models;
@@ -13,9 +12,9 @@ public partial class PaginaRegistramentoViewModel(
     ILoggedUserService loggedUserService
     ) : BaseViewModel
 {
-    private readonly IProntuarioService _prontuarioService = prontuarioService;
     private readonly IFamiliaService _familiaService = familiaService;
     private readonly ILoggedUserService _loggedUserService = loggedUserService;
+    private readonly IProntuarioService _prontuarioService = prontuarioService;
 
     [ObservableProperty]
     private Prontuario _prontuario = new();
@@ -25,7 +24,7 @@ public partial class PaginaRegistramentoViewModel(
     [RelayCommand]
     private async Task CreateNewUsuario()
     {
-        Usuarios.Add(new());
+        Usuarios.Add(new Usuario());
     }
 
     /*[RelayCommand]

@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SisCras.Models;
@@ -11,14 +10,15 @@ public partial class PaginaTestesViewModel(
     ICrasService crasService,
     ITecnicoService tecnicoService,
     IFamiliaService familiaService,
-    IProntuarioService prontuarioService) : BaseViewModel
+    IProntuarioService prontuarioService
+    ) : BaseViewModel
 {
-    private readonly IUsuarioService _usuarioService = usuarioService;
     private readonly ICrasService _crasService = crasService;
-    private readonly ITecnicoService _tecnicoService = tecnicoService;
     private readonly IFamiliaService _familiaService = familiaService;
     private readonly IProntuarioService _prontuarioService = prontuarioService;
-    
+    private readonly ITecnicoService _tecnicoService = tecnicoService;
+    private readonly IUsuarioService _usuarioService = usuarioService;
+
     [ObservableProperty]
     private Usuario? _usuario;
 

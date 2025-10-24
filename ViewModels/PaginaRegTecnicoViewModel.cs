@@ -1,15 +1,25 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using SisCras.Services;
-using SisCras.Models;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.AspNetCore.Components; // Adicione este using
 using System.Diagnostics;
-using SisCras.Models.ValueObjects;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.AspNetCore.Components;
+using SisCras.Models;
+using SisCras.Services;
+
+// Adicione este using
 
 namespace SisCras.ViewModels;
 
 public partial class PaginaRegTecnicoViewModel : BaseViewModel
 {
+    [ObservableProperty]
+    private Cras? _crasSelecionado;
+    [ObservableProperty]
+    private bool _erroRegistro;
+    [ObservableProperty]
+    private Tecnico _tecnico = new();
+
+    [ObservableProperty]
+    private List<Cras> _todosCras;
     public PaginaRegTecnicoViewModel(ITecnicoService tecnicoService, ICrasService crasService, IPasswordService passwordService, NavigationManager navigationManager)
     {
         TecnicoService = tecnicoService;
@@ -17,22 +27,13 @@ public partial class PaginaRegTecnicoViewModel : BaseViewModel
         PasswordService = passwordService;
         NavigationManager = navigationManager;
 
-        TodosCras = [.. CrasService.GetAllAsync().Result]; 
+        TodosCras = [.. CrasService.GetAllAsync().Result];
     }
 
     private ITecnicoService TecnicoService { get; }
     private ICrasService CrasService { get; }
     private IPasswordService PasswordService { get; }
     private NavigationManager NavigationManager { get; }
-
-    [ObservableProperty]
-    private List<Cras> _todosCras;
-    [ObservableProperty]
-    private Tecnico _tecnico = new();
-    [ObservableProperty]
-    private Cras? _crasSelecionado = null;
-    [ObservableProperty]
-    private bool _erroRegistro = false;
 
     [RelayCommand]
     private async Task RegistrarTecnico()
@@ -56,16 +57,17 @@ public partial class PaginaRegTecnicoViewModel : BaseViewModel
                 await TecnicoService.UpdateAsync(Tecnico);
 
                 ErroRegistro = false;
-                NavigationManager.NavigateTo("/login"); // Use NavigationManager
+                NavigationManager.NavigateTo("/login");// Use NavigationManager
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Erro ao registrar técnico: {ex.Message}");
                 ErroRegistro = true;
             }
-        } else
+        }
+        else
         {
             ErroRegistro = true;
         }
-    } 
-} 
+    }
+}

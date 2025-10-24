@@ -7,5 +7,5 @@ public interface IBaseService<T>
     // Task<T?> GetByIdAsync(T obj); FIXME Deve ser usado assim?
     Task<T> AddAsync(T obj);
     Task UpdateAsync(T obj);
-    Task DeleteAsync(T obj); 
+    Task DeleteAsync(T obj);
 }

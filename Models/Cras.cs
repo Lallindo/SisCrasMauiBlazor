@@ -9,7 +9,7 @@ public partial class Cras : ObservableObject
     [ObservableProperty]
     private string _nome;
     [ObservableProperty]
-    private ICollection<TecnicoCras> _tecnicosCras;
-    [ObservableProperty]
     private ICollection<Prontuario> _prontuarios;
+    [ObservableProperty]
+    private ICollection<TecnicoCras> _tecnicosCras;
 }

@@ -5,5 +5,5 @@ public enum OrientacaoSexualEnum
     Heterossexual,
     Homossexual,
     Bissexual,
-Outro
+    Outro
 }

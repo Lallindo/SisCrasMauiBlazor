@@ -5,16 +5,16 @@ namespace SisCras.Models;
 
 public partial class FamiliaUsuario : ObservableObject
 {
-    public int Id { get; private set; }
-    public int FamiliaId { get; }
-    public int UsuarioId { get; }
+    [ObservableProperty]
+    private bool _ativo = true;
 
     [ObservableProperty]
     private Familia? _familia;
     [ObservableProperty]
-    private Usuario? _usuario;
-    [ObservableProperty]
-    private bool _ativo = true;
-    [ObservableProperty]
     private ParentescoEnum _parentesco;
+    [ObservableProperty]
+    private Usuario? _usuario;
+    public int Id { get; private set; }
+    public int FamiliaId { get; }
+    public int UsuarioId { get; }
 }

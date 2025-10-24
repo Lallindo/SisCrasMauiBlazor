@@ -25,12 +25,4 @@ public class LoggedUserService : ILoggedUserService
         CurrentUser = null;
         UserStateChanged?.Invoke();
     }
-
-    public void ForceLogin()
-    {
-        if (CurrentUser == null)
-        {
-            Shell.Current.GoToAsync("PaginaLogin");
-        }
-    }
 }

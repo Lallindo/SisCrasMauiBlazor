@@ -24,7 +24,7 @@ public class FamiliaService(IFamiliaRepository familiaRepository) : BaseService<
     }
     public async Task<Usuario?> GetResponsavelFromFamilia(int id)
     {
-        return  await FamiliaRepository.GetResponsavelFromFamilia(id);
+        return await FamiliaRepository.GetResponsavelFromFamilia(id);
     }
     public async Task<Usuario?> GetResponsavelFromFamilia(Familia familia)
     {

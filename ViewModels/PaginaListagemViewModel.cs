@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.AspNetCore.Components;
@@ -7,21 +6,22 @@ using SisCras.Models;
 using SisCras.Services;
 
 namespace SisCras.ViewModels;
+
 public partial class PaginaListagemViewModel(IFamiliaService familiaService, ILoggedUserService loggedUserService, NavigationManager navigationManager) : BaseViewModel
 {
-    private IFamiliaService FamiliaService { get; } = familiaService;
-    private ILoggedUserService LoggedUserService { get; } = loggedUserService;
-    private NavigationManager NavigationManager { get; } = navigationManager;
     private int _crasTecnicoId;
-    private bool HasSearchTerm => !string.IsNullOrEmpty(SearchTerm);
     private Familia? _familiaParaRemover;
+    [ObservableProperty]
+    private ObservableCollection<Familia> _familias = new();
 
     [ObservableProperty]
     private Tecnico? _loggedTecnico = new();
     [ObservableProperty]
-    private ObservableCollection<Familia> _familias = new();
-    [ObservableProperty]
     private string _searchTerm = string.Empty;
+    private IFamiliaService FamiliaService { get; } = familiaService;
+    private ILoggedUserService LoggedUserService { get; } = loggedUserService;
+    private NavigationManager NavigationManager { get; } = navigationManager;
+    private bool HasSearchTerm => !string.IsNullOrEmpty(SearchTerm);
 
     [RelayCommand]
     private async Task GoToRegistramento()
@@ -38,7 +38,7 @@ public partial class PaginaListagemViewModel(IFamiliaService familiaService, ILo
         {
             LoggedTecnico = LoggedUserService.GetCurrentUser();
             _crasTecnicoId = LoggedTecnico?.CrasInfo.Id ?? 0;
-            Familias = new(await FamiliaService.GetAllAsync());
+            Familias = new ObservableCollection<Familia>(await FamiliaService.GetAllAsync());
         }
         catch (Exception ex)
         {

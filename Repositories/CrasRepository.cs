@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using SisCras.Database;
 using SisCras.Models;
@@ -45,6 +44,6 @@ public class CrasRepository(SisCrasDbContext dbContext) : EfRepository<Cras>(dbC
 
     public async Task<List<Tecnico>> GetTecnicosFromCras(Cras cras)
     {
-        return await GetTecnicosFromCras(cras.Id); 
+        return await GetTecnicosFromCras(cras.Id);
     }
 }

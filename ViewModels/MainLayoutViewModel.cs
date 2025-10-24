@@ -7,14 +7,19 @@ namespace SisCras.ViewModels;
 
 public partial class MainLayoutViewModel : ObservableObject, IDisposable
 {
-    private NavigationManager NavigationManager { get; }
     [ObservableProperty]
-    private bool _isVisible = false;
+    private bool _isVisible;
 
     public MainLayoutViewModel(NavigationManager navigationManager)
     {
         NavigationManager = navigationManager;
         NavigationManager.LocationChanged += UpdateNavMenuVisibility;
+    }
+    private NavigationManager NavigationManager { get; }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= UpdateNavMenuVisibility;
     }
 
     public void UpdateNavMenuVisibility(object? sender, LocationChangedEventArgs e)
@@ -23,15 +28,11 @@ public partial class MainLayoutViewModel : ObservableObject, IDisposable
 
         Debug.WriteLine($"{relativeUri}");
 
-        List<string> routesToHideNav = [
+        List<string> routesToHideNav =
+        [
             ""
         ];
 
         IsVisible = !routesToHideNav.Contains(relativeUri, StringComparer.OrdinalIgnoreCase);
-    }
-
-    public void Dispose()
-    {
-        NavigationManager.LocationChanged -= UpdateNavMenuVisibility;
     }
 }

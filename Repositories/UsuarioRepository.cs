@@ -26,7 +26,7 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : EfRepository<Usuari
             .Where(f => f.FamiliaUsuarios.Any(fu => fu.UsuarioId == id))
             .ToListAsync();
     }
-    
+
     public async Task<List<Familia>> GetFamiliasFromUsuario(Usuario usuario)
     {
         return await GetFamiliasFromUsuario(usuario.Id);

@@ -1,10 +1,9 @@
-using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using SisCras.Models;
 
 namespace SisCras.Database;
 
-public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options) : DbContext(options)
+public class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options) : DbContext(options)
 {
     public DbSet<Tecnico> Tecnicos { get; set; }
     public DbSet<Prontuario> Prontuarios { get; set; }
@@ -15,12 +14,13 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
     public DbSet<TecnicoCras> TecnicoCras { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={GetSqLiteConnection()}");
+    {
+        options.UseSqlite($"Data Source={GetSqLiteConnection()}");
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Usuario>(entity =>
-        {
+        modelBuilder.Entity<Usuario>(entity => {
             entity.Property(u => u.Sexo).HasConversion<int>();
             entity.Property(u => u.EstadoCivil).HasConversion<int>();
             entity.Property(u => u.OrientacaoSexual).HasConversion<int>();
@@ -29,16 +29,14 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
             entity.Property(u => u.FonteRenda).HasConversion<int>();
         });
 
-        modelBuilder.Entity<Tecnico>(entity =>
-        {
+        modelBuilder.Entity<Tecnico>(entity => {
             entity.Ignore(t => t.CrasInfo);
         });
 
-        modelBuilder.Entity<Prontuario>(entity =>
-        {
+        modelBuilder.Entity<Prontuario>(entity => {
             entity.HasOne(p => p.Tecnico)
                 .WithMany(t => t.Prontuarios)
-                .HasForeignKey(p => p.TecnicoId)  
+                .HasForeignKey(p => p.TecnicoId)
                 .IsRequired();
 
             entity.HasOne(p => p.Familia)
@@ -49,17 +47,15 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
             entity.Ignore(p => p.Ativo);
         });
 
-        modelBuilder.Entity<Familia>(entity =>
-        {
+        modelBuilder.Entity<Familia>(entity => {
             entity.Property(f => f.ConfiguracaoFamiliar).HasConversion<int>();
         });
 
-        modelBuilder.Entity<FamiliaUsuario>(entity =>
-        {
+        modelBuilder.Entity<FamiliaUsuario>(entity => {
             entity.HasKey(fu => new { fu.Id });
-            
-            entity.Property(fu => fu.Parentesco ).HasConversion<int>();
-            
+
+            entity.Property(fu => fu.Parentesco).HasConversion<int>();
+
             entity.HasOne(fu => fu.Familia)
                 .WithMany(f => f.FamiliaUsuarios)
                 .HasForeignKey(fu => fu.FamiliaId)
@@ -71,8 +67,7 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
                 .IsRequired();
         });
 
-        modelBuilder.Entity<TecnicoCras>(entity =>
-        {
+        modelBuilder.Entity<TecnicoCras>(entity => {
             entity.HasKey(tc => new { tc.Id });
 
             entity.HasOne(tc => tc.Cras)

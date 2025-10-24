@@ -5,25 +5,28 @@
     <div class="card shadow-lg" style="max-width: 450px; width: 100%;">
         <div class="card-header text-center bg-white py-4">
             <div class="d-flex justify-content-center mb-3">
-                <div class="bg-white rounded-3 shadow-sm border border-2 border-light p-2" style="width: 6rem; height: 6rem;">
-                    <img src="resources\brasao_jau.jpg" alt="Brasão de Jaú" class="img-fluid" style="object-fit: contain; width: 100%; height: 100%;" />
+                <div class="bg-white rounded-3 shadow-sm border border-2 border-light p-2"
+                     style="width: 6rem; height: 6rem;">
+                    <img src="resources\brasao_jau.jpg" alt="Brasão de Jaú" class="img-fluid"
+                         style="object-fit: contain; width: 100%; height: 100%;"/>
                 </div>
             </div>
             <h4 class="card-title mb-1">SisCras</h4>
             <p class="card-text text-muted">
-                Sistema de Cadastro de Famílias<br />
+                Sistema de Cadastro de Famílias<br/>
                 Jaú/SP
             </p>
         </div>
         <div class="card-body p-4">
             <EditForm Model="ViewModel.Tecnico" OnValidSubmit="HandleValidSubmit">
-                <DataAnnotationsValidator /> @* Adicione isso para validação, se tiver atributos no seu modelo Tecnico *@
+                <DataAnnotationsValidator/> @* Adicione isso para validação, se tiver atributos no seu modelo Tecnico *@
 
                 <div class="mb-3">
                     <label for="username" class="form-label">Usuário</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-person-fill text-muted"></i></span>
-                        <input id="username" type="text" class="form-control" placeholder="Digite seu usuário" @bind-value="@ViewModel.Tecnico.Login" />
+                        <input id="username" type="text" class="form-control" placeholder="Digite seu usuário"
+                               @bind-value="@ViewModel.Tecnico.Login"/>
                     </div>
                 </div>
 
@@ -31,17 +34,18 @@
                     <label for="password" class="form-label">Senha</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-lock-fill text-muted"></i></span>
-                        <input id="password" type="password" class="form-control" placeholder="Digite sua senha" @bind-value="@ViewModel.Tecnico.Senha" />
+                        <input id="password" type="password" class="form-control" placeholder="Digite sua senha"
+                               @bind-value="@ViewModel.Tecnico.Senha"/>
                     </div>
                 </div>
 
                 @if (ViewModel.LoginError)
                 {
                     <div class="alert alert-danger d-flex align-items-center py-2" role="alert">
-                         <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                         <div>
-                             Usuário ou senha incorretos.
-                         </div>
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <div>
+                            Usuário ou senha incorretos.
+                        </div>
                     </div>
                 }
 

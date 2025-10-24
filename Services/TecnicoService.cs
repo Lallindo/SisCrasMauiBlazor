@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using SisCras.Models;
 using SisCras.Models.ValueObjects;
 using SisCras.Repositories;
@@ -16,15 +15,15 @@ public class TecnicoService(ITecnicoRepository tecnicoRepository, ILoggedUserSer
         var tecnico = await TecnicoRepository.GetTecnicoByLoginAsync(login);
         if (tecnico == null) return false;
 
-        bool senhaCorreta = PasswordService.VerifyPassword(plainSenha, new(tecnico.Senha));
-        
+        var senhaCorreta = PasswordService.VerifyPassword(plainSenha, new PasswordHash(tecnico.Senha));
+
         if (senhaCorreta)
         {
             tecnico.SetCrasInfo(await TecnicoRepository.GetCurrentCrasByIdAsync(tecnico.Id));
             LoggedUserService.SetCurrentUser(tecnico);
             return true;
         }
-        
+
         return false;
     }
 }

@@ -1,4 +1,5 @@
 ﻿@inject HeaderViewModel ViewModel
+@using System.ComponentModel
 @implements IDisposable
 
 <div class="top-row ps-3 navbar navbar-dark">
@@ -7,7 +8,7 @@
     </div>
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+<input type="checkbox" title="Navigation menu" class="navbar-toggler"/>
 
 <div class="nav-scrollable h-100" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column h-100">
@@ -40,7 +41,9 @@
                     <div class="p-1 bg-secondary">
                         <span class="bg-success">@ViewModel.Tecnico?.CrasInfo?.Nome</span>
                     </div>
-                    <button class="btn btn-outline-danger w-100 mt-2" @onclick="@ViewModel.LogoutTecnicoCommand.Execute">Logout</button>
+                    <button class="btn btn-outline-danger w-100 mt-2"
+                            @onclick="@ViewModel.LogoutTecnicoCommand.Execute">Logout
+                    </button>
                 </div>
             }
         </div>
@@ -56,10 +59,10 @@
 
     private void GoToLogin()
     {
-       ViewModel.GoToLogin();
+        ViewModel.GoToLogin();
     }
 
-    private async void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    private async void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         // Força a re-renderização do componente
         await InvokeAsync(StateHasChanged);

@@ -2,7 +2,7 @@ namespace SisCras.Models.ValueObjects;
 
 public class PasswordHash(string hash)
 {
-    public string Hash { get; private set; } = hash;
+    public string Hash { get; } = hash;
 
     public static PasswordHash Create(string plainSenha)
     {
