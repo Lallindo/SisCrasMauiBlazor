@@ -12,14 +12,14 @@ public class TecnicoService(ITecnicoRepository tecnicoRepository, ILoggedUserSer
 
     public async Task<bool> TryLoginAsync(string login, string plainSenha)
     {
-        var tecnico = await TecnicoRepository.GetTecnicoByLoginAsync(login);
+        var tecnico = await TecnicoRepository.GetTecnicoByLogin(login);
         if (tecnico == null) return false;
 
         var senhaCorreta = PasswordService.VerifyPassword(plainSenha, new PasswordHash(tecnico.Senha));
 
         if (senhaCorreta)
         {
-            tecnico.SetCrasInfo(await TecnicoRepository.GetCurrentCrasByIdAsync(tecnico.Id));
+            tecnico.SetCrasInfo(await TecnicoRepository.GetCurrentCrasById(tecnico.Id));
             LoggedUserService.SetCurrentUser(tecnico);
             return true;
         }

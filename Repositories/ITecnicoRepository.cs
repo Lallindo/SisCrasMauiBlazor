@@ -5,6 +5,6 @@ namespace SisCras.Repositories;
 
 public interface ITecnicoRepository : IRepository<Tecnico>
 {
-    Task<Tecnico> GetTecnicoByLoginAsync(string login);
-    Task<CrasInfo?> GetCurrentCrasByIdAsync(int id);
+    Task<Tecnico> GetTecnicoByLogin(string login);
+    Task<CrasInfo?> GetCurrentCrasById(int id);
 }

@@ -82,4 +82,9 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Tests\ServicesTests\" />
+      <Folder Include="Tests\ViewModelTests\" />
+    </ItemGroup>
+
 </Project>
