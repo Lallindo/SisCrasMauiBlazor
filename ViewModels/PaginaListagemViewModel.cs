@@ -9,10 +9,9 @@ namespace SisCras.ViewModels;
 
 public partial class PaginaListagemViewModel(ICrasService crasService, ILoggedUserService loggedUserService, NavigationManager navigationManager) : BaseViewModel
 {
-    private int _crasTecnicoId;
     private Familia? _familiaParaRemover;
     [ObservableProperty]
-    private ObservableCollection<Familia> _familias = new();
+    private ObservableCollection<Familia> _familias = [];
 
     [ObservableProperty]
     private Tecnico? _loggedTecnico = new();
@@ -24,30 +23,9 @@ public partial class PaginaListagemViewModel(ICrasService crasService, ILoggedUs
     private bool HasSearchTerm => !string.IsNullOrEmpty(SearchTerm);
 
     [RelayCommand]
-    private async Task GoToRegistramento()
+    private async static Task GoToRegistramento()
     {
         await Shell.Current.GoToAsync("PaginaRegistramento");
-    }
-    [RelayCommand]
-    private async Task OnAppearingAsync()
-    {
-        if (IsBusy) return;
-        IsBusy = true;
-
-        try
-        {
-            LoggedTecnico = LoggedUserService.GetCurrentUser();
-            _crasTecnicoId = LoggedTecnico?.CrasInfo.Id ?? 0;
-            Familias = new ObservableCollection<Familia>(await CrasService.GetFamiliasFromCras(_crasTecnicoId));
-        }
-        catch (Exception ex)
-        {
-            // TODO
-        }
-        finally
-        {
-            IsBusy = false;
-        }
     }
     [RelayCommand]
     private void ClearSearch()
@@ -70,13 +48,18 @@ public partial class PaginaListagemViewModel(ICrasService crasService, ILoggedUs
     [RelayCommand]
     private async Task GetAllFamilias()
     {
-        Familias = new ObservableCollection<Familia>(await CrasService.GetFamiliasFromCras(_crasTecnicoId));
+        Familias = new ObservableCollection<Familia>(await CrasService.GetFamiliasFromCras(LoggedUserService.GetCurrentUser().CrasInfo.Id));
     }
     [RelayCommand]
     private void RequestDeleteFamilia(Familia familia)
     {
         if (familia == null) return;
 
-        // TODO CONTINUAR
+        // TODO
+    }
+    [RelayCommand]
+    private Task SelectFamily(Familia familia)
+    {
+        return Task.CompletedTask;
     }
 }

@@ -34,8 +34,7 @@
 
                 <button class="btn btn-outline-secondary"
                         type="button"
-                        disabled="@ViewModel.IsBusy"
-                        @onclick="ViewModel.GetAllFamiliasCommand.ExecuteAsync">
+                        disabled="@ViewModel.IsBusy">
                     <i class="bi bi-search"></i>
                     Buscar
                 </button>
@@ -62,30 +61,20 @@
                 {
                     @foreach (var familia in ViewModel.Familias)
                     {
-                        @*
-                            <tr @onclick="() => ViewModel.SelectFamilyCommand.ExecuteAsync(familia)" style="cursor: pointer;">
-                                <td>@familia.Prontuario</td>
-                                <td>@familia.NomeResponsavel</td>
-                                <td>@familia.DataNascimentoResponsavel.ToShortDateString()</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary"
-                                            
-                        
-
-                        @onclick="() => ViewModel.SelectFamilyCommand.ExecuteAsync(familia)"
-                                            
-                        
-
-                        @onclick:stopPropagation="true"> Impede o clique da <tr> 
+                        <tr @onclick="() => ViewModel.SelectFamilyCommand.ExecuteAsync(familia)"
+                            style="cursor: pointer;">
+                            <td>@familia.Id</td>
+                            <td>@familia.Responsavel?.Nome</td>
+                            <td>@familia.Responsavel?.Cpf</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary"
+                                        @onclick="() => ViewModel.SelectFamilyCommand.ExecuteAsync(familia)"
+                                        @onclick:stopPropagation="true"> Impede o clique da
                                         <i class="bi bi-eye-fill"></i>
                                         Ver
-                                    </button>
-                                </td>
-                            </tr>
-                            
-                        
-
-                        *@
+                                </button>
+                            </td>
+                        </tr>
                     }
                 }
                 else if (!ViewModel.IsBusy)
@@ -106,7 +95,7 @@
     protected override void OnInitialized()
     {
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
-        ViewModel.GetAllFamiliasCommand.ExecuteAsync(null);
+        ViewModel.GetAllFamiliasCommand.Execute(null);
     }
 
     private async void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
