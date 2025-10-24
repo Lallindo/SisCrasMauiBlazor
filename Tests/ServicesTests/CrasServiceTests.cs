@@ -25,14 +25,15 @@ namespace SisCras.Tests.ServicesTests
         {
             // Arrange
             var cras = new Cras { Nome = "CRAS Test" };
-            _mockRepository.Setup(r => r.AddAsync(cras)).ReturnsAsync(cras);
+            _mockRepository.Setup(r => r.AddAsync(cras, new()))
+                .Returns(Task.FromResult(cras)); // Fixed
 
             // Act
             var result = await _service.AddAsync(cras);
 
             // Assert
             Assert.Equal(cras, result);
-            _mockRepository.Verify(r => r.AddAsync(cras), Times.Once);
+            _mockRepository.Verify(r => r.AddAsync(cras, new()), Times.Once);
         }
 
         [Fact]
@@ -40,14 +41,15 @@ namespace SisCras.Tests.ServicesTests
         {
             // Arrange
             var cras = new Cras { Id = 1, Nome = "CRAS Test" };
-            _mockRepository.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(cras);
+            _mockRepository.Setup(r => r.GetByIdAsync(1, new()))
+                .Returns(Task.FromResult<Cras?>(cras)); // Fixed
 
             // Act
             var result = await _service.GetByIdAsync(1);
 
             // Assert
             Assert.Equal(cras, result);
-            _mockRepository.Verify(r => r.GetByIdAsync(1), Times.Once);
+            _mockRepository.Verify(r => r.GetByIdAsync(1, new()), Times.Once);
         }
 
         [Fact]
@@ -59,14 +61,15 @@ namespace SisCras.Tests.ServicesTests
                 new Cras { Id = 1, Nome = "CRAS 1" },
                 new Cras { Id = 2, Nome = "CRAS 2" }
             };
-            _mockRepository.Setup(r => r.GetAllAsync()).ReturnsAsync(crasList);
+            _mockRepository.Setup(r => r.GetAllAsync(new()))
+                .Returns(Task.FromResult<ICollection<Cras>>(crasList)); // Fixed
 
             // Act
             var result = await _service.GetAllAsync();
 
             // Assert
-            Assert.Equal(2, result.Count);
-            _mockRepository.Verify(r => r.GetAllAsync(), Times.Once);
+            Assert.Equal(2, result?.Count);
+            _mockRepository.Verify(r => r.GetAllAsync(new()), Times.Once);
         }
 
         [Fact]
@@ -74,13 +77,14 @@ namespace SisCras.Tests.ServicesTests
         {
             // Arrange
             var cras = new Cras { Id = 1, Nome = "CRAS Updated" };
-            _mockRepository.Setup(r => r.UpdateAsync(cras)).Returns(Task.CompletedTask);
+            _mockRepository.Setup(r => r.UpdateAsync(cras, new()))
+                .Returns(Task.CompletedTask);
 
             // Act
             await _service.UpdateAsync(cras);
 
             // Assert
-            _mockRepository.Verify(r => r.UpdateAsync(cras), Times.Once);
+            _mockRepository.Verify(r => r.UpdateAsync(cras, new()), Times.Once);
         }
 
         [Fact]
@@ -88,13 +92,14 @@ namespace SisCras.Tests.ServicesTests
         {
             // Arrange
             var cras = new Cras { Id = 1, Nome = "CRAS To Delete" };
-            _mockRepository.Setup(r => r.DeleteAsync(cras)).Returns(Task.CompletedTask);
+            _mockRepository.Setup(r => r.DeleteAsync(cras, new()))
+                .Returns(Task.CompletedTask);
 
             // Act
             await _service.DeleteAsync(cras);
 
             // Assert
-            _mockRepository.Verify(r => r.DeleteAsync(cras), Times.Once);
+            _mockRepository.Verify(r => r.DeleteAsync(cras, new()), Times.Once);
         }
 
         [Fact]
@@ -105,7 +110,8 @@ namespace SisCras.Tests.ServicesTests
             {
                 new Tecnico { Id = 1, Nome = "Tecnico 1" }
             };
-            _mockRepository.Setup(r => r.GetTecnicosFromCras(1)).ReturnsAsync(tecnicos);
+            _mockRepository.Setup(r => r.GetTecnicosFromCras(1))
+                .Returns(Task.FromResult(tecnicos)); // Fixed
 
             // Act
             var result = await _service.GetTecnicosFromCras(1);
@@ -123,7 +129,8 @@ namespace SisCras.Tests.ServicesTests
             {
                 new Familia { Id = 1 }
             };
-            _mockRepository.Setup(r => r.GetFamiliasFromCras(1)).ReturnsAsync(familias);
+            _mockRepository.Setup(r => r.GetFamiliasFromCras(1))
+                .Returns(Task.FromResult(familias)); // Fixed
 
             // Act
             var result = await _service.GetFamiliasFromCras(1);
@@ -141,7 +148,8 @@ namespace SisCras.Tests.ServicesTests
             {
                 new Prontuario { Id = 1, Codigo = 1001 }
             };
-            _mockRepository.Setup(r => r.GetProntuariosFromCras(1)).ReturnsAsync(prontuarios);
+            _mockRepository.Setup(r => r.GetProntuariosFromCras(1))
+                .Returns(Task.FromResult(prontuarios)); // Fixed
 
             // Act
             var result = await _service.GetProntuariosFromCras(1);

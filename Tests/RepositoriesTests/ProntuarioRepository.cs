@@ -217,7 +217,8 @@ namespace SisCras.Tests.RepositoriesTests
             prontuarioInativo.DataSaida = DateOnly.FromDateTime(DateTime.Now);
 
             // Act & Assert
-            Assert.True(prontuarioInativo.Ativo); // DataSaida has value
+            Assert.True(prontuarioAtivo.Ativo);
+            Assert.False(prontuarioInativo.Ativo); // DataSaida has value
         }
     }
 }

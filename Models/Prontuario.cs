@@ -25,5 +25,5 @@ public partial class Prontuario : ObservableObject
     public int FamiliaId { get; set; }
     public int CrasId { get; set; }
 
-    public bool Ativo => _dataSaida != null;
+    public bool Ativo => _dataSaida == null;
 }
