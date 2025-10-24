@@ -23,8 +23,6 @@ namespace SisCras.Tests.RepositoriesTests
                 .Options;
 
             _context = new SisCrasDbContext(options);
-            
-            // Create the database schema
             await _context.Database.EnsureCreatedAsync();
         }
 

@@ -13,7 +13,7 @@ public partial class TecnicoCras : ObservableObject
 
     [ObservableProperty]
     private Tecnico _tecnico;
-    public int Id { get; private set; }
+    public int Id { get; set; }
     public int CrasId { get; set; }
     public int TecnicoId { get; set; }
     public bool Ativo => DataSaida != null;

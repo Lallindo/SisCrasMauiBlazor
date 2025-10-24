@@ -3,7 +3,6 @@
 @using System.ComponentModel
 @implements IDisposable
 
-@* Adiciona um overlay de loading baseado no BaseViewModel *@
 @if (ViewModel.IsBusy)
 {
     <div class="loading-overlay">
@@ -35,8 +34,8 @@
 
                 <button class="btn btn-outline-secondary"
                         type="button"
-                        disabled="@ViewModel.IsBusy">
-                    @*onclick="ViewModel.SearchFamiliesCommand"*@
+                        disabled="@ViewModel.IsBusy"
+                        @onclick="ViewModel.GetAllFamiliasCommand.ExecuteAsync">
                     <i class="bi bi-search"></i>
                     Buscar
                 </button>
@@ -107,6 +106,7 @@
     protected override void OnInitialized()
     {
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+        ViewModel.GetAllFamiliasCommand.ExecuteAsync(null);
     }
 
     private async void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)

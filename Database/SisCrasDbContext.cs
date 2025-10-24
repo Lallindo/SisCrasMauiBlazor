@@ -3,8 +3,9 @@ using SisCras.Models;
 
 namespace SisCras.Database;
 
-public class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options) : DbContext(options)
+public class SisCrasDbContext : DbContext
 {
+
     public DbSet<Tecnico> Tecnicos { get; set; }
     public DbSet<Prontuario> Prontuarios { get; set; }
     public DbSet<Familia> Familias { get; set; }
@@ -13,11 +14,10 @@ public class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options) : DbCo
     public DbSet<Cras> Cras { get; set; }
     public DbSet<TecnicoCras> TecnicoCras { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    public SisCrasDbContext(DbContextOptions<SisCrasDbContext> options)
+        : base(options)
     {
-        options.UseSqlite($"Data Source={GetSqLiteConnection()}");
     }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Usuario>(entity => {
@@ -82,7 +82,7 @@ public class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options) : DbCo
         });
     }
 
-    private static string GetSqLiteConnection()
+    public static string GetSqLiteConnection()
     {
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);

@@ -7,7 +7,7 @@ using Xunit;
 
 namespace SisCras.Tests.RepositoriesTests
 {
-    public class ProntuarioRepository : BaseRepositoriesTests
+    public class ProntuarioRepositoryTests : BaseRepositoriesTests
     {
         private Repositories.ProntuarioRepository _repository;
 

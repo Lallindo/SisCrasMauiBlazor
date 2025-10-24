@@ -7,7 +7,7 @@ using SisCras.Services;
 
 namespace SisCras.ViewModels;
 
-public partial class PaginaListagemViewModel(IFamiliaService familiaService, ILoggedUserService loggedUserService, NavigationManager navigationManager) : BaseViewModel
+public partial class PaginaListagemViewModel(ICrasService crasService, ILoggedUserService loggedUserService, NavigationManager navigationManager) : BaseViewModel
 {
     private int _crasTecnicoId;
     private Familia? _familiaParaRemover;
@@ -18,7 +18,7 @@ public partial class PaginaListagemViewModel(IFamiliaService familiaService, ILo
     private Tecnico? _loggedTecnico = new();
     [ObservableProperty]
     private string _searchTerm = string.Empty;
-    private IFamiliaService FamiliaService { get; } = familiaService;
+    private ICrasService CrasService { get; } = crasService;
     private ILoggedUserService LoggedUserService { get; } = loggedUserService;
     private NavigationManager NavigationManager { get; } = navigationManager;
     private bool HasSearchTerm => !string.IsNullOrEmpty(SearchTerm);
@@ -38,7 +38,7 @@ public partial class PaginaListagemViewModel(IFamiliaService familiaService, ILo
         {
             LoggedTecnico = LoggedUserService.GetCurrentUser();
             _crasTecnicoId = LoggedTecnico?.CrasInfo.Id ?? 0;
-            Familias = new ObservableCollection<Familia>(await FamiliaService.GetAllAsync());
+            Familias = new ObservableCollection<Familia>(await CrasService.GetFamiliasFromCras(_crasTecnicoId));
         }
         catch (Exception ex)
         {
@@ -65,6 +65,12 @@ public partial class PaginaListagemViewModel(IFamiliaService familiaService, ILo
         if (familia == null) return;
 
         NavigationManager.NavigateTo($"/familias/editar/{familia.Id}");
+    }
+
+    [RelayCommand]
+    private async Task GetAllFamilias()
+    {
+        Familias = new ObservableCollection<Familia>(await CrasService.GetFamiliasFromCras(_crasTecnicoId));
     }
     [RelayCommand]
     private void RequestDeleteFamilia(Familia familia)

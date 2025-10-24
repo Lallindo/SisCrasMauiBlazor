@@ -6,7 +6,7 @@ using Xunit;
 
 namespace SisCras.Tests.RepositoriesTests
 {
-    public class TecnicoRepository : BaseRepositoriesTests
+    public class TecnicoRepositoryTests : BaseRepositoriesTests
     {
         private Repositories.TecnicoRepository _repository;
 

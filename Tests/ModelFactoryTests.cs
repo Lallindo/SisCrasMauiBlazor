@@ -133,5 +133,24 @@ namespace SisCras.Tests
                 RendaBruta = rendaBruta
             };
         }
+        public static Prontuario CreateProntuarioWithFamiliaAndUsuarios(
+            int crasId,
+            int familiaId,
+            int tecnicoId,
+            List<Usuario> usuarios,
+            int codigo = 1001,
+            string formaAcesso = "Espontânea")
+        {
+            var prontuario = CreateProntuario(crasId, familiaId, tecnicoId, codigo, formaAcesso);
+    
+            // Create FamiliaUsuario relationships for each user
+            var familiaUsuarios = usuarios.Select((usuario, index) => 
+                    CreateFamiliaUsuario(familiaId, usuario.Id, 
+                        index == 0 ? ParentescoEnum.Responsavel : ParentescoEnum.Filho, 
+                        true))
+                .ToList();
+
+            return prontuario;
+        }
     }
 }

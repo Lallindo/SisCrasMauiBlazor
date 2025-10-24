@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SisCras.Database;
 using SisCras.Repositories;
 using SisCras.Services;
@@ -50,7 +51,10 @@ public static class MauiProgram
         builder.Services.AddScoped<ICrasRepository, CrasRepository>();
 
         // Database
-        builder.Services.AddDbContext<SisCrasDbContext>();
+        builder.Services.AddDbContext<SisCrasDbContext>(options =>
+        {
+            options.UseSqlite($"Data Source={SisCrasDbContext.GetSqLiteConnection()}");
+        });
 
         return builder.Build();
     }

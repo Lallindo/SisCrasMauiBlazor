@@ -7,9 +7,10 @@ namespace SisCras.Repositories;
 
 public class TecnicoRepository(SisCrasDbContext dbContext) : EfRepository<Tecnico>(dbContext), ITecnicoRepository
 {
-    public async Task<Tecnico> GetTecnicoByLogin(string login)
+    public async Task<Tecnico?> GetTecnicoByLogin(string login)
     {
-        return await DbContext.Tecnicos.FirstOrDefaultAsync(t => t.Login == login);
+        return await DbContext.Tecnicos
+            .FirstOrDefaultAsync(t => t.Login == login);
     }
 
     public async Task<CrasInfo?> GetCurrentCrasById(int id)

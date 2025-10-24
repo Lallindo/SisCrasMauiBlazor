@@ -33,6 +33,22 @@ public class CrasRepository(SisCrasDbContext dbContext) : EfRepository<Cras>(dbC
         return await GetProntuariosFromCras(cras.Id);
     }
 
+    public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCras(int id)
+    {
+        return await  DbContext.Cras
+            .Where(c => c.Id == id)
+            .SelectMany(c => c.Prontuarios)
+            .Include(p => p.Familia)
+            .ThenInclude(f => f.FamiliaUsuarios)
+            .ThenInclude(fu => fu.Usuario)
+            .ToListAsync();
+    }
+
+    public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCras(Cras cras)
+    {
+        return await GetProntuarioAndFamiliaAndUsuariosFromCras(cras.Id);
+    }
+
     public async Task<List<Tecnico>> GetTecnicosFromCras(int id)
     {
         return await DbContext.Cras

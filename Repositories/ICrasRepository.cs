@@ -10,4 +10,6 @@ public interface ICrasRepository : IRepository<Cras>
     Task<List<Familia>> GetFamiliasFromCras(Cras cras);
     Task<List<Prontuario>> GetProntuariosFromCras(int id);
     Task<List<Prontuario>> GetProntuariosFromCras(Cras cras);
+    Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCras(int id);
+    Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCras(Cras cras);
 }
