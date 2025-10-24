@@ -15,6 +15,6 @@ public partial class FamiliaUsuario : ObservableObject
     [ObservableProperty]
     private Usuario? _usuario;
     public int Id { get; private set; }
-    public int FamiliaId { get; }
-    public int UsuarioId { get; }
+    public int FamiliaId { get; set; }
+    public int UsuarioId { get; set; }
 }
