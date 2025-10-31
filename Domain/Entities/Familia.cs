@@ -13,4 +13,13 @@ public partial class Familia : ObservableObject
     private int _id;
     [ObservableProperty]
     private ICollection<Prontuario> _prontuarios = [];
+
+    public Usuario? Responsavel
+    {
+        get
+        {
+            if (_familiaUsuarios == null || _familiaUsuarios.Count == 0) return null;
+            return (from fu in _familiaUsuarios where fu.Parentesco == ParentescoEnum.Responsavel select fu.Usuario).FirstOrDefault();
+        }
+    }
 }
