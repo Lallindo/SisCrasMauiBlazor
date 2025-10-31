@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SisCras.ApplicationLayer.Services;
 using SisCras.Database;
-using SisCras.Repositories;
-using SisCras.Services;
-using SisCras.ViewModels;
+using SisCras.Infrastructure.Repositories;
+using SisCras.Presentation.ViewModels;
 
 namespace SisCras;
 

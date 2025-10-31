@@ -1,20 +1,20 @@
-﻿using SisCras.Models;
-using SisCras.Models.Enums;
-using SisCras.Repositories;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using SisCras.Domain.Entities.Enums;
+using SisCras.Domain.Entities;
+using SisCras.Infrastructure.Repositories;
 using Xunit;
 
 namespace SisCras.Tests.RepositoriesTests
 {
     public class UsuarioRepositoryTests : BaseRepositoriesTests
     {
-        private Repositories.UsuarioRepository _repository;
+        private UsuarioRepository _repository;
 
         public override async Task InitializeAsync()
         {
             await base.InitializeAsync();
-            _repository = new Repositories.UsuarioRepository(_context);
+            _repository = new UsuarioRepository(_context);
             await ClearDatabaseAsync();
         }
 

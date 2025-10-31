@@ -1,6 +1,6 @@
-﻿using SisCras.Models;
-using SisCras.Models.Enums;
-using SisCras.Repositories;
+﻿using SisCras.Domain.Entities.Enums;
+using SisCras.Domain.Entities;
+using SisCras.Infrastructure.Repositories;
 using Xunit;
 
 namespace SisCras.Tests.RepositoriesTests;

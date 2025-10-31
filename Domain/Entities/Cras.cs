@@ -1,0 +1,15 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace SisCras.Domain.Entities;
+
+public partial class Cras : ObservableObject
+{
+    [ObservableProperty]
+    private int _id;
+    [ObservableProperty]
+    private string _nome;
+    [ObservableProperty]
+    private ICollection<Prontuario> _prontuarios;
+    [ObservableProperty]
+    private ICollection<TecnicoCras> _tecnicosCras;
+}

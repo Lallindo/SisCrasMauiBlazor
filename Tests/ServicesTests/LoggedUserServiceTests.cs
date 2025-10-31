@@ -1,6 +1,6 @@
-﻿using SisCras.Models;
-using SisCras.Services;
-using System;
+﻿using System;
+using SisCras.ApplicationLayer.Services;
+using SisCras.Domain.Entities;
 using Xunit;
 
 namespace SisCras.Tests.ServicesTests

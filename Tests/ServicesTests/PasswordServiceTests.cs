@@ -1,5 +1,4 @@
-﻿using SisCras.Models.ValueObjects;
-using SisCras.Services;
+﻿using SisCras.ApplicationLayer.Services;
 using Xunit;
 
 namespace SisCras.Tests.ServicesTests

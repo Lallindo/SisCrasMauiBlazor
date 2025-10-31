@@ -1,20 +1,20 @@
-﻿using SisCras.Models;
-using SisCras.Repositories;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using SisCras.Domain.Entities;
+using SisCras.Infrastructure.Repositories;
 using Xunit;
 
 namespace SisCras.Tests.RepositoriesTests
 {
     public class ProntuarioRepositoryTests : BaseRepositoriesTests
     {
-        private Repositories.ProntuarioRepository _repository;
+        private ProntuarioRepository _repository;
 
         public override async Task InitializeAsync()
         {
             await base.InitializeAsync();
-            _repository = new Repositories.ProntuarioRepository(_context);
+            _repository = new ProntuarioRepository(_context);
             await ClearDatabaseAsync();
         }
 

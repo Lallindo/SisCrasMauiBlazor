@@ -1,12 +1,12 @@
-﻿using Moq;
-using SisCras.Models;
-using SisCras.Models.Enums;
-using SisCras.Repositories;
-using SisCras.Services;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Moq;
+using SisCras.ApplicationLayer.Services;
+using SisCras.Domain.Entities.Enums;
+using SisCras.Domain.Entities;
+using SisCras.Infrastructure.Repositories;
 using Xunit;
 
 namespace SisCras.Tests.ServicesTests
