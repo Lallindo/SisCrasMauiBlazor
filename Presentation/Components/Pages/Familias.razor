@@ -47,9 +47,10 @@ else
 }
 
 @code {
-    protected override void OnInitialized()
+    protected override async Task<Task> OnInitializedAsync()
     {
-        base.OnInitialized();
+        await ViewModel.GetAllProntuarios();
+        return base.OnInitializedAsync();
     }
 
 }

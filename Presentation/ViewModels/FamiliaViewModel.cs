@@ -7,7 +7,7 @@ using SisCras.Domain.Entities;
 
 namespace SisCras.Presentation.ViewModels;
 
-public partial class FamiliaViewModel : BaseViewModel
+public partial class FamiliaViewModel(IFamiliaService familiaService, ICrasService crasService, ILoggedUserService loggedUserService, NavigationManager navigationManager) : BaseViewModel
 {
     private Prontuario? _prontuarioParaRemover;
     [ObservableProperty]
@@ -16,29 +16,21 @@ public partial class FamiliaViewModel : BaseViewModel
     private Tecnico? _loggedTecnico = new();
     [ObservableProperty]
     private string _searchTerm = string.Empty;
-    private IFamiliaService FamiliaService { get; }
-    private ILoggedUserService LoggedUserService { get; }
-    private ICrasService CrasService { get; }
-    private NavigationManager NavigationManager { get; }
-    private bool HasSearchTerm => !string.IsNullOrEmpty(SearchTerm);
 
-    public FamiliaViewModel(IFamiliaService familiaService, ICrasService crasService, ILoggedUserService loggedUserService, NavigationManager navigationManager)
-    {
-        FamiliaService = familiaService;
-        CrasService = crasService;
-        LoggedUserService = loggedUserService;
-        NavigationManager = navigationManager;
-    }
+    private IFamiliaService FamiliaService { get; } = familiaService;
+    private ILoggedUserService LoggedUserService { get; } = loggedUserService;
+    private ICrasService CrasService { get; } = crasService;
+    private NavigationManager NavigationManager { get; } = navigationManager;
+    private bool HasSearchTerm => !string.IsNullOrEmpty(SearchTerm);
     
     [RelayCommand]
     private async Task GoToRegistrarFamilia()
     {
         NavigationManager.NavigateTo("/familia/registrar");
     }
-    
-    public async void GetAllProntuarios()
+    public async Task GetAllProntuarios()
     {
-        Prontuarios = new(await CrasService.GetProntuarioAndFamiliaAndUsuariosFromCras(LoggedTecnico.CrasInfo.Id));
+        Prontuarios = new(await CrasService.GetProntuarioAndFamiliaAndUsuariosFromCras(1));
     }
     [RelayCommand]
     private async Task SearchFamiliaByMembro()

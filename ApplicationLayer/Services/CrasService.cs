@@ -13,7 +13,7 @@ public class CrasService(ICrasRepository crasRepository) : BaseService<Cras>(cra
     }
     public async Task<List<Tecnico>> GetTecnicosFromCras(Cras cras)
     {
-        return await CrasRepository.GetTecnicosFromCras(cras);
+        return await GetTecnicosFromCras(cras.Id);
     }
     public async Task<List<Familia>> GetFamiliasFromCras(int id)
     {
@@ -21,7 +21,7 @@ public class CrasService(ICrasRepository crasRepository) : BaseService<Cras>(cra
     }
     public async Task<List<Familia>> GetFamiliasFromCras(Cras cras)
     {
-        return await CrasRepository.GetFamiliasFromCras(cras);
+        return await GetFamiliasFromCras(cras.Id);
     }
     public async Task<List<Prontuario>> GetProntuariosFromCras(int id)
     {
@@ -29,7 +29,7 @@ public class CrasService(ICrasRepository crasRepository) : BaseService<Cras>(cra
     }
     public async Task<List<Prontuario>> GetProntuariosFromCras(Cras cras)
     {
-        return await CrasRepository.GetProntuariosFromCras(cras);
+        return await GetProntuariosFromCras(cras.Id);
     }
 
     public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCras(int id)
@@ -39,6 +39,6 @@ public class CrasService(ICrasRepository crasRepository) : BaseService<Cras>(cra
 
     public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCras(Cras cras)
     {
-        return await CrasRepository.GetProntuarioAndFamiliaAndUsuariosFromCras(cras);
+        return await GetProntuarioAndFamiliaAndUsuariosFromCras(cras.Id);
     }
 }
