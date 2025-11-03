@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using SisCras.Database;
+using SisCras.Infrastructure.Data.Context;
 using Xunit;
 
 namespace SisCras.Tests.RepositoriesTests

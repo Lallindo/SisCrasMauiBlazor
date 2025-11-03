@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using SisCras.Infrastructure.Data.Context;
 
-namespace SisCras.Database;
+namespace SisCras.Infrastructure.Data.Factories;
 
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<SisCrasDbContext>
 {

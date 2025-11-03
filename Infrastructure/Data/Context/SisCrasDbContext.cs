@@ -1,17 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using SisCras.Domain.Entities;
-using Familia = SisCras.Domain.Entities.Familia;
-using FamiliaUsuario = SisCras.Domain.Entities.FamiliaUsuario;
-using Prontuario = SisCras.Domain.Entities.Prontuario;
-using Tecnico = SisCras.Domain.Entities.Tecnico;
-using TecnicoCras = SisCras.Domain.Entities.TecnicoCras;
-using Usuario = SisCras.Domain.Entities.Usuario;
 
-namespace SisCras.Database;
+namespace SisCras.Infrastructure.Data.Context;
 
 public class SisCrasDbContext : DbContext
 {
-
     public DbSet<Tecnico> Tecnicos { get; set; }
     public DbSet<Prontuario> Prontuarios { get; set; }
     public DbSet<Familia> Familias { get; set; }

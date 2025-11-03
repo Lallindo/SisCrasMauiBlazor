@@ -85,10 +85,23 @@
 
     <ItemGroup>
       <Folder Include="ApplicationLayer\" />
-      <Folder Include="Database\" />
       <Folder Include="Domain\" />
+      <Folder Include="Infrastructure\Data\Migrations\" />
       <Folder Include="Presentation\" />
       <Folder Include="Tests\ViewModelTests\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Presentation\Components\Layout\MainLayout.razor" />
+      <AdditionalFiles Include="Presentation\Components\Layout\NavMenu.razor" />
+      <AdditionalFiles Include="Presentation\Components\Pages\EditarFamilia.razor" />
+      <AdditionalFiles Include="Presentation\Components\Pages\Familias.razor" />
+      <AdditionalFiles Include="Presentation\Components\Pages\Home.razor" />
+      <AdditionalFiles Include="Presentation\Components\Pages\Login.razor" />
+      <AdditionalFiles Include="Presentation\Components\Pages\RegistrarFamilia.razor" />
+      <AdditionalFiles Include="Presentation\Components\Pages\Testes.razor" />
+      <AdditionalFiles Include="Presentation\Components\Routes.razor" />
+      <AdditionalFiles Include="Presentation\Components\_Imports.razor" />
     </ItemGroup>
 
 </Project>

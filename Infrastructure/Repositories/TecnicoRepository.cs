@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using SisCras.Database;
 using SisCras.Domain.Entities;
 using SisCras.Domain.Entities.ValueObjects;
+using SisCras.Infrastructure.Data.Context;
 
 namespace SisCras.Infrastructure.Repositories;
 

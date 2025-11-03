@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SisCras.Database;
+using SisCras.Infrastructure.Data.Context;
 
 namespace SisCras.Infrastructure.Repositories;
 
