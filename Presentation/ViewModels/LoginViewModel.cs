@@ -24,7 +24,7 @@ public partial class LoginViewModel(ITecnicoService tecnicoService, NavigationMa
         if (await _tecnicoService.TryLoginAsync(Tecnico.Login, Tecnico.Senha))
         {
             LoginError = false;
-            _navigationManager.NavigateTo("/home");
+            _navigationManager.NavigateTo("/familias");
         }
         else
         {

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SisCras.ApplicationLayer.Services;
 using SisCras.Domain.Entities;
@@ -11,9 +12,17 @@ public partial class EditarFamiliaViewModel(IFamiliaService familiaService) : Ba
 
     [ObservableProperty] 
     private Familia _selectedFamilia = new();
+
+    [ObservableProperty] 
+    private ObservableCollection<Usuario> _usuarios = [];
     
     public async Task GetFamilia(int familiaId)
     {
         SelectedFamilia = await _FamiliaService.GetByIdAsync(familiaId)?? new Familia();
+    }
+    [RelayCommand]
+    public async Task UpdateFamilia(Familia familia)
+    {
+        await _FamiliaService.UpdateAsync(familia);
     }
 }

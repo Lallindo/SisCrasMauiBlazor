@@ -1,8 +1,15 @@
 @page "/familias/editar/{FamiliaId:int}"
+@using SisCras.Presentation.Components.Shared
 @inject EditarFamiliaViewModel ViewModel
 
+@foreach (Usuario usuario in ViewModel.SelectedFamilia.Usuarios)
+{
+    <MembroFamilia UsuarioModel="@usuario"></MembroFamilia>
+}
+
+<button @onclick="() => ViewModel.UpdateFamiliaCommand.ExecuteAsync(ViewModel.SelectedFamilia)"></button>
+
 @code {
-    
     [Parameter]
     public int FamiliaId { get; set; }
 
@@ -11,5 +18,4 @@
         base.OnInitialized();
         ViewModel.GetFamilia(FamiliaId);
     }
-
 }

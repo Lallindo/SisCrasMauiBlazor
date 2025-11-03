@@ -26,7 +26,7 @@ public partial class FamiliaViewModel(IFamiliaService familiaService, ICrasServi
     [RelayCommand]
     private async Task GoToRegistrarFamilia()
     {
-        NavigationManager.NavigateTo("/familia/registrar");
+        NavigationManager.NavigateTo("/familias/novo");
     }
     public async Task GetAllProntuarios()
     {

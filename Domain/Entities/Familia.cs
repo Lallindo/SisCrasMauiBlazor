@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using SisCras.Domain.Entities.Enums;
 
@@ -38,6 +39,15 @@ public partial class Familia : ObservableObject
         {
             if (RendaTotal == 0) return 0;
             return RendaTotal / _familiaUsuarios.Count;
+        }
+    }
+
+    public ObservableCollection<Usuario> Usuarios
+    {
+        get
+        {
+            if (_familiaUsuarios == null || _familiaUsuarios.Count == 0) return [];
+            return new(from fu in _familiaUsuarios select fu.Usuario);
         }
     }
 }

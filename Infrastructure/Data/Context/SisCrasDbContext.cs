@@ -48,6 +48,8 @@ public class SisCrasDbContext : DbContext
 
         modelBuilder.Entity<Familia>(entity => {
             entity.Property(f => f.ConfiguracaoFamiliar).HasConversion<int>();
+
+            entity.Ignore(f => f.Usuarios);
         });
 
         modelBuilder.Entity<FamiliaUsuario>(entity => {

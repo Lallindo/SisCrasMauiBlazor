@@ -10,6 +10,8 @@ public class TecnicoRepository(SisCrasDbContext dbContext) : BaseRepository<Tecn
     public async Task<Tecnico?> GetTecnicoByLogin(string login)
     {
         return await DbContext.Tecnicos
+            .Include(t => t.TecnicoCras)
+            .ThenInclude(tc => tc.Cras)
             .FirstOrDefaultAsync(t => t.Login == login);
     }
 

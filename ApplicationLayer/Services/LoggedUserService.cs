@@ -4,7 +4,7 @@ namespace SisCras.ApplicationLayer.Services;
 
 public class LoggedUserService : ILoggedUserService
 {
-    public Tecnico? CurrentUser { get; private set; }
+    private Tecnico? CurrentUser { get; set; }
     public bool IsUserLoggedIn => CurrentUser != null;
 
     public event Action? UserStateChanged;
