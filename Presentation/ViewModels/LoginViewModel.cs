@@ -8,7 +8,7 @@ using SisCras.Domain.Entities;
 
 namespace SisCras.Presentation.ViewModels;
 
-public partial class PaginaLoginViewModel(ITecnicoService tecnicoService, NavigationManager navigationManager) : BaseViewModel
+public partial class LoginViewModel(ITecnicoService tecnicoService, NavigationManager navigationManager) : BaseViewModel
 {
     private readonly NavigationManager _navigationManager = navigationManager;
     private readonly ITecnicoService _tecnicoService = tecnicoService;

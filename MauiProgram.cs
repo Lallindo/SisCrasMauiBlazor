@@ -26,11 +26,11 @@ public static class MauiProgram
 #endif
 
         // ViewModels
-        builder.Services.AddTransient<PaginaLoginViewModel>();
-        builder.Services.AddTransient<PaginaListagemViewModel>();
-        builder.Services.AddTransient<PaginaRegistramentoViewModel>();
-        builder.Services.AddTransient<PaginaTestesViewModel>();
-        builder.Services.AddTransient<PaginaRegTecnicoViewModel>();
+        builder.Services.AddTransient<LoginViewModel>();
+        builder.Services.AddTransient<FamiliaViewModel>();
+        builder.Services.AddTransient<RegistroViewModel>();
+        builder.Services.AddTransient<TestesViewModel>();
+        builder.Services.AddTransient<RegTecnicoViewModel>();
         builder.Services.AddScoped<HeaderViewModel>();
         builder.Services.AddScoped<MainLayoutViewModel>();
 

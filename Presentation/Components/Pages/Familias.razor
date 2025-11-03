@@ -1,118 +1,55 @@
 @page "/familias"
-@inject PaginaListagemViewModel ViewModel
-@using System.ComponentModel
-@using PaginaListagemViewModel = SisCras.Presentation.ViewModels.PaginaListagemViewModel
-@implements IDisposable
+@inject FamiliaViewModel ViewModel
+@inject NavigationManager NavigationManager
 
-@if (ViewModel.IsBusy)
-{
-    <div class="loading-overlay">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Carregando...</span>
-        </div>
-    </div>
-}
+<PageTitle>Busca de Famílias</PageTitle>
 
-<div class="container-fluid pt-3">
+<h3>Busca de Famílias</h3>
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3 class="mb-0">Famílias Referenciadas</h3>
-
-        <button class="btn btn-primary"> @* @onclick="ViewModel.AddNewFamilyCommand"> *@
-            <i class="bi bi-plus-circle-fill me-2"></i>
-            Novo Cadastro
-        </button>
-    </div>
-
-    <div class="card shadow-sm mb-3">
-        <div class="card-body">
-            <div class="input-group">
-                <input type="text"
-                       class="form-control"
-                       placeholder="Buscar por Nome, CPF ou NIS..."
-                       @bind="ViewModel.SearchTerm"
-                       @bind:event="oninput"/>
-
-                <button class="btn btn-outline-secondary"
-                        type="button"
-                        disabled="@ViewModel.IsBusy">
-                    <i class="bi bi-search"></i>
-                    Buscar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="card shadow-sm">
-        <div class="card-header">
-            Resultados da Busca
-        </div>
-        <div class="table-responsive">
-            <table class="table table-striped table-hover mb-0">
-                <thead>
-                <tr>
-                    <th scope="col">Prontuário</th>
-                    <th scope="col">Nome Responsável</th>
-                    <th scope="col">Data Nasc.</th>
-                    <th scope="col">Ações</th>
-                </tr>
-                </thead>
-                <tbody>
-                @if (ViewModel.Familias.Any())
-                {
-                    @foreach (var familia in ViewModel.Familias)
-                    {
-                        <tr @onclick="() => ViewModel.SelectFamilyCommand.ExecuteAsync(familia)"
-                            style="cursor: pointer;">
-                            <td>@familia.Id</td>
-                            <td>@familia.Responsavel?.Nome</td>
-                            <td>@familia.Responsavel?.Cpf</td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-primary"
-                                        @onclick="() => ViewModel.SelectFamilyCommand.ExecuteAsync(familia)"
-                                        @onclick:stopPropagation="true"> Impede o clique da
-                                        <i class="bi bi-eye-fill"></i>
-                                        Ver
-                                </button>
-                            </td>
-                        </tr>
-                    }
-                }
-                else if (!ViewModel.IsBusy)
-                {
-                    <tr>
-                        <td colspan="4" class="text-center text-muted p-4">
-                            Nenhuma família encontrada. Realize uma busca ou cadastre uma nova.
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="input-group mb-3">
+<!--
+    <input type="text" class="form-control" placeholder="Buscar por nome do responsável, CPF ou NIS..." @bind="termoBusca"/>
+    <button class="btn btn-primary" type="button" @onclick="Buscar">Buscar</button>
+    -->
 </div>
+
+<button class="btn btn-success mb-3" @onclick="ViewModel.GoToRegistrarFamiliaCommand.ExecuteAsync">Registrar Nova Família</button>
+
+@if (ViewModel.Prontuarios == null)
+{
+    <p>Nenhum prontuário buscado</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome (Responsável)</th>
+                <th>CPF (Responsável)</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prontuario in ViewModel.Prontuarios)
+            {
+                <tr>
+                    <td>@(prontuario.Familia.Responsavel.Nome)</td>
+                    <td>@(prontuario.Familia.Responsavel.Cpf)</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" @onclick="() => ViewModel.GoToEditarFamiliaCommand.ExecuteAsync(prontuario.FamiliaId)">
+                            Editar
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @code {
     protected override void OnInitialized()
     {
-        ViewModel.PropertyChanged += OnViewModelPropertyChanged;
-        ViewModel.GetAllFamiliasCommand.Execute(null);
+        base.OnInitialized();
     }
 
-    private async void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        await InvokeAsync(StateHasChanged);
-    }
-
-    public void Dispose()
-    {
-        // Desconecta da UI
-        ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
-
-        // Chama o Dispose do próprio ViewModel (se ele implementar IDisposable)
-        if (ViewModel is IDisposable disposableVm)
-        {
-            disposableVm.Dispose();
-        }
-    }
 }

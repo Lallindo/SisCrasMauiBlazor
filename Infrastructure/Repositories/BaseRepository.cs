@@ -3,7 +3,7 @@ using SisCras.Infrastructure.Data.Context;
 
 namespace SisCras.Infrastructure.Repositories;
 
-public class EfRepository<T>(SisCrasDbContext dbContext) : IRepository<T> where T : class
+public class BaseRepository<T>(SisCrasDbContext dbContext) : IRepository<T> where T : class
 {
     protected readonly SisCrasDbContext DbContext = dbContext;
 

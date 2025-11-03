@@ -5,7 +5,7 @@ using SisCras.Domain.Entities;
 
 namespace SisCras.Presentation.ViewModels;
 
-public partial class PaginaTestesViewModel(
+public partial class TestesViewModel(
     IUsuarioService usuarioService,
     ICrasService crasService,
     ITecnicoService tecnicoService,

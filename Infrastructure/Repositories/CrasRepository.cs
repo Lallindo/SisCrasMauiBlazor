@@ -4,7 +4,7 @@ using SisCras.Infrastructure.Data.Context;
 
 namespace SisCras.Infrastructure.Repositories;
 
-public class CrasRepository(SisCrasDbContext dbContext) : EfRepository<Cras>(dbContext), ICrasRepository
+public class CrasRepository(SisCrasDbContext dbContext) : BaseRepository<Cras>(dbContext), ICrasRepository
 {
     public async Task<List<Familia>> GetFamiliasFromCras(int id)
     {

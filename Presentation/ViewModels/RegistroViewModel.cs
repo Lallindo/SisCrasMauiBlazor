@@ -6,7 +6,7 @@ using SisCras.Domain.Entities;
 
 namespace SisCras.Presentation.ViewModels;
 
-public partial class PaginaRegistramentoViewModel(
+public partial class RegistroViewModel(
     IProntuarioService prontuarioService,
     IFamiliaService familiaService,
     ILoggedUserService loggedUserService

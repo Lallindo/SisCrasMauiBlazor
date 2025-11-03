@@ -1,1 +1,15 @@
 @page "/familias/editar/{FamiliaId:int}"
+@inject EditarFamiliaViewModel ViewModel
+
+@code {
+    
+    [Parameter]
+    public int FamiliaId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ViewModel.GetFamilia(FamiliaId);
+    }
+
+}

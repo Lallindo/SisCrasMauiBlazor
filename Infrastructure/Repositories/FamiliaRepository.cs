@@ -5,7 +5,7 @@ using SisCras.Infrastructure.Data.Context;
 
 namespace SisCras.Infrastructure.Repositories;
 
-public class FamiliaRepository(SisCrasDbContext dbContext) : EfRepository<Familia>(dbContext), IFamiliaRepository
+public class FamiliaRepository(SisCrasDbContext dbContext) : BaseRepository<Familia>(dbContext), IFamiliaRepository
 {
     public async Task<List<Usuario?>> GetActiveUsuariosFromFamilia(int id)
     {

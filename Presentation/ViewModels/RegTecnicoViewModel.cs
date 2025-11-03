@@ -9,7 +9,7 @@ using SisCras.Domain.Entities;
 
 namespace SisCras.Presentation.ViewModels;
 
-public partial class PaginaRegTecnicoViewModel : BaseViewModel
+public partial class RegTecnicoViewModel : BaseViewModel
 {
     [ObservableProperty]
     private Cras? _crasSelecionado;
@@ -20,7 +20,7 @@ public partial class PaginaRegTecnicoViewModel : BaseViewModel
 
     [ObservableProperty]
     private List<Cras> _todosCras;
-    public PaginaRegTecnicoViewModel(ITecnicoService tecnicoService, ICrasService crasService, IPasswordService passwordService, NavigationManager navigationManager)
+    public RegTecnicoViewModel(ITecnicoService tecnicoService, ICrasService crasService, IPasswordService passwordService, NavigationManager navigationManager)
     {
         TecnicoService = tecnicoService;
         CrasService = crasService;

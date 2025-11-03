@@ -22,4 +22,22 @@ public partial class Familia : ObservableObject
             return (from fu in _familiaUsuarios where fu.Parentesco == ParentescoEnum.Responsavel select fu.Usuario).FirstOrDefault();
         }
     }
+
+    public float RendaTotal
+    {
+        get
+        {
+            if (_familiaUsuarios == null || _familiaUsuarios.Count == 0) return 0;
+            return _familiaUsuarios.Sum(fu => fu.Usuario.RendaBruta);
+        }
+    }
+
+    public float RendaPerCapita
+    {
+        get
+        {
+            if (RendaTotal == 0) return 0;
+            return RendaTotal / _familiaUsuarios.Count;
+        }
+    }
 }

@@ -5,7 +5,7 @@ using SisCras.Infrastructure.Data.Context;
 
 namespace SisCras.Infrastructure.Repositories;
 
-public class TecnicoRepository(SisCrasDbContext dbContext) : EfRepository<Tecnico>(dbContext), ITecnicoRepository
+public class TecnicoRepository(SisCrasDbContext dbContext) : BaseRepository<Tecnico>(dbContext), ITecnicoRepository
 {
     public async Task<Tecnico?> GetTecnicoByLogin(string login)
     {

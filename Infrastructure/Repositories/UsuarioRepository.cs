@@ -4,7 +4,7 @@ using SisCras.Infrastructure.Data.Context;
 
 namespace SisCras.Infrastructure.Repositories;
 
-public class UsuarioRepository(SisCrasDbContext dbContext) : EfRepository<Usuario>(dbContext), IUsuarioRepository
+public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usuario>(dbContext), IUsuarioRepository
 {
     public async Task<Familia?> GetActiveFamiliaFromUsuario(int id)
     {
