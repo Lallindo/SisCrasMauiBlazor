@@ -5,14 +5,21 @@
 {
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0">Membro @UsuarioModel.Id</h5>
-            <small class="card-subtitle">Responsável</small>
+            <h5 class="card-title mb-0">Membro @UsuarioModel.Usuario.Id</h5>
+            <small class="card-subtitle">@UsuarioModel.Parentesco.GetDescription()</small><br/>
+            <small class="card-subtitle">Data de inserção: @UsuarioModel.DataAdicao</small>
+            @switch (ComponentMode)
+            {
+                case MembroFamiliaTypeEnum.Edicao:
+                    <button value="Remover membro" @onclick="TriggerDeactivateClicked(@UsuarioModel)"/>
+                    break;
+            }
         </div>
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-12">
                     <label class="form-label fw-bold">Nome Completo *</label>
-                    <InputText class="form-control form-control-lg" @bind-Value="UsuarioModel.Nome" 
+                    <InputText class="form-control form-control-lg" @bind-Value="UsuarioModel.Usuario.Nome" 
                                placeholder="Nome completo" />
                 </div>
             </div>
@@ -20,13 +27,13 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label fw-bold">CPF</label>
-                    <InputText class="form-control" @bind-Value="UsuarioModel.Cpf" 
+                    <InputText class="form-control" @bind-Value="UsuarioModel.Usuario.Cpf" 
                                placeholder="000.000.000-00" />
                 </div>
                 
                 <div class="col-md-4">
                     <label class="form-label fw-bold">Sexo</label>
-                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Sexo">
+                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.Sexo">
                         <option value="">Selecione</option>
                         @foreach (SexoEnum sexo in Enum.GetValues(typeof(SexoEnum)))
                         {
@@ -37,7 +44,7 @@
                 
                 <div class="col-md-4">
                     <label class="form-label fw-bold">Raça/Cor</label>
-                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Raca">
+                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.Raca">
                         <option value="">Selecione</option>
                         @foreach (RacaEnum raca in Enum.GetValues(typeof(RacaEnum)))
                         {
@@ -48,7 +55,7 @@
 
                 <div class="col-md-4">
                     <label class="form-label fw-bold">Profissão</label>
-                    <InputText class="form-control" @bind-Value="UsuarioModel.Profissao" 
+                    <InputText class="form-control" @bind-Value="UsuarioModel.Usuario.Profissao" 
                                placeholder="Profissão" />
                 </div>
             </div>
@@ -59,18 +66,18 @@
                 <!-- NIS -->
                 <div class="col-md-6">
                     <label class="form-label fw-bold">NIS</label>
-                    <InputText class="form-control" @bind-Value="UsuarioModel.Nis" 
+                    <InputText class="form-control" @bind-Value="UsuarioModel.Usuario.Nis" 
                                placeholder="Número do NIS" />
                 </div>
                 
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Data de Nascimento</label>
-                    <InputDate class="form-control" @bind-Value="UsuarioModel.DataNascimento" />
+                    <InputDate class="form-control" @bind-Value="UsuarioModel.Usuario.DataNascimento" />
                 </div>
                 
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Estado Civil</label>
-                    <InputSelect class="form-select" @bind-Value="UsuarioModel.EstadoCivil">
+                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.EstadoCivil">
                         <option value="">Selecione</option>
                         @foreach (EstadoCivilEnum estado in Enum.GetValues(typeof(EstadoCivilEnum)))
                         {
@@ -81,7 +88,7 @@
                 
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Grau de Instrução</label>
-                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Escolaridade">
+                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.Escolaridade">
                         <option value="">Selecione</option>
                         @foreach (EscolaridadeEnum escolaridade in Enum.GetValues(typeof(EscolaridadeEnum)))
                         {
@@ -92,7 +99,7 @@
                 
                 <div class="col-md-6">
                     <label class="form-label">Orientação Sexual</label>
-                    <InputSelect class="form-select" @bind-Value="UsuarioModel.OrientacaoSexual" required>
+                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.OrientacaoSexual" required>
                         <option value="">Selecione...</option>
                         @foreach (OrientacaoSexualEnum orientacaoSexual in Enum.GetValues(typeof(OrientacaoSexualEnum)))
                         {
@@ -113,7 +120,15 @@ else
 
 @code {
     [Parameter]
-    public Usuario UsuarioModel { get; set; }   
+    public FamiliaUsuario UsuarioModel { get; set; }   
     [Parameter]
-    public int UsuarioNumber { get; set; }
+    public MembroFamiliaTypeEnum ComponentMode { get; set; }
+
+    [Parameter]
+    public EventCallback DeactivateClicked { get; set; }
+
+    public async Task TriggerDeactivateClicked(FamiliaUsuario usuario)
+    {
+        await DeactivateClicked.InvokeAsync(usuario);
+    }
 }

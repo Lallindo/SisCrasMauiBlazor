@@ -19,12 +19,24 @@ public partial class RegistroViewModel(
     [ObservableProperty]
     private Prontuario _prontuario = new();
     [ObservableProperty]
-    private ObservableCollection<Usuario> _usuarios = [new()];
+    private ObservableCollection<FamiliaUsuario> _familiaUsuarios = [new()];
 
     [RelayCommand]
     private async Task CreateNewUsuario()
     {
-        Usuarios.Add(new Usuario());
+        FamiliaUsuarios.Add(new FamiliaUsuario() {Usuario = new Usuario()});
+    }
+
+    [RelayCommand]
+    private async Task DeactivateUsuario(FamiliaUsuario usuario)
+    {
+        usuario.DataSaida = DateOnly.FromDateTime(DateTime.Now);
+    }
+
+    [RelayCommand]
+    private async Task UpdateProntuario()
+    {
+        _prontuarioService.UpdateAsync(Prontuario);
     }
 
     /*[RelayCommand]

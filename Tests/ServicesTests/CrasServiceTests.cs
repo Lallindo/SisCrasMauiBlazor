@@ -180,8 +180,7 @@ public async Task GetProntuarioAndFamiliaAndUsuariosFromCras_ShouldCallRepositor
                     { 
                         Id = 1,
                         Usuario = new Usuario { Id = 1, Nome = "Usuario Teste", Cpf = "111.111.111-11" },
-                        Parentesco = ParentescoEnum.Responsavel,
-                        Ativo = true
+                        Parentesco = ParentescoEnum.Responsavel
                     }
                 }
             }
@@ -237,15 +236,13 @@ public async Task GetProntuarioAndFamiliaAndUsuariosFromCras_ShouldReturnComplet
                     { 
                         Id = 1,
                         Usuario = new Usuario { Id = 1, Nome = "Responsavel", Cpf = "111.111.111-11" },
-                        Parentesco = ParentescoEnum.Responsavel,
-                        Ativo = true
+                        Parentesco = ParentescoEnum.Responsavel
                     },
                     new FamiliaUsuario 
                     { 
                         Id = 2,
                         Usuario = new Usuario { Id = 2, Nome = "Filho", Cpf = "222.222.222-22" },
-                        Parentesco = ParentescoEnum.Filho,
-                        Ativo = true
+                        Parentesco = ParentescoEnum.Filho
                     }
                 }
             }
@@ -263,8 +260,7 @@ public async Task GetProntuarioAndFamiliaAndUsuariosFromCras_ShouldReturnComplet
                     { 
                         Id = 3,
                         Usuario = new Usuario { Id = 3, Nome = "Conjuge", Cpf = "333.333.333-33" },
-                        Parentesco = ParentescoEnum.Conjuge,
-                        Ativo = true
+                        Parentesco = ParentescoEnum.Conjuge
                     }
                 }
             }

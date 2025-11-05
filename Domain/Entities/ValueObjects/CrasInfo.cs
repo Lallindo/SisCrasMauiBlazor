@@ -1,9 +1,12 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace SisCras.Domain.Entities.ValueObjects;
 
-public class CrasInfo(int id, string nome)
+public partial class CrasInfo(int id, string nome) : ObservableObject
 {
-    public int Id { get; } = id;
-    public string Nome { get; } = nome;
+    
+    [ObservableProperty] private int _id;
+    [ObservableProperty] private string _nome;
 
     public static CrasInfo Create(int id, string nome)
     {

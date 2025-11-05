@@ -2,7 +2,7 @@
 @using SisCras.Presentation.Components.Shared
 @inject EditarFamiliaViewModel ViewModel
 
-@foreach (Usuario usuario in ViewModel.SelectedFamilia.Usuarios)
+@foreach (FamiliaUsuario usuario in ViewModel.SelectedFamilia.FamiliaUsuarios)
 {
     <MembroFamilia UsuarioModel="@usuario"></MembroFamilia>
 }

@@ -85,8 +85,7 @@ namespace SisCras.Tests
             { 
                 FamiliaId = familiaId,
                 UsuarioId = usuarioId,
-                Parentesco = parentesco,
-                Ativo = ativo
+                Parentesco = parentesco
             };
         }
 

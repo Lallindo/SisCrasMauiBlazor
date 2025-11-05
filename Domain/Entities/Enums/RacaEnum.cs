@@ -6,8 +6,7 @@ public enum RacaEnum
 {
     Negra,
     Branca,
-    [Description("Indígena")]
-    Indigena,
+    [Description("Indígena")] Indigena,
     Amarela,
     Parda
 }

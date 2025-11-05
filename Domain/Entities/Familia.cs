@@ -1,19 +1,16 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore;
 using SisCras.Domain.Entities.Enums;
 
 namespace SisCras.Domain.Entities;
 
 public partial class Familia : ObservableObject
 {
-    [ObservableProperty]
-    private ConfiguracaoFamiliarEnum _configuracaoFamiliar;
-    [ObservableProperty]
-    private ICollection<FamiliaUsuario> _familiaUsuarios = [];
-    [ObservableProperty]
-    private int _id;
-    [ObservableProperty]
-    private ICollection<Prontuario> _prontuarios = [];
+    [ObservableProperty] private ConfiguracaoFamiliarEnum _configuracaoFamiliar;
+    [ObservableProperty] private ICollection<FamiliaUsuario> _familiaUsuarios = [];
+    [ObservableProperty] private int _id;
+    [ObservableProperty] private ICollection<Prontuario> _prontuarios = [];
 
     public Usuario? Responsavel
     {
@@ -49,5 +46,17 @@ public partial class Familia : ObservableObject
             if (_familiaUsuarios == null || _familiaUsuarios.Count == 0) return [];
             return new(from fu in _familiaUsuarios select fu.Usuario);
         }
+    }
+
+    public Task AdicionarUsuario(Usuario usuario, ParentescoEnum parentesco)
+    {
+        FamiliaUsuario novoUsuario = new(){ Usuario = usuario,  Parentesco = parentesco };
+        _familiaUsuarios.Add(novoUsuario);
+        return Task.CompletedTask;
+    }
+
+    public Task RemoverUsuario(Usuario usuario)
+    {
+        return Task.CompletedTask;
     }
 }
