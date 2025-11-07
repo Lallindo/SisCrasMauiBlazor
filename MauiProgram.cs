@@ -33,7 +33,6 @@ public static class MauiProgram
         builder.Services.AddTransient<TestesViewModel>();
         builder.Services.AddTransient<RegTecnicoViewModel>();
         builder.Services.AddTransient<EditarFamiliaViewModel>();
-        builder.Services.AddTransient<BuscarFamiliaViewModel>();
         builder.Services.AddScoped<HeaderViewModel>();
         builder.Services.AddScoped<MainLayoutViewModel>();
 

@@ -46,4 +46,14 @@ public class UsuarioService(IUsuarioRepository usuarioRepository) : BaseService<
     {
         return await UsuarioRepository.GetByDataNascimento(usuario);
     }
+
+    public async Task<List<Prontuario>> GetAllProntuariosByUsuarioSearch(string? nome, string? cpf, string? nis)
+    {
+        return await UsuarioRepository.GetAllProntuariosByUsuarioSearch(nome, cpf, nis);
+    }
+
+    public async Task<List<Prontuario?>> GetAllProntuariosByUsuarioSearch(Usuario usuario)
+    {
+        return await UsuarioRepository.GetAllProntuariosByUsuarioSearch(usuario);
+    }
 }

@@ -321,9 +321,9 @@ public class CrasRepositoryTests : BaseRepositoriesTests
         // Create FamiliaUsuario relationships AFTER saving usuarios and familia
         var familiaUsuarios = new List<FamiliaUsuario>
         {
-            ModelFactory.CreateFamiliaUsuario(familia.Id, usuarios[0].Id, ParentescoEnum.Responsavel, true),
-            ModelFactory.CreateFamiliaUsuario(familia.Id, usuarios[1].Id, ParentescoEnum.Filho, true),
-            ModelFactory.CreateFamiliaUsuario(familia.Id, usuarios[2].Id, ParentescoEnum.Filho, true)
+            ModelFactory.CreateFamiliaUsuario(familia.Id, usuarios[0].Id, ParentescoEnum.Responsavel),
+            ModelFactory.CreateFamiliaUsuario(familia.Id, usuarios[1].Id),
+            ModelFactory.CreateFamiliaUsuario(familia.Id, usuarios[2].Id)
         };
         _context.FamiliaUsuarios.AddRange(familiaUsuarios);
 
@@ -375,8 +375,8 @@ public class CrasRepositoryTests : BaseRepositoriesTests
         // Create relationships for first CRAS
         var familiaUsuarios1 = new List<FamiliaUsuario>
         {
-            ModelFactory.CreateFamiliaUsuario(familia1.Id, usuarios1[0].Id, ParentescoEnum.Responsavel, true),
-            ModelFactory.CreateFamiliaUsuario(familia1.Id, usuarios1[1].Id, ParentescoEnum.Filho, true)
+            ModelFactory.CreateFamiliaUsuario(familia1.Id, usuarios1[0].Id, ParentescoEnum.Responsavel),
+            ModelFactory.CreateFamiliaUsuario(familia1.Id, usuarios1[1].Id)
         };
         _context.FamiliaUsuarios.AddRange(familiaUsuarios1);
 
@@ -404,8 +404,8 @@ public class CrasRepositoryTests : BaseRepositoriesTests
         // Create relationships for second CRAS
         var familiaUsuarios2 = new List<FamiliaUsuario>
         {
-            ModelFactory.CreateFamiliaUsuario(familia2.Id, usuarios2[0].Id, ParentescoEnum.Responsavel, true),
-            ModelFactory.CreateFamiliaUsuario(familia2.Id, usuarios2[1].Id, ParentescoEnum.Filho, true)
+            ModelFactory.CreateFamiliaUsuario(familia2.Id, usuarios2[0].Id, ParentescoEnum.Responsavel),
+            ModelFactory.CreateFamiliaUsuario(familia2.Id, usuarios2[1].Id)
         };
         _context.FamiliaUsuarios.AddRange(familiaUsuarios2);
 

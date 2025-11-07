@@ -14,4 +14,6 @@ public interface IUsuarioService : IBaseService<Usuario>
     Task<Usuario?> GetByNome(Usuario usuario);
     Task<Usuario?> GetByDataNascimento(DateOnly dataNascimento);
     Task<Usuario?> GetByDataNascimento(Usuario usuario);
+    Task<List<Prontuario>> GetAllProntuariosByUsuarioSearch(string? nome, string? cpf, string? nis);
+    Task<List<Prontuario?>> GetAllProntuariosByUsuarioSearch(Usuario usuario);
 }

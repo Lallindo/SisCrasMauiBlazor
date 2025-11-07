@@ -137,7 +137,7 @@ namespace SisCras.Tests.RepositoriesTests
             _context.Familias.Add(familia);
             await _context.SaveChangesAsync();
 
-            var familiaUsuario = ModelFactory.CreateFamiliaUsuario(familia.Id, usuario.Id, ParentescoEnum.Filho, true);
+            var familiaUsuario = ModelFactory.CreateFamiliaUsuario(familia.Id, usuario.Id, ParentescoEnum.Filho);
             _context.FamiliaUsuarios.Add(familiaUsuario);
             await _context.SaveChangesAsync();
 
@@ -174,7 +174,7 @@ namespace SisCras.Tests.RepositoriesTests
             _context.Familias.Add(familia);
             await _context.SaveChangesAsync();
 
-            var familiaUsuario = ModelFactory.CreateFamiliaUsuario(familia.Id, usuario.Id, ParentescoEnum.Responsavel, true);
+            var familiaUsuario = ModelFactory.CreateFamiliaUsuario(familia.Id, usuario.Id, ParentescoEnum.Responsavel);
             _context.FamiliaUsuarios.Add(familiaUsuario);
             await _context.SaveChangesAsync();
 
@@ -198,8 +198,8 @@ namespace SisCras.Tests.RepositoriesTests
             _context.Familias.AddRange(familia1, familia2);
             await _context.SaveChangesAsync();
 
-            var familiaUsuario1 = ModelFactory.CreateFamiliaUsuario(familia1.Id, usuario.Id, ParentescoEnum.Filho, true);
-            var familiaUsuario2 = ModelFactory.CreateFamiliaUsuario(familia2.Id, usuario.Id, ParentescoEnum.Conjuge, false);
+            var familiaUsuario1 = ModelFactory.CreateFamiliaUsuario(familia1.Id, usuario.Id, ParentescoEnum.Filho);
+            var familiaUsuario2 = ModelFactory.CreateFamiliaUsuario(familia2.Id, usuario.Id, ParentescoEnum.Conjuge);
             _context.FamiliaUsuarios.AddRange(familiaUsuario1, familiaUsuario2);
             await _context.SaveChangesAsync();
 
@@ -240,8 +240,8 @@ namespace SisCras.Tests.RepositoriesTests
             _context.Familias.AddRange(familia1, familia2);
             await _context.SaveChangesAsync();
 
-            var familiaUsuario1 = ModelFactory.CreateFamiliaUsuario(familia1.Id, usuario.Id, ParentescoEnum.Filho, true);
-            var familiaUsuario2 = ModelFactory.CreateFamiliaUsuario(familia2.Id, usuario.Id, ParentescoEnum.Conjuge, true);
+            var familiaUsuario1 = ModelFactory.CreateFamiliaUsuario(familia1.Id, usuario.Id);
+            var familiaUsuario2 = ModelFactory.CreateFamiliaUsuario(familia2.Id, usuario.Id, ParentescoEnum.Conjuge);
             _context.FamiliaUsuarios.AddRange(familiaUsuario1, familiaUsuario2);
             await _context.SaveChangesAsync();
 
@@ -275,7 +275,7 @@ namespace SisCras.Tests.RepositoriesTests
             var prontuario = ModelFactory.CreateProntuario(cras.Id, familia.Id, tecnico.Id, 1001);
             _context.Prontuarios.Add(prontuario);
             
-            var familiaUsuario = ModelFactory.CreateFamiliaUsuario(familia.Id, usuario.Id, ParentescoEnum.Responsavel, true);
+            var familiaUsuario = ModelFactory.CreateFamiliaUsuario(familia.Id, usuario.Id, ParentescoEnum.Responsavel);
             _context.FamiliaUsuarios.Add(familiaUsuario);
             
             await _context.SaveChangesAsync();
@@ -307,10 +307,10 @@ namespace SisCras.Tests.RepositoriesTests
             await _context.SaveChangesAsync();
 
             // Active familia associations
-            var familiaUsuarioAtiva1 = ModelFactory.CreateFamiliaUsuario(familiaAtiva1.Id, usuario.Id, ParentescoEnum.Responsavel, true);
-            var familiaUsuarioAtiva2 = ModelFactory.CreateFamiliaUsuario(familiaAtiva2.Id, usuario.Id, ParentescoEnum.Filho, true);
+            var familiaUsuarioAtiva1 = ModelFactory.CreateFamiliaUsuario(familiaAtiva1.Id, usuario.Id, ParentescoEnum.Responsavel);
+            var familiaUsuarioAtiva2 = ModelFactory.CreateFamiliaUsuario(familiaAtiva2.Id, usuario.Id);
             // Inactive familia association
-            var familiaUsuarioInativa = ModelFactory.CreateFamiliaUsuario(familiaInativa.Id, usuario.Id, ParentescoEnum.Conjuge, false);
+            var familiaUsuarioInativa = ModelFactory.CreateFamiliaUsuario(familiaInativa.Id, usuario.Id, ParentescoEnum.Conjuge);
             
             _context.FamiliaUsuarios.AddRange(familiaUsuarioAtiva1, familiaUsuarioAtiva2, familiaUsuarioInativa);
             await _context.SaveChangesAsync();

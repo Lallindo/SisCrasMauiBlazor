@@ -7,7 +7,7 @@ using SisCras.Domain.Entities;
 
 namespace SisCras.Presentation.ViewModels;
 
-public partial class FamiliaViewModel(IFamiliaService familiaService, ICrasService crasService, ILoggedUserService loggedUserService, NavigationManager navigationManager) : BaseViewModel
+public partial class FamiliaViewModel(IFamiliaService familiaService, IUsuarioService usuarioService, ICrasService crasService, ILoggedUserService loggedUserService, NavigationManager navigationManager) : BaseViewModel
 {
     private Prontuario? _prontuarioParaRemover;
     [ObservableProperty]
@@ -15,26 +15,40 @@ public partial class FamiliaViewModel(IFamiliaService familiaService, ICrasServi
     [ObservableProperty]
     private Tecnico? _loggedTecnico = new();
     [ObservableProperty]
-    private string _searchTerm = string.Empty;
+    private Usuario _searchUsuario = new();
 
-    private IFamiliaService FamiliaService { get; } = familiaService;
-    private ILoggedUserService LoggedUserService { get; } = loggedUserService;
-    private ICrasService CrasService { get; } = crasService;
-    private NavigationManager NavigationManager { get; } = navigationManager;
-    private bool HasSearchTerm => !string.IsNullOrEmpty(SearchTerm);
+    private IFamiliaService _familiaService { get; } = familiaService;
+    private IUsuarioService _usuarioService { get; } = usuarioService;
+    private ILoggedUserService _loggedUserService { get; } = loggedUserService;
+    private ICrasService _crasService { get; } = crasService;
+    private NavigationManager _navigationManager { get; } = navigationManager;
+    private bool HasSearchTerm => !string.IsNullOrEmpty(SearchUsuario.Nome) || !string.IsNullOrEmpty(SearchUsuario.Cpf) || !string.IsNullOrEmpty(SearchUsuario.Nis);
     
     [RelayCommand]
     private async Task GoToRegistrarFamilia()
     {
-        NavigationManager.NavigateTo("/familias/buscar");
+        _navigationManager.NavigateTo("/familias/buscar");
+    }
+
+    [RelayCommand]
+    public async Task SearchFamiliasByUsuario()
+    {
+        if (HasSearchTerm)
+        {
+            Prontuarios = new(await _usuarioService.GetAllProntuariosByUsuarioSearch(SearchUsuario));
+        }
+        else
+        {
+            await GetAllProntuarios();
+        }
     }
     public async Task GetAllProntuarios()
     {
-        Prontuarios = new(await CrasService.GetProntuarioAndFamiliaAndUsuariosFromCras(1));
+        Prontuarios = new(await _crasService.GetProntuarioAndFamiliaAndUsuariosFromCras(1));
     }
     [RelayCommand]
     private async Task GoToEditarFamilia(int familiaId)
     {
-        NavigationManager.NavigateTo($"/familias/editar/{familiaId}");
+        _navigationManager.NavigateTo($"/familias/editar/{familiaId}");
     }
 }

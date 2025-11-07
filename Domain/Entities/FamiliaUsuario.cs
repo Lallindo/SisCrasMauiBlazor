@@ -11,7 +11,7 @@ public partial class FamiliaUsuario : ObservableObject
     [ObservableProperty] private DateOnly _dataAdicao;
     [ObservableProperty] private DateOnly? _dataSaida;
     
-    public bool Ativo => !(_dataSaida == null);
+    public bool Ativo => _dataSaida == null;
     public int Id { get; set; }
     public int FamiliaId { get; set; }
     public int UsuarioId { get; set; }

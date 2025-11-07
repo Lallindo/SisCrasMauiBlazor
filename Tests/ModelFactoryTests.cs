@@ -79,13 +79,14 @@ namespace SisCras.Tests
             int familiaId,
             int usuarioId,
             ParentescoEnum parentesco = ParentescoEnum.Filho,
-            bool ativo = true)
+            DateOnly? dataSaida = null)
         {
             return new FamiliaUsuario 
             { 
                 FamiliaId = familiaId,
                 UsuarioId = usuarioId,
-                Parentesco = parentesco
+                Parentesco = parentesco,
+                DataSaida = dataSaida
             };
         }
 
@@ -145,8 +146,7 @@ namespace SisCras.Tests
             // Create FamiliaUsuario relationships for each user
             var familiaUsuarios = usuarios.Select((usuario, index) => 
                     CreateFamiliaUsuario(familiaId, usuario.Id, 
-                        index == 0 ? ParentescoEnum.Responsavel : ParentescoEnum.Filho, 
-                        true))
+                        index == 0 ? ParentescoEnum.Responsavel : ParentescoEnum.Filho))
                 .ToList();
 
             return prontuario;

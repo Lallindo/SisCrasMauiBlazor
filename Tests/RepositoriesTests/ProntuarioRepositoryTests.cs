@@ -181,23 +181,6 @@ namespace SisCras.Tests.RepositoriesTests
         }
 
         [Fact]
-        public async Task NotImplementedMethods_ShouldThrowNotImplementedException()
-        {
-            // Arrange
-            var prontuario = new Prontuario();
-
-            // Act & Assert
-            await Assert.ThrowsAsync<NotImplementedException>(() => 
-                _repository.GetFamiliaFromProntuario(prontuario));
-            await Assert.ThrowsAsync<NotImplementedException>(() => 
-                _repository.GetFamiliaFromProntuario(1));
-            await Assert.ThrowsAsync<NotImplementedException>(() => 
-                _repository.GetFamiliaAndUsuariosFromProntuario(prontuario));
-            await Assert.ThrowsAsync<NotImplementedException>(() => 
-                _repository.GetFamiliaAndUsuariosFromProntuario(1));
-        }
-
-        [Fact]
         public async Task Prontuario_AtivoProperty_ShouldReturnCorrectValue()
         {
             // Arrange

@@ -1,9 +1,18 @@
 ﻿@using SisCras.ApplicationLayer.Extensions
 <div class="card">
-    <p>@Prontuario.Codigo</p>
-    <p>@Prontuario.Familia.Responsavel.Nome</p>
-    <p>@Prontuario.DataCriacao</p>
-    <button @onclick="() => TriggerEditProntuario()">@ComponentMode.GetDescription()</button>
+    <div class="card-header">
+        <p class="card-title">
+            Prontuário @Prontuario.Codigo
+        </p>
+    </div>
+    <div class="card-body">
+        <p class="card-text">Nome do responsável: @Prontuario.Familia.Responsavel.Nome</p>
+        <p class="card-text">Data de criação: @Prontuario.DataCriacao</p>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-primary"
+            @onclick="() => TriggerEditProntuario()">@ComponentMode.GetDescription()</button>
+    </div>
 </div>
 
 @code {

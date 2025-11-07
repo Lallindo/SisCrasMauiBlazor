@@ -11,7 +11,7 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
         return await DbContext.Usuarios
             .Where(u => u.Id == id)
             .SelectMany(u => u.FamiliaUsuarios)
-            .Where(fu => fu.DataSaida != null)
+            .Where(fu => fu.DataSaida == null)
             .Select(fu => fu.Familia)
             .FirstOrDefaultAsync();
     }
@@ -55,6 +55,33 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
     public async Task<Usuario?> GetByDataNascimento(Usuario usuario)
     {
         return await GetByDataNascimento(usuario.DataNascimento);
+    }
+
+    public async Task<List<Prontuario>> GetAllProntuariosByUsuarioSearch(string? nome, string? cpf, string? nis)
+    {
+        if (string.IsNullOrEmpty(nome) && string.IsNullOrEmpty(cpf) && string.IsNullOrEmpty(nis))
+        {
+            return [];
+        }
+        
+        var query = DbContext.Prontuarios.AsQueryable();
+        query = query.Where(p => p.Familia.FamiliaUsuarios.Any(fu =>
+            (!string.IsNullOrEmpty(nome) && fu.Usuario.Nome.ToLower().Contains(nome)) ||
+            (!string.IsNullOrEmpty(cpf) && fu.Usuario.Cpf.ToLower().Contains(cpf)) ||
+            (!string.IsNullOrEmpty(nis) && fu.Usuario.Nis.ToLower().Contains(nis))
+        ));
+        
+        return await query
+            .Include(p => p.Familia)
+            .ThenInclude(f => f.FamiliaUsuarios)
+            .ThenInclude(fu => fu.Usuario)
+            .Distinct()
+            .ToListAsync();
+    }
+
+    public async Task<List<Prontuario>> GetAllProntuariosByUsuarioSearch(Usuario usuario)
+    {
+        return await GetAllProntuariosByUsuarioSearch(usuario.Nome, usuario.Cpf, usuario.Nis);
     }
 
     public async Task<List<Familia>> GetFamiliasFromUsuario(int id)

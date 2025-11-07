@@ -8,10 +8,10 @@
 <h3>Busca de Famílias</h3>
 
 <div class="input-group mb-3">
-<!--
-    <input type="text" class="form-control" placeholder="Buscar por nome do responsável, CPF ou NIS..." @bind="termoBusca"/>
-    <button class="btn btn-primary" type="button" @onclick="Buscar">Buscar</button>
-    -->
+    <input type="text" class="form-control" placeholder="Nome do usuário" @bind="ViewModel.SearchUsuario.Nome"/>
+    <input type="text" class="form-control" placeholder="CPF do usuário" @bind="ViewModel.SearchUsuario.Cpf"/>
+    <input type="text" class="form-control" placeholder="NIS do usuário" @bind="ViewModel.SearchUsuario.Nis"/>
+    <button class="btn btn-primary" type="button" @onclick="ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync">Buscar</button>
 </div>
 
 <button class="btn btn-success mb-3" @onclick="ViewModel.GoToRegistrarFamiliaCommand.ExecuteAsync">Registrar Nova Família</button>
