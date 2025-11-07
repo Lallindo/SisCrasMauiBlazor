@@ -12,7 +12,7 @@ public class FamiliaRepository(SisCrasDbContext dbContext) : BaseRepository<Fami
         return await DbContext.Familias
             .Where(f => f.Id == id)
             .SelectMany(fu => fu.FamiliaUsuarios)
-            .Where(fu => fu.Ativo)
+            .Where(fu => fu.DataSaida != null)
             .Select(u => u.Usuario)
             .Distinct()
             .ToListAsync();
@@ -39,7 +39,7 @@ public class FamiliaRepository(SisCrasDbContext dbContext) : BaseRepository<Fami
         return await DbContext.Familias
             .Where(f => f.Id == id)
             .SelectMany(fu => fu.FamiliaUsuarios)
-            .Where(fu => fu.Ativo && fu.Parentesco == ParentescoEnum.Responsavel)
+            .Where(fu => fu.DataSaida != null && fu.Parentesco == ParentescoEnum.Responsavel)
             .Select(u => u.Usuario)
             .FirstOrDefaultAsync();
     }

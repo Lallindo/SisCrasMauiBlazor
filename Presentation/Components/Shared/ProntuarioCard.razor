@@ -1,0 +1,18 @@
+﻿@using SisCras.ApplicationLayer.Extensions
+<div class="card">
+    <p>@Prontuario.Codigo</p>
+    <p>@Prontuario.Familia.Responsavel.Nome</p>
+    <p>@Prontuario.DataCriacao</p>
+    <button @onclick="() => TriggerEditProntuario()">@ComponentMode.GetDescription()</button>
+</div>
+
+@code {
+    [Parameter] public Prontuario Prontuario { get; set; }
+    [Parameter] public ProntuarioCardTypeEnum ComponentMode { get; set; }
+    [Parameter] public EventCallback ButtonProntuarioClicked { get; set; }
+
+    public async Task TriggerEditProntuario()
+    {
+        await ButtonProntuarioClicked.InvokeAsync(Prontuario.FamiliaId);
+    }
+}

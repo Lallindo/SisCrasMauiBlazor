@@ -11,7 +11,7 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
         return await DbContext.Usuarios
             .Where(u => u.Id == id)
             .SelectMany(u => u.FamiliaUsuarios)
-            .Where(fu => fu.Ativo)
+            .Where(fu => fu.DataSaida != null)
             .Select(fu => fu.Familia)
             .FirstOrDefaultAsync();
     }

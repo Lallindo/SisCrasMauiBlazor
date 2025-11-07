@@ -66,6 +66,8 @@ public class SisCrasDbContext : DbContext
                 .WithMany(u => u.FamiliaUsuarios)
                 .HasForeignKey(fu => fu.UsuarioId)
                 .IsRequired();
+
+            entity.Ignore(fu => fu.Ativo);
         });
 
         modelBuilder.Entity<TecnicoCras>(entity => {
@@ -80,6 +82,8 @@ public class SisCrasDbContext : DbContext
                 .WithMany(t => t.TecnicoCras)
                 .HasForeignKey(tc => tc.TecnicoId)
                 .IsRequired();
+
+            entity.Ignore(tc => tc.Ativo);
         });
     }
 

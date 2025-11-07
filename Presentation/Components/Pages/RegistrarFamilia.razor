@@ -5,10 +5,8 @@
 
 @foreach (FamiliaUsuario usuario in @ViewModel.FamiliaUsuarios)
 {
-    <MembroFamilia UsuarioModel="usuario" ComponentMode="MembroFamiliaTypeEnum.Edicao" DeactivateClicked="ViewModel.DeactivateUsuarioCommand.ExecuteAsync" />
+    <MembroFamilia UsuarioModel="usuario" />
 }
-
-<button value="Salvar alterações" @onclick="@ViewModel.UpdateProntuarioCommand.ExecuteAsync"/>
 
 @code {
     protected override void OnInitialized()

@@ -1,4 +1,5 @@
 @page "/familias"
+@using SisCras.Presentation.Components.Shared
 @inject FamiliaViewModel ViewModel
 @inject NavigationManager NavigationManager
 
@@ -21,29 +22,10 @@
 }
 else
 {
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Nome (Responsável)</th>
-                <th>CPF (Responsável)</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var prontuario in ViewModel.Prontuarios)
-            {
-                <tr>
-                    <td>@(prontuario.Familia.Responsavel.Nome)</td>
-                    <td>@(prontuario.Familia.Responsavel.Cpf)</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary" @onclick="() => ViewModel.GoToEditarFamiliaCommand.ExecuteAsync(prontuario.FamiliaId)">
-                            Editar
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    foreach (Prontuario prontuario in ViewModel.Prontuarios)
+    {
+        <ProntuarioCard Prontuario="prontuario" ComponentMode="ProntuarioCardTypeEnum.Editar" ButtonProntuarioClicked="ViewModel.GoToEditarFamiliaCommand.ExecuteAsync"></ProntuarioCard>
+    }
 }
 
 @code {

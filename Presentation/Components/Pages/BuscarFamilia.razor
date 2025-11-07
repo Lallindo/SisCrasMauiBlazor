@@ -1,0 +1,31 @@
+﻿@page "/familia/buscar"
+@inject BuscarFamiliaViewModel ViewModel
+<h3>BuscarFamilia</h3>
+
+<div>
+    <label>CPF</label>
+    <input type="text" @bind-value="ViewModel.SelectedUsuario.Cpf"/>
+</div>
+
+<button @onclick="() => ViewModel.GetProntuariosFromUsuarioCommand.ExecuteAsync(null)">Buscar</button>
+
+<div>
+    @if (ViewModel.Familias.Count == 0)
+    {
+        <p>Nenhum usuário buscado</p>            
+    }
+    else
+    {
+        foreach (Familia familia in ViewModel.Familias)
+        {
+            
+        }
+    }
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}

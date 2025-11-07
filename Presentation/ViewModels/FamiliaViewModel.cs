@@ -26,16 +26,11 @@ public partial class FamiliaViewModel(IFamiliaService familiaService, ICrasServi
     [RelayCommand]
     private async Task GoToRegistrarFamilia()
     {
-        NavigationManager.NavigateTo("/familias/novo");
+        NavigationManager.NavigateTo("/familias/buscar");
     }
     public async Task GetAllProntuarios()
     {
         Prontuarios = new(await CrasService.GetProntuarioAndFamiliaAndUsuariosFromCras(1));
-    }
-    [RelayCommand]
-    private async Task SearchFamiliaByMembro()
-    {
-        
     }
     [RelayCommand]
     private async Task GoToEditarFamilia(int familiaId)

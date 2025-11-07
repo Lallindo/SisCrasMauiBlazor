@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using SisCras.ApplicationLayer.Services;
 using SisCras.Infrastructure.Data.Context;
 using SisCras.Infrastructure.Repositories;
+using SisCras.Presentation.Components.Pages;
 using SisCras.Presentation.ViewModels;
 
 namespace SisCras;
@@ -32,6 +33,7 @@ public static class MauiProgram
         builder.Services.AddTransient<TestesViewModel>();
         builder.Services.AddTransient<RegTecnicoViewModel>();
         builder.Services.AddTransient<EditarFamiliaViewModel>();
+        builder.Services.AddTransient<BuscarFamiliaViewModel>();
         builder.Services.AddScoped<HeaderViewModel>();
         builder.Services.AddScoped<MainLayoutViewModel>();
 

@@ -4,33 +4,31 @@
 @if (UsuarioModel != null)
 {
     <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header @(UsuarioModel.Ativo ? "bg-warning" : "bg-primary") text-white">
             <h5 class="card-title mb-0">Membro @UsuarioModel.Usuario.Id</h5>
             <small class="card-subtitle">@UsuarioModel.Parentesco.GetDescription()</small><br/>
             <small class="card-subtitle">Data de inserção: @UsuarioModel.DataAdicao</small>
-            @switch (ComponentMode)
+            @if (ComponentMode == MembroFamiliaTypeEnum.Edicao)
             {
-                case MembroFamiliaTypeEnum.Edicao:
-                    <button value="Remover membro" @onclick="TriggerDeactivateClicked(@UsuarioModel)"/>
-                    break;
+                <button @onclick="() => TriggerDeactivateClicked(UsuarioModel)">@(UsuarioModel.Ativo ? "Reativar" : "Desativar")</button>
             }
         </div>
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-12">
                     <label class="form-label fw-bold">Nome Completo *</label>
-                    <InputText class="form-control form-control-lg" @bind-Value="UsuarioModel.Usuario.Nome" 
-                               placeholder="Nome completo" />
+                    <InputText class="form-control form-control-lg" @bind-Value="UsuarioModel.Usuario.Nome"
+                               placeholder="Nome completo"/>
                 </div>
             </div>
 
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label fw-bold">CPF</label>
-                    <InputText class="form-control" @bind-Value="UsuarioModel.Usuario.Cpf" 
-                               placeholder="000.000.000-00" />
+                    <InputText class="form-control" @bind-Value="UsuarioModel.Usuario.Cpf"
+                               placeholder="000.000.000-00"/>
                 </div>
-                
+
                 <div class="col-md-4">
                     <label class="form-label fw-bold">Sexo</label>
                     <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.Sexo">
@@ -41,7 +39,7 @@
                         }
                     </InputSelect>
                 </div>
-                
+
                 <div class="col-md-4">
                     <label class="form-label fw-bold">Raça/Cor</label>
                     <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.Raca">
@@ -55,26 +53,26 @@
 
                 <div class="col-md-4">
                     <label class="form-label fw-bold">Profissão</label>
-                    <InputText class="form-control" @bind-Value="UsuarioModel.Usuario.Profissao" 
-                               placeholder="Profissão" />
+                    <InputText class="form-control" @bind-Value="UsuarioModel.Usuario.Profissao"
+                               placeholder="Profissão"/>
                 </div>
             </div>
 
-            <hr class="my-4" />
+            <hr class="my-4"/>
 
             <div class="row g-3">
                 <!-- NIS -->
                 <div class="col-md-6">
                     <label class="form-label fw-bold">NIS</label>
-                    <InputText class="form-control" @bind-Value="UsuarioModel.Usuario.Nis" 
-                               placeholder="Número do NIS" />
+                    <InputText class="form-control" @bind-Value="UsuarioModel.Usuario.Nis"
+                               placeholder="Número do NIS"/>
                 </div>
-                
+
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Data de Nascimento</label>
-                    <InputDate class="form-control" @bind-Value="UsuarioModel.Usuario.DataNascimento" />
+                    <InputDate class="form-control" @bind-Value="UsuarioModel.Usuario.DataNascimento"/>
                 </div>
-                
+
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Estado Civil</label>
                     <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.EstadoCivil">
@@ -85,7 +83,7 @@
                         }
                     </InputSelect>
                 </div>
-                
+
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Grau de Instrução</label>
                     <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.Escolaridade">
@@ -96,7 +94,7 @@
                         }
                     </InputSelect>
                 </div>
-                
+
                 <div class="col-md-6">
                     <label class="form-label">Orientação Sexual</label>
                     <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.OrientacaoSexual" required>
@@ -131,4 +129,4 @@ else
     {
         await DeactivateClicked.InvokeAsync(usuario);
     }
-}
+};

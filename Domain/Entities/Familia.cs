@@ -48,15 +48,31 @@ public partial class Familia : ObservableObject
         }
     }
 
-    public Task AdicionarUsuario(Usuario usuario, ParentescoEnum parentesco)
+    public Task AddUsuario(Usuario usuario, ParentescoEnum parentesco)
     {
-        FamiliaUsuario novoUsuario = new(){ Usuario = usuario,  Parentesco = parentesco };
-        _familiaUsuarios.Add(novoUsuario);
-        return Task.CompletedTask;
+        try
+        {
+            FamiliaUsuario newUsuario = new() { Usuario = usuario, Parentesco = parentesco };
+            _familiaUsuarios.Add(newUsuario);
+            return Task.CompletedTask;
+        }
+        catch (Exception ex)
+        {
+            return Task.FromException(ex);
+        }
     }
 
-    public Task RemoverUsuario(Usuario usuario)
+    public Task ToggleAtivoUsuario(FamiliaUsuario usuario)
     {
+        if (usuario.DataSaida != null 
+            && DateTime.Now - usuario.DataSaida.Value.ToDateTime(new TimeOnly()) < TimeSpan.FromDays(30) )
+        {
+            usuario.DataSaida = null;
+        }
+        else
+        {
+            usuario.DataSaida = DateOnly.FromDateTime(DateTime.Now);
+        }
         return Task.CompletedTask;
     }
 }

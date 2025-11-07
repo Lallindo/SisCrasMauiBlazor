@@ -25,4 +25,9 @@ public partial class EditarFamiliaViewModel(IFamiliaService familiaService) : Ba
     {
         await _FamiliaService.UpdateAsync(familia);
     }
+    [RelayCommand]
+    private async Task DeactivateUsuario(FamiliaUsuario usuario)
+    {
+        await SelectedFamilia.ToggleAtivoUsuario(usuario);
+    }
 }

@@ -4,7 +4,8 @@
 
 @foreach (FamiliaUsuario usuario in ViewModel.SelectedFamilia.FamiliaUsuarios)
 {
-    <MembroFamilia UsuarioModel="@usuario"></MembroFamilia>
+    <MembroFamilia UsuarioModel="usuario" ComponentMode="MembroFamiliaTypeEnum.Edicao" DeactivateClicked="ViewModel.DeactivateUsuarioCommand.ExecuteAsync">
+    </MembroFamilia>
 }
 
 <button @onclick="() => ViewModel.UpdateFamiliaCommand.ExecuteAsync(ViewModel.SelectedFamilia)"></button>

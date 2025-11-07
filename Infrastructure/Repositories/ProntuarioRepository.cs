@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SisCras.Domain.Entities;
 using SisCras.Infrastructure.Data.Context;
 
@@ -5,23 +6,29 @@ namespace SisCras.Infrastructure.Repositories;
 
 public class ProntuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Prontuario>(dbContext), IProntuarioRepository
 {
-    public Task<Prontuario> GetFamiliaAndUsuariosFromProntuario(int id)
+    public async Task<Prontuario?> GetFamiliaAndUsuariosFromProntuario(int id)
     {
-        throw new NotImplementedException();
+        return await DbContext.Prontuarios
+            .Include(p => p.Familia)
+            .ThenInclude(f => f.FamiliaUsuarios)
+            .ThenInclude(fu => fu.Usuario)
+            .FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public Task<Prontuario> GetFamiliaAndUsuariosFromProntuario(Prontuario prontuario)
+    public async Task<Prontuario?> GetFamiliaAndUsuariosFromProntuario(Prontuario prontuario)
     {
-        throw new NotImplementedException();
+        return await GetFamiliaAndUsuariosFromProntuario(prontuario.Id);
     }
 
-    public Task<Prontuario> GetFamiliaFromProntuario(int id)
+    public async Task<Prontuario?> GetFamiliaFromProntuario(int id)
     {
-        throw new NotImplementedException();
+        return await DbContext.Prontuarios
+            .Include(p => p.Familia)
+            .FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public Task<Prontuario> GetFamiliaFromProntuario(Prontuario prontuario)
+    public async Task<Prontuario?> GetFamiliaFromProntuario(Prontuario prontuario)
     {
-        throw new NotImplementedException();
+        return await GetFamiliaFromProntuario(prontuario.Id);
     }
 }
