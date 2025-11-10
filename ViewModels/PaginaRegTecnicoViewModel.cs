@@ -12,27 +12,27 @@ public partial class PaginaRegTecnicoViewModel : BaseViewModel
 {
     public PaginaRegTecnicoViewModel(ITecnicoService tecnicoService, ICrasService crasService, IPasswordService passwordService, NavigationManager navigationManager)
     {
-        _TecnicoService = tecnicoService;
-        _CrasService = crasService;
-        _PasswordService = passwordService;
-        _NavigationManager = navigationManager;
+        TecnicoService = tecnicoService;
+        CrasService = crasService;
+        PasswordService = passwordService;
+        NavigationManager = navigationManager;
 
-        TodosCras = [.. _CrasService.GetAllAsync().Result]; 
+        TodosCras = [.. CrasService.GetAllAsync().Result]; 
     }
 
-    ITecnicoService _TecnicoService { get; }
-    ICrasService _CrasService { get; }
-    IPasswordService _PasswordService { get; }
-    NavigationManager _NavigationManager { get; }
+    ITecnicoService TecnicoService { get; }
+    ICrasService CrasService { get; }
+    IPasswordService PasswordService { get; }
+    NavigationManager NavigationManager { get; }
 
     [ObservableProperty]
-    List<Cras> _TodosCras;
+    List<Cras> _todosCras;
     [ObservableProperty]
-    Tecnico _Tecnico = new();
+    Tecnico _tecnico = new();
     [ObservableProperty]
-    Cras? _CrasSelecionado = null;
+    Cras? _crasSelecionado = null;
     [ObservableProperty]
-    bool _ErroRegistro = false;
+    bool _erroRegistro = false;
 
     [RelayCommand]
     private async Task RegistrarTecnico()
@@ -41,9 +41,9 @@ public partial class PaginaRegTecnicoViewModel : BaseViewModel
         {
             try
             {
-                Tecnico.ChangeSenhaForHash(Tecnico.Senha, _PasswordService);
+                Tecnico.ChangeSenhaForHash(Tecnico.Senha, PasswordService);
 
-                await _TecnicoService.AddAsync(Tecnico);
+                await TecnicoService.AddAsync(Tecnico);
 
                 TecnicoCras tecnicoCras = new()
                 {
@@ -53,10 +53,10 @@ public partial class PaginaRegTecnicoViewModel : BaseViewModel
                 };
 
                 Tecnico.TecnicoCras = [tecnicoCras];
-                await _TecnicoService.UpdateAsync(Tecnico);
+                await TecnicoService.UpdateAsync(Tecnico);
 
                 ErroRegistro = false;
-                _NavigationManager.NavigateTo("/login"); // Use NavigationManager
+                NavigationManager.NavigateTo("/login"); // Use NavigationManager
             }
             catch (Exception ex)
             {

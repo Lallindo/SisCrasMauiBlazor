@@ -17,7 +17,7 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
     // The following configures EF to create a Sqlite database file in the
     // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={GetSQLiteConnection()}");
+        => options.UseSqlite($"Data Source={GetSqLiteConnection()}");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -93,7 +93,7 @@ public partial class SisCrasDbContext(DbContextOptions<SisCrasDbContext> options
         });
     }
 
-    private static string GetSQLiteConnection()
+    private static string GetSqLiteConnection()
     {
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);

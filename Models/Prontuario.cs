@@ -7,19 +7,12 @@ public partial class Prontuario : ObservableObject
     public int TecnicoId { get; set; }
     public int FamiliaId { get; set; }
     public int CrasId { get; set; }
-
-    [ObservableProperty]
-    int _Id;
-    [ObservableProperty]
-    int _Codigo;
-    [ObservableProperty]
-    Tecnico _Tecnico;
-    [ObservableProperty]
-    Familia _Familia;
-    [ObservableProperty]
-    Cras _Cras;
-    [ObservableProperty]
-    string _FormaDeAcesso;
-    [ObservableProperty]
-    DateOnly _DataCriacao;
+    
+    public int Id { get; set; }
+    public int Codigo { get; set; }
+    public Tecnico Tecnico { get; set; }
+    public Familia Familia { get; set; }
+    public Cras Cras { get; set; }
+    public string FormaDeAcesso { get; set; }
+    public DateOnly DataCriacao { get; set; }
 }

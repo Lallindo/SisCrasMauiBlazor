@@ -5,12 +5,8 @@ namespace SisCras.Models;
 
 public partial class Familia : ObservableObject
 {
-    [ObservableProperty]
-    int _Id;
-    [ObservableProperty]
-    ICollection<Prontuario> _Prontuarios = [];
-    [ObservableProperty]
-    ICollection<FamiliaUsuario> _FamiliaUsuarios = [];
-    [ObservableProperty]
-    ConfiguracaoFamiliarEnum _ConfiguracaoFamiliar;
+    public int Id { get; set; }
+    public ICollection<Prontuario> Prontuarios { get; set; } = [];
+    public ICollection<FamiliaUsuario> FamiliaUsuarios { get; set; } = [];
+    public ConfiguracaoFamiliarEnum ConfiguracaoFamiliar { get; set; }
 }

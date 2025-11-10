@@ -8,15 +8,15 @@ using SisCras.Services;
 namespace SisCras.ViewModels;
 public partial class PaginaListagemViewModel(ITecnicoService tecnicoService) : BaseViewModel
 {
-    ITecnicoService _TecnicoService { get; } = tecnicoService;
+    ITecnicoService TecnicoService { get; } = tecnicoService;
 
     [ObservableProperty]
-    private ObservableCollection<Tecnico> _Tecnicos;
+    private ObservableCollection<Tecnico> _tecnicos;
 
     [RelayCommand]
     private async void GetAllTecnicosAsync()
     {
-        Tecnicos = [.. await _TecnicoService.GetAllAsync()];
+        Tecnicos = [.. await TecnicoService.GetAllAsync()];
     }
 
     [RelayCommand]

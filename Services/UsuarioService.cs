@@ -5,5 +5,5 @@ namespace SisCras.Services;
 
 public class UsuarioService(IUsuarioRepository usuarioRepository) : BaseService<Usuario>(usuarioRepository), IUsuarioService
 {
-    IUsuarioRepository _UsuarioRepository { get; } = usuarioRepository;
+    IUsuarioRepository UsuarioRepository { get; } = usuarioRepository;
 }

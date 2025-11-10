@@ -6,7 +6,7 @@ public enum EstadoCivilEnum
 {
     Casado,
     [Description("União Estável")]
-    Uniao_Estavel,
+    UniaoEstavel,
     Amasiado,
     Separado,
     Divorciado,

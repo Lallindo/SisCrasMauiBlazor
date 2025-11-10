@@ -5,20 +5,20 @@ namespace SisCras.Models.Enums;
 public enum FonteRendaEnum
 {
     [Description("Trabalho informal")]
-    Trabalho_Informal,
+    TrabalhoInformal,
     [Description("Trabalho formal")]
-    Trabalho_Formal,
+    TrabalhoFormal,
     Aposentadoria,
     [Description("Pensão por morte")]
-    Pensao_Morte,
+    PensaoMorte,
     [Description("Pensão alimentícia")]
-    Pensao_Alimenticia,
+    PensaoAlimenticia,
     [Description("Auxílio doença")]
-    Auxilio_Doenca,
+    AuxilioDoenca,
     [Description("BPC - Pessoa idosa")]
-    BPC_Idoso,
+    BpcIdoso,
     [Description("BPC - Pessoa com deficiência")]
-    BPC_Pcd,
+    BpcPcd,
     [Description("Doação")]
     Doacao,
     Nenhuma

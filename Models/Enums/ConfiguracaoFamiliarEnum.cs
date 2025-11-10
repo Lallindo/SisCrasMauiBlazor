@@ -5,23 +5,23 @@ namespace SisCras.Models.Enums;
 public enum ConfiguracaoFamiliarEnum
 {
     [Description("Casal sem filho(s)")]
-    Casal_S_Filhos,
+    CasalSFilhos,
     [Description("Casal sem filho(s) e com parente(s)")]
-    Casal_S_Filhos_C_Parentes,
+    CasalSFilhosCParentes,
     [Description("Família nuclear")]
-    Familia_Nuclear,
+    FamiliaNuclear,
     [Description("Família nuclear com parente(s)")]
-    Familia_Nuclear_C_Parentes,
+    FamiliaNuclearCParentes,
     [Description("Monoparental feminina")]
-    Monoparental_Feminina,
+    MonoparentalFeminina,
     [Description("Monoparental feminina com parente(s)")]
-    Monoparental_Feminina_C_Parentes,
+    MonoparentalFemininaCParentes,
     [Description("Monoparental masculina")]
-    Monoparental_Masculina,
+    MonoparentalMasculina,
     [Description("Monoparental masculina com parente(s)")]
-    Monoparental_Masculina_C_Parentes,
+    MonoparentalMasculinaCParentes,
     [Description("Avós com netos")]
-    Avos_C_Netos,
+    AvosCNetos,
     [Description("Reconstituída")]
     Reconstituida,
     [Description("Anaparental")]
@@ -29,15 +29,15 @@ public enum ConfiguracaoFamiliarEnum
     [Description("Multiespécie")]
     Multiespecie,
     [Description("Família extensa")]
-    Familia_Extensa,
+    FamiliaExtensa,
     [Description("Família unipessoal feminina")]
-    Familia_Unipessoal_Fem,
+    FamiliaUnipessoalFem,
     [Description("Família unipessoal masculina")]
-    Familia_Unipessoal_Mas,
+    FamiliaUnipessoalMas,
     [Description("Família homoafetiva")]
-    Familia_Homoafetiva,
+    FamiliaHomoafetiva,
     [Description("Família eudemonista")]
-    Familia_Eudemonista,
+    FamiliaEudemonista,
     [Description("Família socioafetiva")]
-    Familia_Socioafetiva
+    FamiliaSocioafetiva
 }

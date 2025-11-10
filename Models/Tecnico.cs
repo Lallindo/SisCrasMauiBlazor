@@ -6,20 +6,13 @@ namespace SisCras.Models;
 
 public partial class Tecnico : ObservableObject
 {   
-    [ObservableProperty]
-    int _Id;
-    [ObservableProperty]
-    string _Nome;
-    [ObservableProperty]
-    string _Login;
-    [ObservableProperty]
-    string _Senha;
-    [ObservableProperty]
-    ICollection<Prontuario> _Prontuarios;
-    [ObservableProperty]
-    ICollection<TecnicoCras> _TecnicoCras;
-    [ObservableProperty]
-    CrasInfo _CrasInfo;
+    public int Id { get; set; }
+    public string Nome { get; set; }
+    public string Login { get; set; }
+    public string Senha { get; set; }
+    public ICollection<Prontuario> Prontuarios { get; set; }
+    public ICollection<TecnicoCras> TecnicoCras { get; set; }
+    public CrasInfo CrasInfo { get; set; }
 
     public void ChangeSenhaForHash(string plainSenha, IPasswordService passwordService)
     {

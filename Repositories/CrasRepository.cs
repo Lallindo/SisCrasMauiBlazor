@@ -9,7 +9,7 @@ public class CrasRepository(SisCrasDbContext dbContext) : EfRepository<Cras>(dbC
 {
     public async Task<List<Tecnico>> ReturnTecnicosFromCras(int id)
     {
-        var cras = await _DbContext.Cras
+        var cras = await DbContext.Cras
             .Include(c => c.TecnicosCras)
             .ThenInclude(tc => tc.Tecnico)
             .FirstOrDefaultAsync(c => c.Id == id);

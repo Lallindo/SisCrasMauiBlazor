@@ -8,21 +8,21 @@ using SisCras.Services;
 namespace SisCras.ViewModels;
 public partial class PaginaLoginViewModel(ITecnicoService tecnicoService, NavigationManager navigationManager) : BaseViewModel
 {
-    ITecnicoService _TecnicoService = tecnicoService;
-    NavigationManager _NavigationManager = navigationManager; // Injete NavigationManager
+    ITecnicoService _tecnicoService = tecnicoService;
+    NavigationManager _navigationManager = navigationManager; // Injete NavigationManager
 
     [ObservableProperty]
-    Tecnico _Tecnico = new();
+    Tecnico _tecnico = new();
     [ObservableProperty]
-    bool _LoginError = false;
+    bool _loginError = false;
 
     [RelayCommand]
     private async Task TryLoginAsync()
     {
-        if (await _TecnicoService.TryLoginAsync(Tecnico.Login, Tecnico.Senha))
+        if (await _tecnicoService.TryLoginAsync(Tecnico.Login, Tecnico.Senha))
         {
             LoginError = false;
-            _NavigationManager.NavigateTo("/home");
+            _navigationManager.NavigateTo("/home");
         }
         else
         {

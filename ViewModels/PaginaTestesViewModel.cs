@@ -10,9 +10,9 @@ public partial class PaginaTestesViewModel(ICrasService crasService) : BaseViewM
     ICrasService Service { get; set; } = crasService;
 
     [ObservableProperty]
-    List<Cras>? _Cras = [];
+    List<Cras>? _cras = [];
     [ObservableProperty]
-    List<Tecnico>? _Tecnicos = [];
+    List<Tecnico>? _tecnicos = [];
 
     [RelayCommand]
     private async Task GetAllCras(string id)

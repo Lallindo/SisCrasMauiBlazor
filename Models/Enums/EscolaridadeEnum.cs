@@ -5,20 +5,20 @@ namespace SisCras.Models.Enums;
 public enum EscolaridadeEnum
 {
     [Description("Sem escolaridade")]
-    Sem_Escolaridade,
+    SemEscolaridade,
     [Description("Fundamental incompleto")]
-    Fund_Incompleto,
+    FundIncompleto,
     [Description("Fundamental completo")]
-    Fund_Completo,
+    FundCompleto,
     [Description("Ensino médio incompleto")]
-    Med_Incompleto,
+    MedIncompleto,
     [Description("Ensino médio completo")]
-    Med_Completo,
+    MedCompleto,
     [Description("Superior incompleto")]
-    Sup_Incompleto,
+    SupIncompleto,
     [Description("Superior Completo")]
-    Sup_Completo,
+    SupCompleto,
     [Description("Pós-Graduado")]
-    Pos_Graduado,
+    PosGraduado,
     Outra
 }
