@@ -7,14 +7,14 @@ namespace SisCras.Presentation.ViewModels;
 
 public partial class MainLayoutViewModel : ObservableObject, IDisposable
 {
-    [ObservableProperty]
-    private bool _isVisible;
+    [ObservableProperty] private bool _isVisible;
 
     public MainLayoutViewModel(NavigationManager navigationManager)
     {
         NavigationManager = navigationManager;
         NavigationManager.LocationChanged += UpdateNavMenuVisibility;
     }
+
     private NavigationManager NavigationManager { get; }
 
     public void Dispose()

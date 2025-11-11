@@ -9,6 +9,7 @@ public class PasswordHash(string hash)
         var hash = BCrypt.Net.BCrypt.HashPassword(plainSenha);
         return new PasswordHash(hash);
     }
+
     public bool Verify(string plainSenha)
     {
         if (plainSenha == null) return false;

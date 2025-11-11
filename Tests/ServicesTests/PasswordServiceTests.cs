@@ -1,52 +1,51 @@
 ﻿using SisCras.ApplicationLayer.Services;
 using Xunit;
 
-namespace SisCras.Tests.ServicesTests
+namespace SisCras.Tests.ServicesTests;
+
+public class PasswordServiceTests
 {
-    public class PasswordServiceTests
+    private readonly PasswordService _service;
+
+    public PasswordServiceTests()
     {
-        private readonly PasswordService _service;
+        _service = new PasswordService();
+    }
 
-        public PasswordServiceTests()
-        {
-            _service = new PasswordService();
-        }
+    [Fact]
+    public void CreatePassword_ShouldReturnPasswordHash()
+    {
+        // Act
+        var result = _service.CreatePassword("password123");
 
-        [Fact]
-        public void CreatePassword_ShouldReturnPasswordHash()
-        {
-            // Act
-            var result = _service.CreatePassword("password123");
+        // Assert
+        Assert.NotNull(result);
+        Assert.NotNull(result.Hash);
+    }
 
-            // Assert
-            Assert.NotNull(result);
-            Assert.NotNull(result.Hash);
-        }
+    [Fact]
+    public void VerifyPassword_ShouldReturnTrue_ForValidPassword()
+    {
+        // Arrange
+        var passwordHash = _service.CreatePassword("password123");
 
-        [Fact]
-        public void VerifyPassword_ShouldReturnTrue_ForValidPassword()
-        {
-            // Arrange
-            var passwordHash = _service.CreatePassword("password123");
+        // Act
+        var result = _service.VerifyPassword("password123", passwordHash);
 
-            // Act
-            var result = _service.VerifyPassword("password123", passwordHash);
+        // Assert
+        Assert.True(result);
+    }
 
-            // Assert
-            Assert.True(result);
-        }
+    [Fact]
+    public void VerifyPassword_ShouldReturnFalse_ForInvalidPassword()
+    {
+        // Arrange
+        var passwordHash = _service.CreatePassword("password123");
 
-        [Fact]
-        public void VerifyPassword_ShouldReturnFalse_ForInvalidPassword()
-        {
-            // Arrange
-            var passwordHash = _service.CreatePassword("password123");
+        // Act
+        var result = _service.VerifyPassword("wrongpassword", passwordHash);
 
-            // Act
-            var result = _service.VerifyPassword("wrongpassword", passwordHash);
-
-            // Assert
-            Assert.False(result);
-        }
+        // Assert
+        Assert.False(result);
     }
 }

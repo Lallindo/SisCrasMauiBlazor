@@ -11,7 +11,7 @@
     </div>
     <div class="card-footer">
         <button class="btn btn-primary"
-            @onclick="() => TriggerEditProntuario()">@ComponentMode.GetDescription()</button>
+                @onclick="() => TriggerEditProntuario()">@ComponentMode.GetDescription()</button>
     </div>
 </div>
 
@@ -24,4 +24,5 @@
     {
         await ButtonProntuarioClicked.InvokeAsync(Prontuario.FamiliaId);
     }
+
 }

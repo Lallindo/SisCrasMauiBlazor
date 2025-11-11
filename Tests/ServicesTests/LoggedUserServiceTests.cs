@@ -3,69 +3,68 @@ using SisCras.ApplicationLayer.Services;
 using SisCras.Domain.Entities;
 using Xunit;
 
-namespace SisCras.Tests.ServicesTests
+namespace SisCras.Tests.ServicesTests;
+
+public class LoggedUserServiceTests
 {
-    public class LoggedUserServiceTests
+    private readonly LoggedUserService _service;
+
+    public LoggedUserServiceTests()
     {
-        private readonly LoggedUserService _service;
+        _service = new LoggedUserService();
+    }
 
-        public LoggedUserServiceTests()
-        {
-            _service = new LoggedUserService();
-        }
+    [Fact]
+    public void GetCurrentUser_ShouldReturnNull_Initially()
+    {
+        // Act
+        var result = _service.GetCurrentUser();
 
-        [Fact]
-        public void GetCurrentUser_ShouldReturnNull_Initially()
-        {
-            // Act
-            var result = _service.GetCurrentUser();
+        // Assert
+        Assert.Null(result);
+    }
 
-            // Assert
-            Assert.Null(result);
-        }
+    [Fact]
+    public void SetCurrentUser_ShouldSetUser()
+    {
+        // Arrange
+        var tecnico = new Tecnico { Id = 1, Nome = "Tecnico Test" };
 
-        [Fact]
-        public void SetCurrentUser_ShouldSetUser()
-        {
-            // Arrange
-            var tecnico = new Tecnico { Id = 1, Nome = "Tecnico Test" };
+        // Act
+        _service.SetCurrentUser(tecnico);
 
-            // Act
-            _service.SetCurrentUser(tecnico);
+        // Assert
+        Assert.Equal(tecnico, _service.GetCurrentUser());
+        Assert.True(_service.IsUserLoggedIn);
+    }
 
-            // Assert
-            Assert.Equal(tecnico, _service.GetCurrentUser());
-            Assert.True(_service.IsUserLoggedIn);
-        }
+    [Fact]
+    public void ClearCurrentUser_ShouldRemoveUser()
+    {
+        // Arrange
+        var tecnico = new Tecnico { Id = 1, Nome = "Tecnico Test" };
+        _service.SetCurrentUser(tecnico);
 
-        [Fact]
-        public void ClearCurrentUser_ShouldRemoveUser()
-        {
-            // Arrange
-            var tecnico = new Tecnico { Id = 1, Nome = "Tecnico Test" };
-            _service.SetCurrentUser(tecnico);
+        // Act
+        _service.ClearCurrentUser();
 
-            // Act
-            _service.ClearCurrentUser();
+        // Assert
+        Assert.Null(_service.GetCurrentUser());
+        Assert.False(_service.IsUserLoggedIn);
+    }
 
-            // Assert
-            Assert.Null(_service.GetCurrentUser());
-            Assert.False(_service.IsUserLoggedIn);
-        }
+    [Fact]
+    public void UserStateChanged_ShouldBeInvoked_WhenUserChanges()
+    {
+        // Arrange
+        var tecnico = new Tecnico { Id = 1, Nome = "Tecnico Test" };
+        var eventInvoked = false;
+        _service.UserStateChanged += () => eventInvoked = true;
 
-        [Fact]
-        public void UserStateChanged_ShouldBeInvoked_WhenUserChanges()
-        {
-            // Arrange
-            var tecnico = new Tecnico { Id = 1, Nome = "Tecnico Test" };
-            var eventInvoked = false;
-            _service.UserStateChanged += () => eventInvoked = true;
+        // Act
+        _service.SetCurrentUser(tecnico);
 
-            // Act
-            _service.SetCurrentUser(tecnico);
-
-            // Assert
-            Assert.True(eventInvoked);
-        }
+        // Assert
+        Assert.True(eventInvoked);
     }
 }

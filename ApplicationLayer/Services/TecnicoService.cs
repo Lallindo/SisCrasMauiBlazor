@@ -4,7 +4,10 @@ using SisCras.Infrastructure.Repositories;
 
 namespace SisCras.ApplicationLayer.Services;
 
-public class TecnicoService(ITecnicoRepository tecnicoRepository, ILoggedUserService loggedUserService, IPasswordService passwordService) : BaseService<Tecnico>(tecnicoRepository), ITecnicoService
+public class TecnicoService(
+    ITecnicoRepository tecnicoRepository,
+    ILoggedUserService loggedUserService,
+    IPasswordService passwordService) : BaseService<Tecnico>(tecnicoRepository), ITecnicoService
 {
     private ITecnicoRepository TecnicoRepository { get; } = tecnicoRepository;
     private ILoggedUserService LoggedUserService { get; } = loggedUserService;

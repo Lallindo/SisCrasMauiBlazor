@@ -59,18 +59,15 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
 
     public async Task<List<Prontuario>> GetAllProntuariosByUsuarioSearch(string? nome, string? cpf, string? nis)
     {
-        if (string.IsNullOrEmpty(nome) && string.IsNullOrEmpty(cpf) && string.IsNullOrEmpty(nis))
-        {
-            return [];
-        }
-        
+        if (string.IsNullOrEmpty(nome) && string.IsNullOrEmpty(cpf) && string.IsNullOrEmpty(nis)) return [];
+
         var query = DbContext.Prontuarios.AsQueryable();
         query = query.Where(p => p.Familia.FamiliaUsuarios.Any(fu =>
             (!string.IsNullOrEmpty(nome) && fu.Usuario.Nome.ToLower().Contains(nome)) ||
             (!string.IsNullOrEmpty(cpf) && fu.Usuario.Cpf.ToLower().Contains(cpf)) ||
             (!string.IsNullOrEmpty(nis) && fu.Usuario.Nis.ToLower().Contains(nis))
         ));
-        
+
         return await query
             .Include(p => p.Familia)
             .ThenInclude(f => f.FamiliaUsuarios)

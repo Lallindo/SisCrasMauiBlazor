@@ -21,9 +21,9 @@ public class BaseRepository<T>(SisCrasDbContext dbContext) : IRepository<T> wher
         await DbContext.SaveChangesAsync(cancellationToken);
     }
 
-    virtual public async Task<ICollection<T>> GetAllAsync(CancellationToken cancellationToken = default)
+    public virtual async Task<ICollection<T>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await DbContext.Set<T>().ToListAsync(cancellationToken: cancellationToken);
+        return await DbContext.Set<T>().ToListAsync(cancellationToken);
     }
 
     public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)

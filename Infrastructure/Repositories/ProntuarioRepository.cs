@@ -4,7 +4,8 @@ using SisCras.Infrastructure.Data.Context;
 
 namespace SisCras.Infrastructure.Repositories;
 
-public class ProntuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Prontuario>(dbContext), IProntuarioRepository
+public class ProntuarioRepository(SisCrasDbContext dbContext)
+    : BaseRepository<Prontuario>(dbContext), IProntuarioRepository
 {
     public async Task<Prontuario?> GetFamiliaAndUsuariosFromProntuario(int id)
     {

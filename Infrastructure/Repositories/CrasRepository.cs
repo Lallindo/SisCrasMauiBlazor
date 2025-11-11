@@ -35,7 +35,7 @@ public class CrasRepository(SisCrasDbContext dbContext) : BaseRepository<Cras>(d
 
     public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCras(int id)
     {
-        return await  DbContext.Cras
+        return await DbContext.Cras
             .Where(c => c.Id == id)
             .SelectMany(c => c.Prontuarios)
             .Include(p => p.Familia)

@@ -10,11 +10,9 @@ public partial class HeaderViewModel : BaseViewModel, IDisposable
 {
     private readonly ILoggedUserService _loggedUserService;
     private readonly NavigationManager _navigationManager;
-    
-    [ObservableProperty]
-    private bool _isTecnicoLoggedIn;
-    [ObservableProperty]
-    private Tecnico? _tecnico = new();
+
+    [ObservableProperty] private bool _isTecnicoLoggedIn;
+    [ObservableProperty] private Tecnico? _tecnico = new();
 
     public HeaderViewModel(ILoggedUserService loggedUserService, NavigationManager navigationManager)
     {
@@ -41,9 +39,10 @@ public partial class HeaderViewModel : BaseViewModel, IDisposable
     }
 
     [RelayCommand]
-    private async Task LogoutTecnico()
+    private Task LogoutTecnico()
     {
         _loggedUserService.ClearCurrentUser();
         _navigationManager.NavigateTo("/");
+        return Task.CompletedTask;
     }
 }

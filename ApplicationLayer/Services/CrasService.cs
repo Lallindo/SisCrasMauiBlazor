@@ -11,22 +11,27 @@ public class CrasService(ICrasRepository crasRepository) : BaseService<Cras>(cra
     {
         return await CrasRepository.GetTecnicosFromCras(id);
     }
+
     public async Task<List<Tecnico>> GetTecnicosFromCras(Cras cras)
     {
         return await GetTecnicosFromCras(cras.Id);
     }
+
     public async Task<List<Familia>> GetFamiliasFromCras(int id)
     {
         return await CrasRepository.GetFamiliasFromCras(id);
     }
+
     public async Task<List<Familia>> GetFamiliasFromCras(Cras cras)
     {
         return await GetFamiliasFromCras(cras.Id);
     }
+
     public async Task<List<Prontuario>> GetProntuariosFromCras(int id)
     {
         return await CrasRepository.GetProntuariosFromCras(id);
     }
+
     public async Task<List<Prontuario>> GetProntuariosFromCras(Cras cras)
     {
         return await GetProntuariosFromCras(cras.Id);

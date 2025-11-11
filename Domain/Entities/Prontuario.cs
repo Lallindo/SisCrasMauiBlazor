@@ -1,20 +1,21 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using SisCras.Domain.Entities.Enums;
 
 namespace SisCras.Domain.Entities;
 
-public partial class Prontuario : ObservableObject
+public partial class Prontuario
 {
-    [ObservableProperty] private int _id;
-    [ObservableProperty] private int _codigo;
-    [ObservableProperty] private Cras _cras;
-    [ObservableProperty] private Tecnico _tecnico;
-    [ObservableProperty] private Familia _familia;
-    [ObservableProperty] private DateOnly _dataCriacao;
-    [ObservableProperty] private DateOnly? _dataSaida;
-    [ObservableProperty] private string _formaDeAcesso;
-    
+    public int Id { get; set; } = 0;
+    public int Codigo { get; set; } = 0;
+    public Cras? Cras { get; set; }
+    public Tecnico? Tecnico { get; set; }
+    public Familia? Familia { get; set; }
+    public DateOnly DataCriacao { get; set; }
+    public DateOnly? DataSaida { get; set; } = null;
+    public FormaAcessoEnum FormaDeAcesso { get; set; } = FormaAcessoEnum.Espontanea;
+
     public int TecnicoId { get; set; }
     public int FamiliaId { get; set; }
     public int CrasId { get; set; }
-    public bool Ativo => _dataSaida == null;
+    public bool Ativo => DataSaida == null;
 }

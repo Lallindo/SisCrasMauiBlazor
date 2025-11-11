@@ -17,10 +17,12 @@ public class FamiliaRepository(SisCrasDbContext dbContext) : BaseRepository<Fami
             .Distinct()
             .ToListAsync();
     }
+
     public async Task<List<Usuario?>> GetActiveUsuariosFromFamilia(Familia familia)
     {
         return await GetActiveUsuariosFromFamilia(familia.Id);
     }
+
     public async Task<List<Usuario?>> GetUsuariosFromFamilia(int id)
     {
         return await DbContext.Familias
@@ -30,10 +32,12 @@ public class FamiliaRepository(SisCrasDbContext dbContext) : BaseRepository<Fami
             .Distinct()
             .ToListAsync();
     }
+
     public async Task<List<Usuario?>> GetUsuariosFromFamilia(Familia familia)
     {
         return await GetUsuariosFromFamilia(familia.Id);
     }
+
     public async Task<Usuario?> GetResponsavelFromFamilia(int id)
     {
         return await DbContext.Familias
@@ -43,6 +47,7 @@ public class FamiliaRepository(SisCrasDbContext dbContext) : BaseRepository<Fami
             .Select(u => u.Usuario)
             .FirstOrDefaultAsync();
     }
+
     public async Task<Usuario?> GetResponsavelFromFamilia(Familia familia)
     {
         return await GetResponsavelFromFamilia(familia.Id);

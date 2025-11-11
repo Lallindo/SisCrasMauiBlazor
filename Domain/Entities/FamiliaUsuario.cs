@@ -3,15 +3,15 @@ using SisCras.Domain.Entities.Enums;
 
 namespace SisCras.Domain.Entities;
 
-public partial class FamiliaUsuario : ObservableObject
+public partial class FamiliaUsuario
 {
-    [ObservableProperty] private Familia? _familia;
-    [ObservableProperty] private ParentescoEnum _parentesco;
-    [ObservableProperty] private Usuario? _usuario;
-    [ObservableProperty] private DateOnly _dataAdicao;
-    [ObservableProperty] private DateOnly? _dataSaida;
-    
-    public bool Ativo => _dataSaida == null;
+    public Familia? Familia { get; set; }
+    public ParentescoEnum Parentesco;
+    public Usuario? Usuario;
+    public DateOnly DataAdicao;
+    public DateOnly? DataSaida;
+
+    public bool Ativo => DataSaida == null;
     public int Id { get; set; }
     public int FamiliaId { get; set; }
     public int UsuarioId { get; set; }

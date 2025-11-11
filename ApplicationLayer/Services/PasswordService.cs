@@ -8,6 +8,7 @@ public class PasswordService : IPasswordService
     {
         return PasswordHash.Create(plainPassword);
     }
+
     public bool VerifyPassword(string plainPassword, PasswordHash hashedPassword)
     {
         return hashedPassword.Verify(plainPassword);

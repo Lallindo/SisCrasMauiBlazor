@@ -11,7 +11,9 @@ public enum FonteRendaEnum
     [Description("Pensão alimentícia")] PensaoAlimenticia,
     [Description("Auxílio doença")] AuxilioDoenca,
     [Description("BPC - Pessoa idosa")] BpcIdoso,
-    [Description("BPC - Pessoa com deficiência")] BpcPcd,
+
+    [Description("BPC - Pessoa com deficiência")]
+    BpcPcd,
     [Description("Doação")] Doacao,
     Nenhuma
 }

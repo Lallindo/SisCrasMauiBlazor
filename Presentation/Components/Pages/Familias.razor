@@ -11,10 +11,14 @@
     <input type="text" class="form-control" placeholder="Nome do usuário" @bind="ViewModel.SearchUsuario.Nome"/>
     <input type="text" class="form-control" placeholder="CPF do usuário" @bind="ViewModel.SearchUsuario.Cpf"/>
     <input type="text" class="form-control" placeholder="NIS do usuário" @bind="ViewModel.SearchUsuario.Nis"/>
-    <button class="btn btn-primary" type="button" @onclick="ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync">Buscar</button>
+    <button class="btn btn-primary" type="button" @onclick="ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync">
+        Buscar
+    </button>
 </div>
 
-<button class="btn btn-success mb-3" @onclick="ViewModel.GoToRegistrarFamiliaCommand.ExecuteAsync">Registrar Nova Família</button>
+<button class="btn btn-success mb-3" @onclick="ViewModel.GoToRegistrarFamiliaCommand.ExecuteAsync">Registrar Nova
+    Família
+</button>
 
 @if (ViewModel.Prontuarios == null)
 {
@@ -22,13 +26,15 @@
 }
 else
 {
-    foreach (Prontuario prontuario in ViewModel.Prontuarios)
+    foreach (var prontuario in ViewModel.Prontuarios)
     {
-        <ProntuarioCard Prontuario="prontuario" ComponentMode="ProntuarioCardTypeEnum.Editar" ButtonProntuarioClicked="ViewModel.GoToEditarFamiliaCommand.ExecuteAsync"></ProntuarioCard>
+        <ProntuarioCard Prontuario="prontuario" ComponentMode="ProntuarioCardTypeEnum.Editar"
+                        ButtonProntuarioClicked="ViewModel.GoToEditarFamiliaCommand.ExecuteAsync"></ProntuarioCard>
     }
 }
 
 @code {
+
     protected override async Task<Task> OnInitializedAsync()
     {
         await ViewModel.GetAllProntuarios();

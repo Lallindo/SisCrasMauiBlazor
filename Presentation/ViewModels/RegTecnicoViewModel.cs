@@ -11,16 +11,14 @@ namespace SisCras.Presentation.ViewModels;
 
 public partial class RegTecnicoViewModel : BaseViewModel
 {
-    [ObservableProperty]
-    private Cras? _crasSelecionado;
-    [ObservableProperty]
-    private bool _erroRegistro;
-    [ObservableProperty]
-    private Tecnico _tecnico = new();
+    [ObservableProperty] private Cras? _crasSelecionado;
+    [ObservableProperty] private bool _erroRegistro;
+    [ObservableProperty] private Tecnico _tecnico = new();
 
-    [ObservableProperty]
-    private List<Cras> _todosCras;
-    public RegTecnicoViewModel(ITecnicoService tecnicoService, ICrasService crasService, IPasswordService passwordService, NavigationManager navigationManager)
+    [ObservableProperty] private List<Cras> _todosCras;
+
+    public RegTecnicoViewModel(ITecnicoService tecnicoService, ICrasService crasService,
+        IPasswordService passwordService, NavigationManager navigationManager)
     {
         TecnicoService = tecnicoService;
         CrasService = crasService;
@@ -39,7 +37,6 @@ public partial class RegTecnicoViewModel : BaseViewModel
     private async Task RegistrarTecnico()
     {
         if (Tecnico.Nome != null && Tecnico.Login != null && Tecnico.Senha != null && CrasSelecionado != null)
-        {
             try
             {
                 Tecnico.ChangeSenhaForHash(Tecnico.Senha, PasswordService);
@@ -57,17 +54,14 @@ public partial class RegTecnicoViewModel : BaseViewModel
                 await TecnicoService.UpdateAsync(Tecnico);
 
                 ErroRegistro = false;
-                NavigationManager.NavigateTo("/login");// Use NavigationManager
+                NavigationManager.NavigateTo("/login"); // Use NavigationManager
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Erro ao registrar técnico: {ex.Message}");
                 ErroRegistro = true;
             }
-        }
         else
-        {
             ErroRegistro = true;
-        }
     }
 }

@@ -17,9 +17,11 @@ public class SisCrasDbContext : DbContext
         : base(options)
     {
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Usuario>(entity => {
+        modelBuilder.Entity<Usuario>(entity =>
+        {
             entity.Property(u => u.Sexo).HasConversion<int>();
             entity.Property(u => u.EstadoCivil).HasConversion<int>();
             entity.Property(u => u.OrientacaoSexual).HasConversion<int>();
@@ -28,11 +30,10 @@ public class SisCrasDbContext : DbContext
             entity.Property(u => u.FonteRenda).HasConversion<int>();
         });
 
-        modelBuilder.Entity<Tecnico>(entity => {
-            entity.Ignore(t => t.CrasInfo);
-        });
+        modelBuilder.Entity<Tecnico>(entity => { entity.Ignore(t => t.CrasInfoProp); });
 
-        modelBuilder.Entity<Prontuario>(entity => {
+        modelBuilder.Entity<Prontuario>(entity =>
+        {
             entity.HasOne(p => p.Tecnico)
                 .WithMany(t => t.Prontuarios)
                 .HasForeignKey(p => p.TecnicoId)
@@ -43,16 +44,19 @@ public class SisCrasDbContext : DbContext
                 .HasForeignKey(p => p.FamiliaId)
                 .IsRequired();
 
+            entity.Property(p => p.FormaDeAcesso).HasConversion<int>();
             entity.Ignore(p => p.Ativo);
         });
 
-        modelBuilder.Entity<Familia>(entity => {
+        modelBuilder.Entity<Familia>(entity =>
+        {
             entity.Property(f => f.ConfiguracaoFamiliar).HasConversion<int>();
 
             entity.Ignore(f => f.Usuarios);
         });
 
-        modelBuilder.Entity<FamiliaUsuario>(entity => {
+        modelBuilder.Entity<FamiliaUsuario>(entity =>
+        {
             entity.HasKey(fu => new { fu.Id });
 
             entity.Property(fu => fu.Parentesco).HasConversion<int>();
@@ -70,7 +74,8 @@ public class SisCrasDbContext : DbContext
             entity.Ignore(fu => fu.Ativo);
         });
 
-        modelBuilder.Entity<TecnicoCras>(entity => {
+        modelBuilder.Entity<TecnicoCras>(entity =>
+        {
             entity.HasKey(tc => new { tc.Id });
 
             entity.HasOne(tc => tc.Cras)

@@ -2,12 +2,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SisCras.Domain.Entities;
 
-public partial class TecnicoCras : ObservableObject
+public partial class TecnicoCras
 {
-    [ObservableProperty] private Cras _cras;
-    [ObservableProperty] private Tecnico _tecnico;
-    [ObservableProperty] private DateOnly _dataEntrada;
-    [ObservableProperty] private DateOnly? _dataSaida;
+    public Cras? Cras { get; set; } = null;
+    public Tecnico? Tecnico { get; set; } = null;
+    public DateOnly DataEntrada { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    public DateOnly? DataSaida { get; set; } = null;
     public int Id { get; set; }
     public int CrasId { get; set; }
     public int TecnicoId { get; set; }

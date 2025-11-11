@@ -11,7 +11,7 @@ public partial class TestesViewModel(
     ITecnicoService tecnicoService,
     IFamiliaService familiaService,
     IProntuarioService prontuarioService
-    ) : BaseViewModel
+) : BaseViewModel
 {
     private readonly ICrasService _crasService = crasService;
     private readonly IFamiliaService _familiaService = familiaService;
@@ -19,8 +19,7 @@ public partial class TestesViewModel(
     private readonly ITecnicoService _tecnicoService = tecnicoService;
     private readonly IUsuarioService _usuarioService = usuarioService;
 
-    [ObservableProperty]
-    private Usuario? _usuario;
+    [ObservableProperty] private Usuario? _usuario;
 
     [RelayCommand]
     private async Task BuscarFamilias()

@@ -1,16 +1,29 @@
-@page "/familias/novo/{Nome}&{Cpf}&{Nis}"
+@page "/familias/novo"
 @using SisCras.Presentation.Components.Shared
-;
 @inject RegistroViewModel ViewModel
 
-@foreach (FamiliaUsuario usuario in @ViewModel.FamiliaUsuarios)
+<button @onclick="ViewModel.CreateNewUsuarioCommand.ExecuteAsync"><i class="bi bi-person-plus"></i></button>
+
+@foreach (var usuario in ViewModel.FamiliaUsuarios)
 {
-    <MembroFamilia UsuarioModel="usuario" />
+    <MembroFamilia UsuarioModel="usuario"/>
 }
 
 @code {
+
+    [SupplyParameterFromQuery(Name = "nome")]
+    public string Nome { get; set; }
+
+    [SupplyParameterFromQuery(Name = "cpf")]
+    public string Cpf { get; set; }
+
+    [SupplyParameterFromQuery(Name = "nis")]
+    public string Nis { get; set; }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        ViewModel.CreateNewUsuarioCommand.ExecuteAsync(null);
     }
+
 }

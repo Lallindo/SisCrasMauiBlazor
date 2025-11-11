@@ -2,10 +2,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SisCras.Domain.Entities;
 
-public partial class Cras : ObservableObject
+public partial class Cras
 {
-    [ObservableProperty] private int _id;
-    [ObservableProperty] private string _nome;
-    [ObservableProperty] private ICollection<Prontuario> _prontuarios;
-    [ObservableProperty] private ICollection<TecnicoCras> _tecnicosCras;
+    public int Id { get; set; } = 0;
+    public string Nome { get; set; } = string.Empty;
+    public ICollection<Prontuario> Prontuarios { get; set; } = [];
+    public ICollection<TecnicoCras> TecnicosCras { get; set; } = [];
 }

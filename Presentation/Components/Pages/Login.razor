@@ -70,8 +70,10 @@
 </div>
 
 @code {
+
     private async Task HandleValidSubmit()
     {
         await ViewModel.TryLoginCommand.ExecuteAsync(null);
     }
+
 }

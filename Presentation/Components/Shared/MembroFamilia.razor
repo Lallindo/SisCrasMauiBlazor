@@ -5,12 +5,13 @@
 {
     <div class="card mb-4">
         <div class="card-header @(UsuarioModel.Ativo ? "bg-warning" : "bg-primary") text-white">
-            <h5 class="card-title mb-0">Membro @UsuarioModel.Usuario.Id</h5>
+            <h5 class="card-title mb-0">Membro da família</h5>
             <small class="card-subtitle">@UsuarioModel.Parentesco.GetDescription()</small><br/>
             <small class="card-subtitle">Data de inserção: @UsuarioModel.DataAdicao</small>
             @if (ComponentMode == MembroFamiliaTypeEnum.Edicao)
             {
-                <button @onclick="() => TriggerDeactivateClicked(UsuarioModel)">@(UsuarioModel.Ativo ? "Reativar" : "Desativar")</button>
+                <button
+                    @onclick="() => TriggerDeactivateClicked(UsuarioModel)">@(UsuarioModel.Ativo ? "Reativar" : "Desativar")</button>
             }
         </div>
         <div class="card-body">
@@ -117,16 +118,16 @@ else
 }
 
 @code {
-    [Parameter]
-    public FamiliaUsuario UsuarioModel { get; set; }   
-    [Parameter]
-    public MembroFamiliaTypeEnum ComponentMode { get; set; }
+    [Parameter] public FamiliaUsuario UsuarioModel { get; set; }
+    [Parameter] public MembroFamiliaTypeEnum ComponentMode { get; set; }
 
-    [Parameter]
-    public EventCallback DeactivateClicked { get; set; }
+    [Parameter] public EventCallback DeactivateClicked { get; set; }
 
     public async Task TriggerDeactivateClicked(FamiliaUsuario usuario)
     {
         await DeactivateClicked.InvokeAsync(usuario);
     }
-};
+
+}
+
+;

@@ -5,19 +5,20 @@ using SisCras.Domain.Entities.Enums;
 
 namespace SisCras.Domain.Entities;
 
-public partial class Familia : ObservableObject
+public partial class Familia
 {
-    [ObservableProperty] private ConfiguracaoFamiliarEnum _configuracaoFamiliar;
-    [ObservableProperty] private ICollection<FamiliaUsuario> _familiaUsuarios = [];
-    [ObservableProperty] private int _id;
-    [ObservableProperty] private ICollection<Prontuario> _prontuarios = [];
+    public ConfiguracaoFamiliarEnum ConfiguracaoFamiliar { get; set; }
+    public ICollection<FamiliaUsuario> FamiliaUsuarios { get; set; } = [];
+    public int Id { get; set; } = 0;
+    public ICollection<Prontuario> Prontuarios { get; set; } = [];
 
     public Usuario? Responsavel
     {
         get
         {
-            if (_familiaUsuarios == null || _familiaUsuarios.Count == 0) return null;
-            return (from fu in _familiaUsuarios where fu.Parentesco == ParentescoEnum.Responsavel select fu.Usuario).FirstOrDefault();
+            if (FamiliaUsuarios == null || FamiliaUsuarios.Count == 0) return null;
+            return (from fu in FamiliaUsuarios where fu.Parentesco == ParentescoEnum.Responsavel select fu.Usuario)
+                .FirstOrDefault();
         }
     }
 
@@ -25,8 +26,8 @@ public partial class Familia : ObservableObject
     {
         get
         {
-            if (_familiaUsuarios == null || _familiaUsuarios.Count == 0) return 0;
-            return _familiaUsuarios.Sum(fu => fu.Usuario.RendaBruta);
+            if (FamiliaUsuarios == null || FamiliaUsuarios.Count == 0) return 0;
+            return FamiliaUsuarios.Sum(fu => fu.Usuario.RendaBruta);
         }
     }
 
@@ -35,7 +36,7 @@ public partial class Familia : ObservableObject
         get
         {
             if (RendaTotal == 0) return 0;
-            return RendaTotal / _familiaUsuarios.Count;
+            return RendaTotal / FamiliaUsuarios.Count;
         }
     }
 
@@ -43,8 +44,8 @@ public partial class Familia : ObservableObject
     {
         get
         {
-            if (_familiaUsuarios == null || _familiaUsuarios.Count == 0) return [];
-            return new(from fu in _familiaUsuarios select fu.Usuario);
+            if (FamiliaUsuarios == null || FamiliaUsuarios.Count == 0) return [];
+            return new ObservableCollection<Usuario>(from fu in FamiliaUsuarios select fu.Usuario);
         }
     }
 
@@ -53,7 +54,7 @@ public partial class Familia : ObservableObject
         try
         {
             FamiliaUsuario newUsuario = new() { Usuario = usuario, Parentesco = parentesco };
-            _familiaUsuarios.Add(newUsuario);
+            FamiliaUsuarios.Add(newUsuario);
             return Task.CompletedTask;
         }
         catch (Exception ex)
@@ -64,15 +65,11 @@ public partial class Familia : ObservableObject
 
     public Task ToggleAtivoUsuario(FamiliaUsuario usuario)
     {
-        if (usuario.DataSaida != null 
-            && DateTime.Now - usuario.DataSaida.Value.ToDateTime(new TimeOnly()) < TimeSpan.FromDays(30) )
-        {
+        if (usuario.DataSaida != null
+            && DateTime.Now - usuario.DataSaida.Value.ToDateTime(new TimeOnly()) < TimeSpan.FromDays(30))
             usuario.DataSaida = null;
-        }
         else
-        {
             usuario.DataSaida = DateOnly.FromDateTime(DateTime.Now);
-        }
         return Task.CompletedTask;
     }
 }

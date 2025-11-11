@@ -2,21 +2,22 @@
 @using SisCras.Presentation.Components.Shared
 @inject EditarFamiliaViewModel ViewModel
 
-@foreach (FamiliaUsuario usuario in ViewModel.SelectedFamilia.FamiliaUsuarios)
+@foreach (var usuario in ViewModel.SelectedFamilia.FamiliaUsuarios)
 {
-    <MembroFamilia UsuarioModel="usuario" ComponentMode="MembroFamiliaTypeEnum.Edicao" DeactivateClicked="ViewModel.DeactivateUsuarioCommand.ExecuteAsync">
+    <MembroFamilia UsuarioModel="usuario" ComponentMode="MembroFamiliaTypeEnum.Edicao"
+                   DeactivateClicked="ViewModel.DeactivateUsuarioCommand.ExecuteAsync">
     </MembroFamilia>
 }
 
 <button @onclick="() => ViewModel.UpdateFamiliaCommand.ExecuteAsync(ViewModel.SelectedFamilia)"></button>
 
 @code {
-    [Parameter]
-    public int FamiliaId { get; set; }
+    [Parameter] public int FamiliaId { get; set; }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         ViewModel.GetFamilia(FamiliaId);
     }
+
 }

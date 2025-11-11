@@ -12,11 +12,9 @@ public partial class LoginViewModel(ITecnicoService tecnicoService, NavigationMa
 {
     private readonly NavigationManager _navigationManager = navigationManager;
     private readonly ITecnicoService _tecnicoService = tecnicoService;
-    [ObservableProperty]
-    private bool _loginError;
+    [ObservableProperty] private bool _loginError;
 
-    [ObservableProperty]
-    private Tecnico _tecnico = new();
+    [ObservableProperty] private Tecnico _tecnico = new();
 
     [RelayCommand]
     private async Task TryLoginAsync()

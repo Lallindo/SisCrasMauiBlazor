@@ -1,11 +1,25 @@
 .page {
     position: relative;
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
+
+    grid-template-columns: none !important;
+    grid-template-rows: none !important;
+
+    height: 100vh;
+    width: 100vw;
 }
 
 main {
-    flex: 1;
+    flex-grow: 1 !important;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.content {
+    padding-top: 1.5rem; /* py-3 */
+    padding-bottom: 1.5rem; /* py-3 */
 }
 
 .sidebar {

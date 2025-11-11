@@ -3,23 +3,23 @@ using SisCras.Domain.Entities.Enums;
 
 namespace SisCras.Domain.Entities;
 
-public partial class Usuario : ObservableObject
+public partial class Usuario
 {
-    [ObservableProperty] private int _id;
-    [ObservableProperty] private string _nome;
-    [ObservableProperty] private string? _nomeSocial;
-    [ObservableProperty] private string _cpf;
-    [ObservableProperty] private string _rg;
-    [ObservableProperty] private ICollection<FamiliaUsuario> _familiaUsuarios;
-    [ObservableProperty] private DateOnly _dataNascimento;
-    [ObservableProperty] private string _nis;
-    [ObservableProperty] private string _ocupacao;
-    [ObservableProperty] private float _rendaBruta;
-    [ObservableProperty] private string _profissao;
-    [ObservableProperty] private OrientacaoSexualEnum _orientacaoSexual;
-    [ObservableProperty] private RacaEnum _raca;
-    [ObservableProperty] private EstadoCivilEnum _estadoCivil;
-    [ObservableProperty] private EscolaridadeEnum _escolaridade;
-    [ObservableProperty] private SexoEnum _sexo;
-    [ObservableProperty] private FonteRendaEnum _fonteRenda;
+    public int Id { get; set; } = 0;
+    public string Nome { get; set; } = string.Empty;
+    public string? NomeSocial { get; set; } = null;
+    public string Cpf { get; set; } = string.Empty;
+    public string Rg { get; set; } = string.Empty;
+    public ICollection<FamiliaUsuario> FamiliaUsuarios { get; set; } = [];
+    public DateOnly DataNascimento { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    public string Nis { get; set; } = string.Empty;
+    public string Ocupacao { get; set; } = string.Empty;
+    public float RendaBruta { get; set; } = 0;
+    public string Profissao { get; set; } = string.Empty;
+    public OrientacaoSexualEnum OrientacaoSexual { get; set; }
+    public RacaEnum Raca { get; set; }
+    public EstadoCivilEnum EstadoCivil { get; set; }
+    public EscolaridadeEnum Escolaridade { get; set; }
+    public SexoEnum Sexo { get; set; }
+    public FonteRendaEnum FonteRenda { get; set; }
 }

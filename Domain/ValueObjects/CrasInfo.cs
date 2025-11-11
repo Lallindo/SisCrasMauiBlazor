@@ -4,9 +4,8 @@ namespace SisCras.Domain.Entities.ValueObjects;
 
 public partial class CrasInfo(int id, string nome) : ObservableObject
 {
-    
-    [ObservableProperty] private int _id;
-    [ObservableProperty] private string _nome;
+    public int Id { get; set; } = 0;
+    public string Nome { get; set; } = "";
 
     public static CrasInfo Create(int id, string nome)
     {

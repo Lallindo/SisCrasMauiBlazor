@@ -2,49 +2,46 @@
 @using System.ComponentModel
 @implements IDisposable
 
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">SisCras</a>
-    </div>
-</div>
+@if (ViewModel is not null)
+{
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            
+            <div>
+                <h1>SisCras</h1>
+                <h6>@ViewModel.Tecnico?.CrasInfoProp.Nome</h6>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="familias">
+                            <span class="bi bi-people-fill" aria-hidden="true"></span> Famílias
+                        </NavLink>
+                    </li>
+                </ul>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler"/>
-
-<div class="nav-scrollable h-100" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column h-100">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="home" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="familias">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Famílias
-            </NavLink>
-        </div>
-        <div class="nav-item px-3 mt-auto">
-            @if (!ViewModel.IsTecnicoLoggedIn)
-            {
-                <button class="btn btn-secondary w-100" @onclick="GoToLogin">Fazer login</button>
-            }
-            else
-            {
-                <div class="d-flex flex-column" id="dados_tecnico">
-                    <div class="p-1 bg-secondary">
-                        <span class="bg-success">@ViewModel.Tecnico?.Nome</span>
-                    </div>
-                    <div class="p-1 bg-secondary">
-                        <span class="bg-success">@ViewModel.Tecnico?.CrasInfo.Nome</span>
-                    </div>
-                    <button class="btn btn-outline-danger w-100 mt-2"
-                            @onclick="@ViewModel.LogoutTecnicoCommand.Execute">Logout
-                    </button>
+                <div class="navbar-nav">
+                    @if (ViewModel.IsTecnicoLoggedIn)
+                    {
+                        <li class="nav-item">
+                            <span class="navbar-text">
+                                @ViewModel.Tecnico?.Nome
+                            </span>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <button class="btn btn-link nav-link btn-danger" @onclick="@ViewModel.LogoutTecnicoCommand.ExecuteAsync">
+                                <span class="bi bi-box-arrow-right" aria-hidden="true"></span> Sair
+                            </button>
+                        </li>
+                    }
                 </div>
-            }
-        </div>
+            </div> 
+        </div> 
     </nav>
-
-</div>
+}
 
 @code {
     protected override void OnInitialized()
@@ -67,4 +64,5 @@
     {
         ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
     }
+
 }

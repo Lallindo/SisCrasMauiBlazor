@@ -8,23 +8,23 @@ namespace SisCras.Presentation.ViewModels;
 
 public partial class EditarFamiliaViewModel(IFamiliaService familiaService) : BaseViewModel
 {
-    IFamiliaService _FamiliaService = familiaService;
+    private IFamiliaService _FamiliaService = familiaService;
 
-    [ObservableProperty] 
-    private Familia _selectedFamilia = new();
+    [ObservableProperty] private Familia _selectedFamilia = new();
 
-    [ObservableProperty] 
-    private ObservableCollection<Usuario> _usuarios = [];
-    
+    [ObservableProperty] private ObservableCollection<Usuario> _usuarios = [];
+
     public async Task GetFamilia(int familiaId)
     {
-        SelectedFamilia = await _FamiliaService.GetByIdAsync(familiaId)?? new Familia();
+        SelectedFamilia = await _FamiliaService.GetByIdAsync(familiaId) ?? new Familia();
     }
+
     [RelayCommand]
     public async Task UpdateFamilia(Familia familia)
     {
         await _FamiliaService.UpdateAsync(familia);
     }
+
     [RelayCommand]
     private async Task DeactivateUsuario(FamiliaUsuario usuario)
     {

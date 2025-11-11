@@ -5,30 +5,29 @@ using Microsoft.EntityFrameworkCore;
 using SisCras.Infrastructure.Data.Context;
 using Xunit;
 
-namespace SisCras.Tests.ServicesTests
+namespace SisCras.Tests.ServicesTests;
+
+public abstract class ServiceTestBase : IAsyncLifetime
 {
-    public abstract class ServiceTestBase : IAsyncLifetime
+    private SqliteConnection _connection;
+    protected SisCrasDbContext _context;
+
+    public virtual async Task InitializeAsync()
     {
-        private SqliteConnection _connection;
-        protected SisCrasDbContext _context;
+        _connection = new SqliteConnection("Filename=:memory:");
+        await _connection.OpenAsync();
 
-        public virtual async Task InitializeAsync()
-        {
-            _connection = new SqliteConnection("Filename=:memory:");
-            await _connection.OpenAsync();
+        var options = new DbContextOptionsBuilder<SisCrasDbContext>()
+            .UseSqlite(_connection)
+            .Options;
 
-            var options = new DbContextOptionsBuilder<SisCrasDbContext>()
-                .UseSqlite(_connection)
-                .Options;
+        _context = new SisCrasDbContext(options);
+        await _context.Database.EnsureCreatedAsync();
+    }
 
-            _context = new SisCrasDbContext(options);
-            await _context.Database.EnsureCreatedAsync();
-        }
-
-        public virtual async Task DisposeAsync()
-        {
-            await _context.DisposeAsync();
-            await _connection.DisposeAsync();
-        }
+    public virtual async Task DisposeAsync()
+    {
+        await _context.DisposeAsync();
+        await _connection.DisposeAsync();
     }
 }
