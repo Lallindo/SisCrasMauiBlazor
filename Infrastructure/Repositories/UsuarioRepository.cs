@@ -63,9 +63,9 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
 
         var query = DbContext.Prontuarios.AsQueryable();
         query = query.Where(p => p.Familia.FamiliaUsuarios.Any(fu =>
-            (!string.IsNullOrEmpty(nome) && fu.Usuario.Nome.ToLower().Contains(nome)) ||
-            (!string.IsNullOrEmpty(cpf) && fu.Usuario.Cpf.ToLower().Contains(cpf)) ||
-            (!string.IsNullOrEmpty(nis) && fu.Usuario.Nis.ToLower().Contains(nis))
+            (!string.IsNullOrEmpty(nome) && fu.Usuario.Nome.ToLower().Contains(nome.ToLower())) ||
+            (!string.IsNullOrEmpty(cpf) && fu.Usuario.Cpf.ToLower().Contains(cpf.ToLower())) ||
+            (!string.IsNullOrEmpty(nis) && fu.Usuario.Nis.ToLower().Contains(nis.ToLower()))
         ));
 
         return await query

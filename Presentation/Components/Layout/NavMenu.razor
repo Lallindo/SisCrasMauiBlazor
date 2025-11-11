@@ -2,46 +2,58 @@
 @using System.ComponentModel
 @implements IDisposable
 
-@if (ViewModel is not null)
-{
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            
-            <div>
-                <h1>SisCras</h1>
-                <h6>@ViewModel.Tecnico?.CrasInfoProp.Nome</h6>
-            </div>
-            
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <NavLink class="nav-link" href="familias">
-                            <span class="bi bi-people-fill" aria-hidden="true"></span> Famílias
-                        </NavLink>
-                    </li>
-                </ul>
-
-                <div class="navbar-nav">
-                    @if (ViewModel.IsTecnicoLoggedIn)
-                    {
-                        <li class="nav-item">
-                            <span class="navbar-text">
-                                @ViewModel.Tecnico?.Nome
-                            </span>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <button class="btn btn-link nav-link btn-danger" @onclick="@ViewModel.LogoutTecnicoCommand.ExecuteAsync">
-                                <span class="bi bi-box-arrow-right" aria-hidden="true"></span> Sair
-                            </button>
-                        </li>
-                    }
+<header class="siscras-header sticky-top shadow-lg">
+    <div class="siscras-container">
+        <div class="header-content">
+            <div class="header-left" @onclick="ViewModel.GoToHomeCommand.ExecuteAsync">
+                <div class="logo-container">
+                    <img src="resources/brasao_jau.jpg" alt="Brasão de Jaú" class="logo-img" />
                 </div>
-            </div> 
-        </div> 
-    </nav>
-}
+                <div>
+                    <h1 class="title">SisCras</h1>
+                    <p class="subtitle">
+                        @if (ViewModel.IsTecnicoLoggedIn)
+                        {
+                            <span>CRAS @ViewModel.Tecnico?.CrasInfoProp.Nome</span>
+                        }
+                        else
+                        {
+                            <span>Centro de Referência da Assistência Social</span>
+                        }
+                        - Jaú/SP
+                    </p>
+                </div>
+            </div>
+
+            @if (ViewModel.IsTecnicoLoggedIn)
+            {
+                <div class="header-right">
+                    <div class="user-info">
+                        <div class="user-name">
+                            <span class="bi bi-person-fill" aria-hidden="true"></span>
+                            <span>@ViewModel.Tecnico?.Nome</span>
+                        </div>
+                        <p class="user-cras">@ViewModel.Tecnico?.CrasInfoProp.Nome</p>
+                    </div>
+
+                    <button class="btn btn-ghost" @onclick="@ViewModel.LogoutTecnicoCommand.Execute">
+                        <span class="bi bi-box-arrow-right" aria-hidden="true"></span>
+                        <span class="btn-text">Sair</span>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="header-right">
+                    <button class="btn btn-ghost" @onclick="GoToLogin">
+                        <span class="bi bi-box-arrow-left" aria-hidden="true"></span>
+                        <span class="btn-text">Fazer login</span>
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</header>
 
 @code {
     protected override void OnInitialized()

@@ -45,4 +45,11 @@ public partial class HeaderViewModel : BaseViewModel, IDisposable
         _navigationManager.NavigateTo("/");
         return Task.CompletedTask;
     }
+
+    [RelayCommand]
+    private Task GoToHome()
+    {
+        _navigationManager.NavigateTo("/familias");
+        return Task.CompletedTask;
+    }
 }
