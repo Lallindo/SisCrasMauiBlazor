@@ -14,7 +14,7 @@
                     <p class="subtitle">
                         @if (ViewModel.IsTecnicoLoggedIn)
                         {
-                            <span>CRAS @ViewModel.Tecnico?.CrasInfoProp.Nome</span>
+                            <span>CRAS @ViewModel.Tecnico?.CrasAtivo.Nome</span>
                         }
                         else
                         {
@@ -33,7 +33,7 @@
                             <span class="bi bi-person-fill" aria-hidden="true"></span>
                             <span>@ViewModel.Tecnico?.Nome</span>
                         </div>
-                        <p class="user-cras">@ViewModel.Tecnico?.CrasInfoProp.Nome</p>
+                        <p class="user-cras">@ViewModel.Tecnico?.CrasAtivo.Nome</p>
                     </div>
 
                     <button class="btn btn-ghost" @onclick="@ViewModel.LogoutTecnicoCommand.Execute">

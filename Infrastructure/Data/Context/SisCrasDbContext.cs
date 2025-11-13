@@ -30,7 +30,7 @@ public class SisCrasDbContext : DbContext
             entity.Property(u => u.FonteRenda).HasConversion<int>();
         });
 
-        modelBuilder.Entity<Tecnico>(entity => { entity.Ignore(t => t.CrasInfoProp); });
+        modelBuilder.Entity<Tecnico>(entity => { entity.Ignore(t => t.CrasAtivo); });
 
         modelBuilder.Entity<Prontuario>(entity =>
         {

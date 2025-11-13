@@ -106,9 +106,17 @@
                         }
                     </InputSelect>
                 </div>
+                
+                <div class="col-md-6">
+                    <label class="form-label">Renda mensal</label>
+                    <InputNumber class="form-control" @bind-Value="UsuarioModel.Usuario.RendaBruta"
+                                 placeholder="000.000.000-00"/>
+                </div>
             </div>
         </div>
     </div>
+    
+    <h2>@UsuarioModel.DataAdicao</h2>
 }
 else
 {

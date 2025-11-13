@@ -10,10 +10,10 @@ public enum FormaAcessoEnum
     BuscaAtiva,
 
     [Description("Em decorrência de encaminhamento por outros serviços/unidades da PSB")]
-    EncaminhamentoPSB,
+    EncaminhamentoPsb,
 
     [Description("Em decorrência de encaminhamento por outros serviços/unidades da PSE")]
-    EncaminhamentoPSE,
+    EncaminhamentoPse,
 
     [Description("Em decorrência de encaminhamento realizado pela área da saúde")]
     EncaminhamentoSaude,
@@ -31,6 +31,6 @@ public enum FormaAcessoEnum
     EncaminhamentoJudiciario,
 
     [Description("Em decorrência de encaminhamento realizado por outros orgãos do SGD")]
-    EncaminhamentoSGD,
+    EncaminhamentoSgd,
     Outros
 }

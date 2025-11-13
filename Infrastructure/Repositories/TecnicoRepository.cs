@@ -1,7 +1,8 @@
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using SisCras.Domain.Entities;
-using SisCras.Domain.Entities.ValueObjects;
 using SisCras.Infrastructure.Data.Context;
+using SisCras.Domain.ValueObjects;
 
 namespace SisCras.Infrastructure.Repositories;
 
@@ -15,11 +16,11 @@ public class TecnicoRepository(SisCrasDbContext dbContext) : BaseRepository<Tecn
             .FirstOrDefaultAsync(t => t.Login == login);
     }
 
-    public async Task<CrasInfo?> GetCurrentCrasById(int id)
+    public async Task<CrasInfo> GetCurrentCrasById(int id)
     {
-        return await DbContext.TecnicoCras
+         return await DbContext.TecnicoCras
             .Where(tc => tc.TecnicoId == id && tc.DataSaida == null)
-            .Select(tc => new CrasInfo(tc.Cras.Id, tc.Cras.Nome))
+            .Select(tc => CrasInfo.Create(tc.Cras.Id, tc.Cras.Nome))
             .FirstOrDefaultAsync();
     }
 }

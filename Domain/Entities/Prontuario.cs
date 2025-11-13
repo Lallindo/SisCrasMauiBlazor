@@ -3,7 +3,7 @@ using SisCras.Domain.Entities.Enums;
 
 namespace SisCras.Domain.Entities;
 
-public partial class Prontuario
+public class Prontuario
 {
     public int Id { get; set; } = 0;
     public int Codigo { get; set; } = 0;

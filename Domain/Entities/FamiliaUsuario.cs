@@ -3,7 +3,7 @@ using SisCras.Domain.Entities.Enums;
 
 namespace SisCras.Domain.Entities;
 
-public partial class FamiliaUsuario
+public class FamiliaUsuario
 {
     public Familia? Familia { get; set; }
     public ParentescoEnum Parentesco;

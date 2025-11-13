@@ -2,12 +2,14 @@
 @using SisCras.Presentation.Components.Shared
 @inject RegistroViewModel ViewModel
 
-<button @onclick="ViewModel.CreateNewUsuarioCommand.ExecuteAsync"><i class="bi bi-person-plus"></i></button>
+<button @onclick="@ViewModel.CreateNewUsuarioCommand.ExecuteAsync"><i class="bi bi-person-plus"></i></button>
 
-@foreach (var usuario in ViewModel.FamiliaUsuarios)
+@foreach (var usuario in ViewModel.Prontuario.Familia.FamiliaUsuarios)
 {
     <MembroFamilia UsuarioModel="usuario"/>
 }
+
+<button @onclick="@ViewModel.InsertNewProntuarioCommand.ExecuteAsync" class="btn-primary btn">Cadastrar família</button>
 
 @code {
 

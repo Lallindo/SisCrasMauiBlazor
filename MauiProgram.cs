@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using SisCras.ApplicationLayer.Services;
 using SisCras.Infrastructure.Data.Context;
 using SisCras.Infrastructure.Repositories;
-using SisCras.Presentation.Components.Pages;
 using SisCras.Presentation.ViewModels;
 
 namespace SisCras;

@@ -5,7 +5,7 @@ using SisCras.Domain.Entities.Enums;
 
 namespace SisCras.Domain.Entities;
 
-public partial class Familia
+public class Familia
 {
     public ConfiguracaoFamiliarEnum ConfiguracaoFamiliar { get; set; }
     public ICollection<FamiliaUsuario> FamiliaUsuarios { get; set; } = [];

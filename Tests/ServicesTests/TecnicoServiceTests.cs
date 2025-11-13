@@ -2,10 +2,11 @@
 using System.Threading.Tasks;
 using Moq;
 using SisCras.ApplicationLayer.Services;
-using SisCras.Domain.Entities.ValueObjects;
+using SisCras.Domain.ValueObjects;
 using SisCras.Domain.Entities;
 using SisCras.Infrastructure.Repositories;
 using Xunit;
+using CrasInfo = SisCras.Domain.ValueObjects.CrasInfo;
 
 namespace SisCras.Tests.ServicesTests;
 
@@ -40,7 +41,7 @@ public class TecnicoServiceTests
         _mockPasswordService.Setup(p => p.VerifyPassword("password", It.IsAny<PasswordHash>()))
             .Returns(true);
         _mockTecnicoRepository.Setup(r => r.GetCurrentCrasById(1))
-            .Returns(Task.FromResult<CrasInfo?>(crasInfo));
+            .Returns(Task.FromResult<Cras?>);
 
         // Act
         var result = await _service.TryLoginAsync("admin", "password");

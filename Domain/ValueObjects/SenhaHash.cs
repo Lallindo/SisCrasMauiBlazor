@@ -1,4 +1,4 @@
-namespace SisCras.Domain.Entities.ValueObjects;
+namespace SisCras.Domain.ValueObjects;
 
 public class PasswordHash(string hash)
 {

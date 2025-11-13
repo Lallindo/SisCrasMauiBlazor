@@ -43,6 +43,12 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
     </PropertyGroup>
 
+    <Target Name="RemoveEFCoreDesignTimeTargets" BeforeTargets="GetEFProjectMetadata">
+        <ItemGroup>
+            <_CustomToolsRemove Include="EntityFrameworkCore.DesignTools" />
+        </ItemGroup>
+    </Target>
+
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
@@ -64,18 +70,13 @@
     <ItemGroup>
         <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.11" />
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0"/>
         <PackageReference Include="Moq" Version="4.20.72"/>
-        <PackageReference Include="sqlite-net-pcl" Version="1.9.172"/>
         <PackageReference Include="xunit" Version="2.9.3"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
             <PrivateAssets>all</PrivateAssets>
@@ -85,8 +86,8 @@
 
     <ItemGroup>
         <Folder Include="Domain\"/>
+        <Folder Include="Infrastructure\Data\Context\" />
         <Folder Include="Infrastructure\Data\Migrations\"/>
-        <Folder Include="Tests\ViewModelTests\"/>
     </ItemGroup>
 
     <ItemGroup>

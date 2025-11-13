@@ -2,7 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SisCras.Domain.Entities;
 
-public partial class TecnicoCras
+public class TecnicoCras
 {
     public Cras? Cras { get; set; } = null;
     public Tecnico? Tecnico { get; set; } = null;
@@ -11,5 +11,5 @@ public partial class TecnicoCras
     public int Id { get; set; }
     public int CrasId { get; set; }
     public int TecnicoId { get; set; }
-    public bool Ativo => DataSaida != null;
+    public bool Ativo => DataSaida == null;
 }

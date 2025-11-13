@@ -1,5 +1,6 @@
 using SisCras.Domain.Entities;
-using SisCras.Domain.Entities.ValueObjects;
+using SisCras.Domain.ValueObjects;
+using SisCras.Domain.ValueObjects;
 using SisCras.Infrastructure.Repositories;
 
 namespace SisCras.ApplicationLayer.Services;
@@ -22,7 +23,7 @@ public class TecnicoService(
 
         if (senhaCorreta)
         {
-            tecnico.SetCrasInfo(await TecnicoRepository.GetCurrentCrasById(tecnico.Id));
+            tecnico.SetCrasAtivo(await TecnicoRepository.GetCurrentCrasById(tecnico.Id));
             LoggedUserService.SetCurrentUser(tecnico);
             return true;
         }

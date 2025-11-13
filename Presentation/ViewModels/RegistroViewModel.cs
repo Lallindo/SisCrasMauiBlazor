@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SisCras.ApplicationLayer.Services;
@@ -17,15 +18,21 @@ public partial class RegistroViewModel(
     private readonly ILoggedUserService _loggedUserService = loggedUserService;
     private readonly IProntuarioService _prontuarioService = prontuarioService;
 
-    [ObservableProperty] private Prontuario _prontuario = new();
-    [ObservableProperty] private ObservableCollection<FamiliaUsuario> _familiaUsuarios = [];
+    [ObservableProperty] private Prontuario _prontuario = new()
+    {
+        DataCriacao = DateOnly.FromDateTime(DateTime.Now),
+        Familia = new()
+        {
+            FamiliaUsuarios = []
+        }
+    };
     [ObservableProperty] private Usuario? _usuario = new();
 
     [RelayCommand]
     private async Task CreateNewUsuario()
     {
-        var usuarioCount = _familiaUsuarios.Count;
-        FamiliaUsuarios.Add(new FamiliaUsuario
+        var usuarioCount = Prontuario.Familia.FamiliaUsuarios.Count;
+        Prontuario.Familia.FamiliaUsuarios.Add(new FamiliaUsuario
         {
             Usuario = new Usuario
             {
@@ -33,7 +40,18 @@ public partial class RegistroViewModel(
                 Cpf = usuarioCount == 1 ? Usuario.Nome : "",
                 Nis = usuarioCount == 1 ? Usuario.Nome : ""
             },
-            Parentesco = usuarioCount == 0 ? ParentescoEnum.Responsavel : ParentescoEnum.Conjuge
+            Parentesco = usuarioCount == 0 ? ParentescoEnum.Responsavel : ParentescoEnum.Conjuge,
+            DataAdicao = DateOnly.FromDateTime(DateTime.Now.AddDays(-3))
         });
+    }
+
+    [RelayCommand]
+    private async Task InsertNewProntuario()
+    {
+        foreach (FamiliaUsuario fu in Prontuario.Familia.FamiliaUsuarios)
+        {
+            Debug.WriteLine($"DataCriação: {fu.DataAdicao}");
+        }
+        _prontuarioService.AddAsync(Prontuario);
     }
 }
