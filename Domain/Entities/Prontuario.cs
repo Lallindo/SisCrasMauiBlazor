@@ -5,7 +5,7 @@ namespace SisCras.Domain.Entities;
 
 public class Prontuario
 {
-    public int Id { get; set; } = 0;
+    public int Id { get; set; }
     public int Codigo { get; set; } = 0;
     public Cras? Cras { get; set; }
     public Tecnico? Tecnico { get; set; }

@@ -48,10 +48,9 @@ public partial class RegistroViewModel(
     [RelayCommand]
     private async Task InsertNewProntuario()
     {
-        foreach (FamiliaUsuario fu in Prontuario.Familia.FamiliaUsuarios)
-        {
-            Debug.WriteLine($"DataCriação: {fu.DataAdicao}");
-        }
-        _prontuarioService.AddAsync(Prontuario);
+        Prontuario.Tecnico = _loggedUserService.GetCurrentUser();
+        Prontuario.Cras = Prontuario.Tecnico.CrasAtivo;
+        Prontuario.Id = 0;
+        await _prontuarioService.AddAsync(Prontuario);
     }
 }

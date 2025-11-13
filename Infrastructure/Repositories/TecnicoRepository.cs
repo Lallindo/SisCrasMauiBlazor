@@ -16,11 +16,11 @@ public class TecnicoRepository(SisCrasDbContext dbContext) : BaseRepository<Tecn
             .FirstOrDefaultAsync(t => t.Login == login);
     }
 
-    public async Task<CrasInfo> GetCurrentCrasById(int id)
+    public async Task<Cras?> GetCurrentCrasById(int id)
     {
          return await DbContext.TecnicoCras
             .Where(tc => tc.TecnicoId == id && tc.DataSaida == null)
-            .Select(tc => CrasInfo.Create(tc.Cras.Id, tc.Cras.Nome))
+            .Select(tc => tc.Cras)
             .FirstOrDefaultAsync();
     }
 }
