@@ -2,6 +2,7 @@
 
 public enum MembroFamiliaTypeEnum
 {
-    Registro,
-    Edicao
+    Editar,
+    Registrar,
+    Visualizar
 }

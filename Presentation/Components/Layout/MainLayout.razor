@@ -1,16 +1,21 @@
 ﻿@inherits LayoutComponentBase
 @inject MainLayoutViewModel ViewModel
+@inject IJSRuntime JSRuntime
 @using System.ComponentModel
 @using MainLayoutViewModel = SisCras.Presentation.ViewModels.MainLayoutViewModel
 @implements IDisposable
 
 <div class="page">
-    @if (ViewModel.IsVisible)
+    @if (ViewModel.IsNavVisible)
     {
         <NavMenu/>
     }
 
     <main>
+        @if (ViewModel.IsBackButtonVisible)
+        {
+            <button class="btn btn-primary mt-3 mx-3" @onclick="ViewModel.GoBack"><i class="bi bi-box-arrow-left"></i>  Voltar</button>
+        }
         <article class="content px-4">
             @Body
         </article>
@@ -26,7 +31,7 @@
 
     private async void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(ViewModel.IsVisible))
+        if (e.PropertyName is nameof(ViewModel.IsNavVisible) or nameof(ViewModel.IsBackButtonVisible))
         {
             await InvokeAsync(StateHasChanged);
         }
@@ -37,5 +42,4 @@
         ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
         ViewModel.Dispose();
     }
-
 }

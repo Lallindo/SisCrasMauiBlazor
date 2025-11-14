@@ -1,10 +1,12 @@
-@page "/familias/editar/{FamiliaId:int}"
+@page "/familias/{PagePath}/{FamiliaId:int}"
 @using SisCras.Presentation.Components.Shared
 @inject EditarFamiliaViewModel ViewModel
 
+<button @onclick="@ViewModel.CreateNewUsuarioCommand.ExecuteAsync"><i class="bi bi-person-plus"></i></button>
+
 @foreach (var usuario in ViewModel.SelectedFamilia.FamiliaUsuarios)
 {
-    <MembroFamilia UsuarioModel="usuario" ComponentMode="MembroFamiliaTypeEnum.Edicao"
+    <MembroFamilia UsuarioModel="usuario" ComponentMode="PageMode"
                    DeactivateClicked="ViewModel.DeactivateUsuarioCommand.ExecuteAsync">
     </MembroFamilia>
 }
@@ -13,11 +15,32 @@
 
 @code {
     [Parameter] public int FamiliaId { get; set; }
+    [Parameter] public string PagePath { get; set; }
+    
+    public MembroFamiliaTypeEnum PageMode
+    {
+        get
+        {
+            MembroFamiliaTypeEnum tempEnum = MembroFamiliaTypeEnum.Visualizar;
+            switch (PagePath)
+            {
+                case "editar":
+                    tempEnum = MembroFamiliaTypeEnum.Editar;
+                    break;
+                case "visualizar":
+                    tempEnum = MembroFamiliaTypeEnum.Visualizar;
+                    break;
+                case "registrar":
+                    tempEnum = MembroFamiliaTypeEnum.Registrar;
+                    break;
+            }
+            return tempEnum;
+        }
+    }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         ViewModel.GetFamilia(FamiliaId);
     }
-
 }

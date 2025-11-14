@@ -3,5 +3,5 @@
 public enum ProntuarioCardTypeEnum
 {
     Editar,
-    Vizualizar
+    Visualizar
 }

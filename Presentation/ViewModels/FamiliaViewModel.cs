@@ -53,9 +53,20 @@ public partial class FamiliaViewModel(
             new ObservableCollection<Prontuario>(await _crasService.GetProntuarioAndFamiliaAndUsuariosFromCras(1));
     }
 
+    public async Task GetLoggedUsuario()
+    {
+        LoggedTecnico = _loggedUserService.GetCurrentUser();
+    }
+
     [RelayCommand]
     private async Task GoToEditarFamilia(int familiaId)
     {
         _navigationManager.NavigateTo($"/familias/editar/{familiaId}");
+    }
+    
+    [RelayCommand]
+    private async Task GoToVisualizarFamilia(int familiaId)
+    {
+        _navigationManager.NavigateTo($"/familias/visualizar/{familiaId}");
     }
 }

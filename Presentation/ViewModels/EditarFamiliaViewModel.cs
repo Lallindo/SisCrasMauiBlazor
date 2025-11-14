@@ -6,15 +6,17 @@ using SisCras.Domain.Entities;
 
 namespace SisCras.Presentation.ViewModels;
 
-public partial class EditarFamiliaViewModel(IFamiliaService familiaService) : BaseViewModel
+public partial class EditarFamiliaViewModel(IFamiliaService familiaService, IProntuarioService prontuarioService) : BaseViewModel
 {
+    private IProntuarioService _prontuarioService = prontuarioService;
     private IFamiliaService _FamiliaService = familiaService;
 
+    // TODO Alterar para buscar o prontuário da família ao invés família
     [ObservableProperty] private Familia _selectedFamilia = new();
 
     [ObservableProperty] private ObservableCollection<Usuario> _usuarios = [];
 
-    public async Task GetFamilia(int familiaId)
+    public async Task GetProntuario(int familiaId)
     {
         SelectedFamilia = await _FamiliaService.GetByIdAsync(familiaId) ?? new Familia();
     }
@@ -30,4 +32,5 @@ public partial class EditarFamiliaViewModel(IFamiliaService familiaService) : Ba
     {
         await SelectedFamilia.ToggleAtivoUsuario(usuario);
     }
+    
 }

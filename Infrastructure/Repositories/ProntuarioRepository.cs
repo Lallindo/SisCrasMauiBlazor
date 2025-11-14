@@ -10,6 +10,7 @@ public class ProntuarioRepository(SisCrasDbContext dbContext)
     public async Task<Prontuario?> GetFamiliaAndUsuariosFromProntuario(int id)
     {
         return await DbContext.Prontuarios
+            .Include(p => p.Cras)
             .Include(p => p.Familia)
             .ThenInclude(f => f.FamiliaUsuarios)
             .ThenInclude(fu => fu.Usuario)

@@ -1,12 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using SisCras.ApplicationLayer.Services;
 
 namespace SisCras.Presentation.ViewModels;
 
 public partial class BaseViewModel : ObservableObject
 {
-    [ObservableProperty] private bool _isBusy;
-
-    public bool IsNotBusy =>
-        !IsBusy; // Era usado em XAML para não ter que criar um ValueConverter só para inverter o booleano
-    // Não é necessário mas pode facilitar na leitura do código FrontEnd
+    [ObservableProperty] protected bool _isBusy;
+    public bool IsNotBusy => !IsBusy; 
 }

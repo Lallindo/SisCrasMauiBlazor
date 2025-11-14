@@ -8,10 +8,11 @@
     <div class="card-body">
         <p class="card-text">Nome do responsável: @Prontuario.Familia.Responsavel.Nome</p>
         <p class="card-text">Data de criação: @Prontuario.DataCriacao</p>
+        <p class="card-text">Cras: @Prontuario.Cras.Nome</p>
     </div>
     <div class="card-footer">
         <button class="btn btn-primary"
-                @onclick="() => TriggerEditProntuario()">@ComponentMode.GetDescription()</button>
+                @onclick="() => TriggerButtonProntuario()">@ComponentMode.GetDescription()</button>
     </div>
 </div>
 
@@ -20,7 +21,7 @@
     [Parameter] public ProntuarioCardTypeEnum ComponentMode { get; set; }
     [Parameter] public EventCallback ButtonProntuarioClicked { get; set; }
 
-    public async Task TriggerEditProntuario()
+    public async Task TriggerButtonProntuario()
     {
         await ButtonProntuarioClicked.InvokeAsync(Prontuario.FamiliaId);
     }
