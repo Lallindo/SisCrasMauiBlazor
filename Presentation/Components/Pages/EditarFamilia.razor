@@ -4,14 +4,21 @@
 
 <button @onclick="@ViewModel.CreateNewUsuarioCommand.ExecuteAsync"><i class="bi bi-person-plus"></i></button>
 
-@foreach (var usuario in ViewModel.SelectedFamilia.FamiliaUsuarios)
+@foreach (var usuario in ViewModel.SelectedProntuario.Familia.FamiliaUsuarios)
 {
     <MembroFamilia UsuarioModel="usuario" ComponentMode="PageMode"
                    DeactivateClicked="ViewModel.DeactivateUsuarioCommand.ExecuteAsync">
     </MembroFamilia>
 }
 
-<button @onclick="() => ViewModel.UpdateFamiliaCommand.ExecuteAsync(ViewModel.SelectedFamilia)"></button>
+@if (PageMode == MembroFamiliaTypeEnum.Editar)
+{
+    <button class="btn btn-warning" @onclick="() => ViewModel.UpdateProntuarioCommand.ExecuteAsync(ViewModel.SelectedProntuario)">Editar</button>
+}
+else
+{
+    <button disabled="disabled" class="btn btn-warning" @onclick="() => ViewModel.UpdateProntuarioCommand.ExecuteAsync(ViewModel.SelectedProntuario)">Editar</button>
+}
 
 @code {
     [Parameter] public int FamiliaId { get; set; }
@@ -41,6 +48,6 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        ViewModel.GetFamilia(FamiliaId);
+        ViewModel.GetProntuario(FamiliaId);
     }
 }

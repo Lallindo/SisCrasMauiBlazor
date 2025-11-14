@@ -33,4 +33,19 @@ public class ProntuarioRepository(SisCrasDbContext dbContext)
     {
         return await GetFamiliaFromProntuario(prontuario.Id);
     }
+
+    public async Task<Prontuario?> GetProntuarioByFamiliaId(int familiaId)
+    {
+        return await DbContext.Prontuarios
+            .Where(p => p.FamiliaId == familiaId && p.DataSaida == null)
+            .Include(p => p.Familia)
+            .ThenInclude(f => f.FamiliaUsuarios)
+            .ThenInclude(fu => fu.Usuario)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<Prontuario?> GetProntuarioByFamiliaId(Familia familia)
+    {
+        return await GetProntuarioByFamiliaId(familia.Id);
+    }
 }

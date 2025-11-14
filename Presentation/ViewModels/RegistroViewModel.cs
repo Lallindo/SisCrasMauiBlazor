@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SisCras.ApplicationLayer.Services;
 using SisCras.Domain.Entities;
-using SisCras.Domain.Entities.Enums;
+using SisCras.Domain.Enums;
 
 namespace SisCras.Presentation.ViewModels;
 

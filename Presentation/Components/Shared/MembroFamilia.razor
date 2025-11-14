@@ -1,10 +1,10 @@
-﻿@using Domain.Entities.Enums
-@using SisCras.ApplicationLayer.Extensions
+﻿@using SisCras.ApplicationLayer.Extensions
+@using SisCras.Domain.Enums
 
 @if (UsuarioModel != null)
 {
     <div class="card mb-4">
-        <div class="card-header @(UsuarioModel.Ativo ? "bg-warning" : "bg-primary") text-white">
+        <div class="card-header @(UsuarioModel.Ativo ? "bg-primary" : "bg-warning") text-white">
             <h5 class="card-title mb-0">Membro da família</h5>
             <small class="card-subtitle">@UsuarioModel.Parentesco.GetDescription()</small><br/>
             <small class="card-subtitle">Data de inserção: @UsuarioModel.DataAdicao</small>
@@ -144,6 +144,8 @@ else
         await DeactivateClicked.InvokeAsync(usuario);
     }
 
+    public bool UsuarioHasAllData()
+    {
+        return true;
+    }
 }
-
-;

@@ -1,6 +1,6 @@
 ﻿using System;
-using SisCras.Domain.Entities.Enums;
 using SisCras.Domain.Entities;
+using SisCras.Domain.Enums;
 
 namespace SisCras.Tests;
 

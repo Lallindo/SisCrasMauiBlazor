@@ -1,9 +1,10 @@
 using System.ComponentModel;
 
-namespace SisCras.Domain.Entities.Enums;
+namespace SisCras.Domain.Enums;
 
 public enum EscolaridadeEnum
 {
+    [Description("Selecione uma escolaridade")]Default,
     [Description("Sem escolaridade")] SemEscolaridade,
 
     [Description("Fundamental incompleto")]

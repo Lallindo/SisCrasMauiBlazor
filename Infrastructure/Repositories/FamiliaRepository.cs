@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SisCras.Domain.Entities;
-using SisCras.Domain.Entities.Enums;
+using SisCras.Domain.Enums;
 using SisCras.Infrastructure.Data.Context;
 
 namespace SisCras.Infrastructure.Repositories;

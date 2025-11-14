@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using SisCras.Domain.Entities.Enums;
+using SisCras.Domain.Enums;
 
 namespace SisCras.Domain.Entities;
 

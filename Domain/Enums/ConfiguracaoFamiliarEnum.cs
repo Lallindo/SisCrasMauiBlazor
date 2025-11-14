@@ -1,9 +1,10 @@
 using System.ComponentModel;
 
-namespace SisCras.Domain.Entities.Enums;
+namespace SisCras.Domain.Enums;
 
 public enum ConfiguracaoFamiliarEnum
 {
+    [Description("Selecione uma configuração familiar")]Default,
     [Description("Casal sem filho(s)")] CasalSFilhos,
 
     [Description("Casal sem filho(s) e com parente(s)")]

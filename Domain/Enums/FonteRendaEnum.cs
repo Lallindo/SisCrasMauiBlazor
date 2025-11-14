@@ -1,9 +1,10 @@
 using System.ComponentModel;
 
-namespace SisCras.Domain.Entities.Enums;
+namespace SisCras.Domain.Enums;
 
 public enum FonteRendaEnum
 {
+    [Description("Selecione uma fonte de renda")]Default,
     [Description("Trabalho informal")] TrabalhoInformal,
     [Description("Trabalho formal")] TrabalhoFormal,
     Aposentadoria,

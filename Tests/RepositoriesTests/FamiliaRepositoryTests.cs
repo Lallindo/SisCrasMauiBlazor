@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using SisCras.Domain.Entities.Enums;
 using SisCras.Domain.Entities;
+using SisCras.Domain.Enums;
 using SisCras.Infrastructure.Repositories;
 using Xunit;
 

@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using SisCras.ApplicationLayer.Services;
-using SisCras.Domain.Entities.Enums;
 using SisCras.Domain.Entities;
+using SisCras.Domain.Enums;
 using SisCras.Infrastructure.Repositories;
 using Xunit;
 

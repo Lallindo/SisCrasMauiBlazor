@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using SisCras.Domain.Entities.Enums;
+using SisCras.Domain.Enums;
 
 namespace SisCras.Domain.Entities;
 
@@ -22,4 +22,6 @@ public class Usuario
     public EscolaridadeEnum Escolaridade { get; set; }
     public SexoEnum Sexo { get; set; }
     public FonteRendaEnum FonteRenda { get; set; }
+    
+    
 }

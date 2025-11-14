@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 
-namespace SisCras.Domain.Entities.Enums;
+namespace SisCras.Domain.Enums;
 
 public enum FormaAcessoEnum
 {
+    [Description("Selecione uma forma de acesso")]Default,
     [Description("Demanda Espontânea")] Espontanea,
 
     [Description("Busca ativa realizada pela equipe do CRAS")]

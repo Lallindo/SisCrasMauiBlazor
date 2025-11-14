@@ -27,4 +27,14 @@ public class ProntuarioService(IProntuarioRepository prontuarioRepository)
     {
         return await ProntuarioRepository.GetFamiliaAndUsuariosFromProntuario(id);
     }
+
+    public async Task<Prontuario?> GetProntuarioByFamiliaId(int familiaId)
+    {
+        return await ProntuarioRepository.GetProntuarioByFamiliaId(familiaId);
+    }
+
+    public async Task<Prontuario?> GetProntuarioByFamiliaId(Familia familia)
+    {
+        return await ProntuarioRepository.GetProntuarioByFamiliaId(familia);
+    }
 }

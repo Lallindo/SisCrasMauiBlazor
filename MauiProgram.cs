@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SisCras.ApplicationLayer.Services;
+using SisCras.ApplicationLayer.Validators;
+using SisCras.Domain.Entities;
 using SisCras.Infrastructure.Data.Context;
 using SisCras.Infrastructure.Repositories;
 using SisCras.Presentation.ViewModels;

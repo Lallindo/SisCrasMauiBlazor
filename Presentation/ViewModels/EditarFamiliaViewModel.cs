@@ -3,34 +3,45 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SisCras.ApplicationLayer.Services;
 using SisCras.Domain.Entities;
+using SisCras.Domain.Enums;
 
 namespace SisCras.Presentation.ViewModels;
 
 public partial class EditarFamiliaViewModel(IFamiliaService familiaService, IProntuarioService prontuarioService) : BaseViewModel
 {
-    private IProntuarioService _prontuarioService = prontuarioService;
+    private IProntuarioService _ProntuarioService = prontuarioService;
     private IFamiliaService _FamiliaService = familiaService;
 
-    // TODO Alterar para buscar o prontuário da família ao invés família
-    [ObservableProperty] private Familia _selectedFamilia = new();
+    [ObservableProperty] private Prontuario? _selectedProntuario = new();
 
     [ObservableProperty] private ObservableCollection<Usuario> _usuarios = [];
 
     public async Task GetProntuario(int familiaId)
     {
-        SelectedFamilia = await _FamiliaService.GetByIdAsync(familiaId) ?? new Familia();
+        SelectedProntuario = await _ProntuarioService.GetProntuarioByFamiliaId(familiaId);
     }
 
     [RelayCommand]
-    public async Task UpdateFamilia(Familia familia)
+    public async Task UpdateProntuario()
     {
-        await _FamiliaService.UpdateAsync(familia);
+        await _ProntuarioService.UpdateAsync(SelectedProntuario);
     }
 
     [RelayCommand]
     private async Task DeactivateUsuario(FamiliaUsuario usuario)
     {
-        await SelectedFamilia.ToggleAtivoUsuario(usuario);
+        await SelectedProntuario.Familia.ToggleAtivoUsuario(usuario);
     }
     
+    [RelayCommand]
+    private async Task CreateNewUsuario()
+    {
+        var usuarioCount = SelectedProntuario.Familia.FamiliaUsuarios.Count;
+        SelectedProntuario.Familia.FamiliaUsuarios.Add(new FamiliaUsuario
+        {
+            Usuario = new Usuario(),
+            Parentesco = usuarioCount == 0 ? ParentescoEnum.Responsavel : ParentescoEnum.Conjuge,
+            DataAdicao = DateOnly.FromDateTime(DateTime.Now.AddDays(-3))
+        });
+    }
 }
