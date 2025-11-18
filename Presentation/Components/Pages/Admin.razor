@@ -1,0 +1,15 @@
+﻿@page "/admin"
+@inject AdminViewModel ViewModel
+<h3>Administrador</h3>
+
+@foreach (var tecnico in ViewModel.Tecnicos)
+{
+    <div>
+        <p>@tecnico.Nome</p>
+        <p>@tecnico.Login</p>
+    </div>
+}
+
+@code {
+    
+}

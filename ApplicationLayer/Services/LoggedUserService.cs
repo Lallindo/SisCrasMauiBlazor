@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using SisCras.Domain.Entities;
 
 namespace SisCras.ApplicationLayer.Services;

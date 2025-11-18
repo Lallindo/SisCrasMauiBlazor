@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SisCras.ApplicationLayer.Services;
-using SisCras.ApplicationLayer.Validators;
+using SisCras.ApplicationLayer;
 using SisCras.Domain.Entities;
 using SisCras.Infrastructure.Data.Context;
 using SisCras.Infrastructure.Repositories;
@@ -32,6 +32,7 @@ public static class MauiProgram
         builder.Services.AddTransient<TestesViewModel>();
         builder.Services.AddTransient<RegTecnicoViewModel>();
         builder.Services.AddTransient<EditarFamiliaViewModel>();
+        builder.Services.AddTransient<AdminViewModel>();
         builder.Services.AddScoped<HeaderViewModel>();
         builder.Services.AddScoped<MainLayoutViewModel>();
 

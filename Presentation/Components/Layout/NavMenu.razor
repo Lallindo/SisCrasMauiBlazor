@@ -28,6 +28,15 @@
             @if (ViewModel.IsTecnicoLoggedIn)
             {
                 <div class="header-right">
+                    @if (ViewModel.Tecnico.IsAdmin)
+                    {
+                        <div>
+                            <button class="btn btn-secondary" @onclick="@ViewModel.GoToAdminCommand.ExecuteAsync">
+                                Admin
+                            </button>
+                        </div>   
+                    }
+
                     <div class="user-info">
                         <div class="user-name">
                             <span class="bi bi-person-fill" aria-hidden="true"></span>
@@ -45,7 +54,7 @@
             else
             {
                 <div class="header-right">
-                    <button class="btn btn-ghost" @onclick="GoToLogin">
+                    <button class="btn btn-ghost" @onclick="@ViewModel.GoToLoginCommand.ExecuteAsync">
                         <span class="bi bi-box-arrow-left" aria-hidden="true"></span>
                         <span class="btn-text">Fazer login</span>
                     </button>
@@ -59,11 +68,6 @@
     protected override void OnInitialized()
     {
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
-    }
-
-    private void GoToLogin()
-    {
-        ViewModel.GoToLogin();
     }
 
     private async void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)

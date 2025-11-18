@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.AspNetCore.Components;
@@ -20,6 +21,7 @@ public partial class HeaderViewModel : BaseViewModel, IDisposable
         _navigationManager = navigationManager;
         _loggedUserService.UserStateChanged += ChangeTecnicoState;
         ChangeTecnicoState();
+        Debug.WriteLine($"IsAdmin: {Tecnico.IsAdmin}, Cras: {Tecnico.CrasAtivo.Nome}");
     }
 
     public void Dispose()
@@ -33,15 +35,16 @@ public partial class HeaderViewModel : BaseViewModel, IDisposable
         Tecnico = _loggedUserService.GetCurrentUser();
     }
 
-    public void GoToLogin()
-    {
-        _navigationManager.NavigateTo("/");
-    }
-
     [RelayCommand]
     private Task LogoutTecnico()
     {
         _loggedUserService.ClearCurrentUser();
+        return GoToLogin();
+    }
+
+    [RelayCommand]
+    private Task GoToLogin()
+    {
         _navigationManager.NavigateTo("/");
         return Task.CompletedTask;
     }
@@ -50,6 +53,13 @@ public partial class HeaderViewModel : BaseViewModel, IDisposable
     private Task GoToHome()
     {
         _navigationManager.NavigateTo("/familias");
+        return Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    private Task GoToAdmin()
+    {
+        _navigationManager.NavigateTo("/admin");
         return Task.CompletedTask;
     }
 }

@@ -23,7 +23,6 @@ public class TecnicoService(
 
         if (senhaCorreta)
         {
-            tecnico.SetCrasAtivo(await TecnicoRepository.GetCurrentCrasById(tecnico.Id));
             LoggedUserService.SetCurrentUser(tecnico);
             return true;
         }
