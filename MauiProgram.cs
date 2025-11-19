@@ -5,6 +5,7 @@ using SisCras.ApplicationLayer;
 using SisCras.Domain.Entities;
 using SisCras.Infrastructure.Data.Context;
 using SisCras.Infrastructure.Repositories;
+using SisCras.Presentation.Services;
 using SisCras.Presentation.ViewModels;
 
 namespace SisCras;
@@ -36,13 +37,16 @@ public static class MauiProgram
         builder.Services.AddScoped<MainLayoutViewModel>();
 
         // Services
-        builder.Services.AddSingleton<ITecnicoService, TecnicoService>();
-        builder.Services.AddSingleton<ILoggedUserService, LoggedUserService>();
-        builder.Services.AddSingleton<IProntuarioService, ProntuarioService>();
-        builder.Services.AddSingleton<IFamiliaService, FamiliaService>();
-        builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
-        builder.Services.AddSingleton<ICrasService, CrasService>();
-        builder.Services.AddSingleton<IPasswordService, PasswordService>();
+            // Application
+            builder.Services.AddSingleton<ITecnicoService, TecnicoService>();
+            builder.Services.AddSingleton<ILoggedUserService, LoggedUserService>();
+            builder.Services.AddSingleton<IProntuarioService, ProntuarioService>();
+            builder.Services.AddSingleton<IFamiliaService, FamiliaService>();
+            builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
+            builder.Services.AddSingleton<ICrasService, CrasService>();
+            builder.Services.AddSingleton<IPasswordService, PasswordService>();
+            // Presentation
+            builder.Services.AddSingleton<IMaskService, MaskService>();
 
         // Repositories
         builder.Services.AddScoped<ITecnicoRepository, TecnicoRepository>();

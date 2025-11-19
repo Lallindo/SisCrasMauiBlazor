@@ -1,6 +1,5 @@
-@page "/loaeg"
-@using PaginaLoginViewModel = SisCras.Presentation.ViewModels.LoginViewModel
-@inject PaginaLoginViewModel ViewModel
+﻿@page "/"
+@inject LoginViewModel ViewModel
 
 <div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center bg-light">
     <div class="card shadow-lg" style="max-width: 450px; width: 100%;">
@@ -20,39 +19,44 @@
         </div>
         <div class="card-body p-4">
             <EditForm Model="ViewModel.Tecnico" OnValidSubmit="HandleValidSubmit">
-                <DataAnnotationsValidator/> @* Adicione isso para validação, se tiver atributos no seu modelo Tecnico *@
+                <DataAnnotationsValidator/>
 
                 <div class="mb-3">
-                    <label for="username" class="form-label">Usuário</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-person-fill text-muted"></i></span>
-                        <input id="username" type="text" class="form-control" placeholder="Digite seu usuário"
-                               @bind-value="@ViewModel.Tecnico.Login"/>
-                    </div>
+                    <HxInputText Label="Usuário:"
+                                 @bind-Value="@ViewModel.Tecnico.Login"
+                                 Placeholder="Digite seu usuário">
+                        <InputGroupStartTemplate>
+                            <span class="input-group-text"><i class="bi bi-person-fill text-muted"></i></span>
+                        </InputGroupStartTemplate>
+                    </HxInputText>
                 </div>
 
                 <div class="mb-3">
-                    <label for="password" class="form-label">Senha</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock-fill text-muted"></i></span>
-                        <input id="password" type="password" class="form-control" placeholder="Digite sua senha"
-                               @bind-value="@ViewModel.Tecnico.Senha"/>
-                    </div>
+                    <HxInputText Label="Senha:"
+                                 Type="InputType.Password"
+                                 @bind-Value="@ViewModel.Tecnico.Senha"
+                                 Placeholder="Digite sua senha">
+                        <InputGroupStartTemplate>
+                            <span class="input-group-text"><i class="bi bi-lock-fill text-muted"></i></span>
+                        </InputGroupStartTemplate>
+                    </HxInputText>
                 </div>
 
                 @if (ViewModel.LoginError)
                 {
-                    <div class="alert alert-danger d-flex align-items-center py-2" role="alert">
+                    <HxAlert Color="ThemeColor.Danger" CssClass="d-flex align-items-center py-2">
                         <i class="bi bi-exclamation-triangle-fill me-2"></i>
                         <div>
                             Usuário ou senha incorretos.
                         </div>
-                    </div>
+                    </HxAlert>
                 }
 
-                <button type="submit" class="btn btn-primary w-100">
+                <HxButton Type="ButtonType.Submit" 
+                          Color="ThemeColor.Primary" 
+                          CssClass="w-100">
                     Entrar @* TODO: Add loading state if IsBusy exists in VM *@
-                </button>
+                </HxButton>
 
             </EditForm>
 

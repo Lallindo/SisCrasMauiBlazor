@@ -1,4 +1,5 @@
-﻿@using SisCras.ApplicationLayer.Extensions
+﻿@using System.Globalization
+@using SisCras.ApplicationLayer.Extensions
 @using SisCras.Domain.Enums
 
 @if (UsuarioModel != null)
@@ -31,8 +32,18 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label fw-bold">CPF</label>
-                    <InputText class="form-control" @bind-Value="UsuarioModel.Usuario.Cpf"
-                               placeholder="000.000.000-00" disabled="@AreInputsDisabled"/>
+                    <MaskedInput @bind-Value="UsuarioModel.Usuario.Cpf" 
+                                 Mask="MaskTypeEnum.Cpf"
+                                 Placeholder="999.999.999-99"
+                                 InputClass="form-control" />
+                </div>
+                
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">RG</label>
+                    <MaskedInput @bind-Value="UsuarioModel.Usuario.Rg" 
+                                 Mask="MaskTypeEnum.Rg"
+                                 Placeholder="999.999.999-99"
+                                 InputClass="form-control" />
                 </div>
 
                 <div class="col-md-4">
@@ -70,8 +81,10 @@
                 <!-- NIS -->
                 <div class="col-md-6">
                     <label class="form-label fw-bold">NIS</label>
-                    <InputText class="form-control" @bind-Value="UsuarioModel.Usuario.Nis"
-                               placeholder="Número do NIS" disabled="@AreInputsDisabled"/>
+                    <MaskedInput @bind-Value="UsuarioModel.Usuario.Nis" 
+                                 Mask="MaskTypeEnum.Cpf"
+                                 Placeholder="999.999.999-99"
+                                 InputClass="form-control" />
                 </div>
 
                 <div class="col-md-6">
@@ -113,15 +126,20 @@
                 </div>
                 
                 <div class="col-md-6">
-                    <label class="form-label">Renda mensal</label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            R$
-                        </span>
+                    <MaskedInput
+                        @bind-Value="RendaBrutaString"
+                        Mask="MaskTypeEnum.Dinheiro"
+                        Placeholder="0,00"
+                        Classes="rounded-pill border border-light"
+                        InputClass="form-control"
+                        Type="text">
                         
-                        <InputNumber class="form-control" @bind-Value="UsuarioModel.Usuario.RendaBruta"
-                                     placeholder="000.000.000-00" disabled="@AreInputsDisabled"/>
-                    </div>
+                        <PrefixContent>
+                            <span class="input-group-text bg-transparent border-0 text-white-50 pe-1">
+                                R$
+                            </span>
+                        </PrefixContent>
+                    </MaskedInput>
                 </div>
             </div>
         </div>
@@ -139,6 +157,27 @@ else
     [Parameter] public MembroFamiliaTypeEnum ComponentMode { get; set; }
 
     [Parameter] public EventCallback DeactivateClicked { get; set; }
+    
+    public string RendaBrutaString 
+    { 
+        get 
+        {
+            if (UsuarioModel?.Usuario == null) return string.Empty;
+            return UsuarioModel.Usuario.RendaBruta.ToString(CultureInfo.InvariantCulture);
+        }
+        set 
+        {
+            if (UsuarioModel?.Usuario != null && 
+                float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out float parsedFloat))
+            {
+                UsuarioModel.Usuario.RendaBruta = parsedFloat;
+            }
+            else if (UsuarioModel?.Usuario != null && string.IsNullOrEmpty(value))
+            {
+                UsuarioModel.Usuario.RendaBruta = 0f;
+            }
+        }
+    }
 
     public bool AreInputsDisabled
     {
@@ -148,10 +187,5 @@ else
     public async Task TriggerDeactivateClicked(FamiliaUsuario usuario)
     {
         await DeactivateClicked.InvokeAsync(usuario);
-    }
-
-    public bool UsuarioHasAllData()
-    {
-        return true;
     }
 }
