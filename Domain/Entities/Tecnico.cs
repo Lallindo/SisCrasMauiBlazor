@@ -32,10 +32,4 @@ public class Tecnico
             return TecnicoCras?.Any(tc => tc.DataSaida == null && tc.Admin) ?? false;
         }
     }
-
-    public void ChangeSenhaForHash(string plainSenha, IPasswordService passwordService)
-    {
-        var hash = PasswordHash.Create(plainSenha);
-        Senha = hash.Hash;
-    }
 }

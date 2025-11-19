@@ -29,4 +29,10 @@ public class TecnicoService(
 
         return false;
     }
+
+    public async Task<Tecnico> ChangeSenhaForHash(Tecnico tecnico, IPasswordService passwordService)
+    {
+        tecnico.Senha = Task.FromResult(passwordService.CreatePassword(tecnico.Senha).Hash).Result;
+        return tecnico;
+    }
 }

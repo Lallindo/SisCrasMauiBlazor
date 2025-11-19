@@ -12,6 +12,7 @@ public partial class AdminViewModel : ObservableObject
     private ITecnicoService _tecnicoService { get; }
     private ICrasService _crasService { get; }
     private ILoggedUserService _loggedUserService { get; }
+    private IPasswordService _passwordService { get; }
 
     [ObservableProperty] private Tecnico? _tecnicoLogado = new();
     [ObservableProperty] private Tecnico _novoTecnico = new();
@@ -19,10 +20,12 @@ public partial class AdminViewModel : ObservableObject
     [ObservableProperty] private bool _buscandoTecnicos = false;
     public ObservableCollection<Tecnico> Tecnicos { get; set; } = [];
 
-    public AdminViewModel(ILoggedUserService loggedUserService, ICrasService crasService, ITecnicoService tecnicoService)
+    public AdminViewModel(ILoggedUserService loggedUserService, ICrasService crasService, ITecnicoService tecnicoService, IPasswordService passwordService)
     {
+        _tecnicoService = tecnicoService;
         _crasService = crasService;
         _loggedUserService = loggedUserService;
+        _passwordService = passwordService;
 
         TecnicoLogado = _loggedUserService.GetCurrentUser();
         Task.Run(BuscarTecnicos);
@@ -36,7 +39,7 @@ public partial class AdminViewModel : ObservableObject
     }
     
     [RelayCommand]
-    private Task AdicionarTecnico()
+    private async Task<Tecnico> AdicionarTecnico()
     {
         NovoTecnico.TecnicoCras.Add(new()
         {
@@ -47,7 +50,8 @@ public partial class AdminViewModel : ObservableObject
             TecnicoId = 0,
             DataEntrada = DateOnly.FromDateTime(DateTime.Now)
         });
-        return _tecnicoService.AddAsync(NovoTecnico);
+        Tecnico tecnicoComHash = await _tecnicoService.ChangeSenhaForHash(NovoTecnico, _passwordService);
+        return await _tecnicoService.AddAsync(tecnicoComHash);
     }
     
     
