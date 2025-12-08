@@ -49,6 +49,23 @@ public class CrasRepository(SisCrasDbContext dbContext) : BaseRepository<Cras>(d
         return await GetProntuarioAndFamiliaAndUsuariosFromCras(cras.Id);
     }
 
+    public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(int id)
+    {
+        return await DbContext.Cras
+            .Where(c => c.Id == id)
+            .SelectMany(c => c.Prontuarios)
+            .Include(p => p.Familia)
+            .ThenInclude(f => f.FamiliaUsuarios)
+            .ThenInclude(fu => fu.Usuario)
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
+    public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(Cras cras)
+    {
+        return await GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(cras.Id);
+    }
+
     public async Task<List<Tecnico>> GetTecnicosFromCras(int id)
     {
         return await DbContext.Cras

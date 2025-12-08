@@ -37,4 +37,14 @@ public class ProntuarioService(IProntuarioRepository prontuarioRepository)
     {
         return await ProntuarioRepository.GetProntuarioByFamiliaId(familia);
     }
+
+    public async Task<Prontuario?> GetProntuarioByFamiliaIdNoTracking(int familiaId)
+    {
+        return await ProntuarioRepository.GetProntuarioByFamiliaIdNoTracking(familiaId);
+    }
+
+    public async Task<Prontuario?> GetProntuarioByFamiliaIdNoTracking(Familia familia)
+    {
+        return await ProntuarioRepository.GetProntuarioByFamiliaIdNoTracking(familia);
+    }
 }

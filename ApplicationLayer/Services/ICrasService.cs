@@ -12,4 +12,6 @@ public interface ICrasService : IBaseService<Cras>
     Task<List<Prontuario>> GetProntuariosFromCras(Cras cras);
     Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCras(int id);
     Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCras(Cras cras);
+    Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(int id);
+    Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(Cras cras);
 }

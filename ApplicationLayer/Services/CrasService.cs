@@ -14,7 +14,7 @@ public class CrasService(ICrasRepository crasRepository) : BaseService<Cras>(cra
 
     public async Task<List<Tecnico>> GetTecnicosFromCras(Cras cras)
     {
-        return await GetTecnicosFromCras(cras.Id);
+        return await CrasRepository.GetTecnicosFromCras(cras);
     }
 
     public async Task<List<Familia>> GetFamiliasFromCras(int id)
@@ -24,7 +24,7 @@ public class CrasService(ICrasRepository crasRepository) : BaseService<Cras>(cra
 
     public async Task<List<Familia>> GetFamiliasFromCras(Cras cras)
     {
-        return await GetFamiliasFromCras(cras.Id);
+        return await CrasRepository.GetFamiliasFromCras(cras);
     }
 
     public async Task<List<Prontuario>> GetProntuariosFromCras(int id)
@@ -34,7 +34,7 @@ public class CrasService(ICrasRepository crasRepository) : BaseService<Cras>(cra
 
     public async Task<List<Prontuario>> GetProntuariosFromCras(Cras cras)
     {
-        return await GetProntuariosFromCras(cras.Id);
+        return await CrasRepository.GetProntuariosFromCras(cras);;
     }
 
     public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCras(int id)
@@ -44,6 +44,16 @@ public class CrasService(ICrasRepository crasRepository) : BaseService<Cras>(cra
 
     public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCras(Cras cras)
     {
-        return await GetProntuarioAndFamiliaAndUsuariosFromCras(cras.Id);
+        return await CrasRepository.GetProntuarioAndFamiliaAndUsuariosFromCras(cras);
+    }
+
+    public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(int id)
+    {
+        return await CrasRepository.GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(id);
+    }
+
+    public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(Cras cras)
+    {
+        return await CrasRepository.GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(cras);
     }
 }
