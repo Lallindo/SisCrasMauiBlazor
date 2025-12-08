@@ -1,83 +1,55 @@
-﻿@page "/"
-@inject LoginViewModel ViewModel
+﻿@using SisCras.Presentation.Enums
+@using Microsoft.AspNetCore.Components.Forms
 
-<div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center bg-light">
-    <div class="card shadow-lg" style="max-width: 450px; width: 100%;">
-        <div class="card-header text-center bg-white py-4">
-            <div class="d-flex justify-content-center mb-3">
-                <div class="bg-white rounded-3 shadow-sm border border-2 border-light p-2"
-                     style="width: 6rem; height: 6rem;">
-                    <img src="resources\brasao_jau.jpg" alt="Brasão de Jaú" class="img-fluid"
-                         style="object-fit: contain; width: 100%; height: 100%;"/>
-                </div>
-            </div>
-            <h4 class="card-title mb-1">SisCras</h4>
-            <p class="card-text text-muted">
-                Sistema de Cadastro de Famílias<br/>
-                Jaú/SP
-            </p>
-        </div>
-        <div class="card-body p-4">
-            <EditForm Model="ViewModel.Tecnico" OnValidSubmit="HandleValidSubmit">
-                <DataAnnotationsValidator/>
-
-                <div class="mb-3">
-                    <HxInputText Label="Usuário:"
-                                 @bind-Value="@ViewModel.Tecnico.Login"
-                                 Placeholder="Digite seu usuário">
-                        <InputGroupStartTemplate>
-                            <span class="input-group-text"><i class="bi bi-person-fill text-muted"></i></span>
-                        </InputGroupStartTemplate>
-                    </HxInputText>
-                </div>
-
-                <div class="mb-3">
-                    <HxInputText Label="Senha:"
-                                 Type="InputType.Password"
-                                 @bind-Value="@ViewModel.Tecnico.Senha"
-                                 Placeholder="Digite sua senha">
-                        <InputGroupStartTemplate>
-                            <span class="input-group-text"><i class="bi bi-lock-fill text-muted"></i></span>
-                        </InputGroupStartTemplate>
-                    </HxInputText>
-                </div>
-
-                @if (ViewModel.LoginError)
-                {
-                    <HxAlert Color="ThemeColor.Danger" CssClass="d-flex align-items-center py-2">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <div>
-                            Usuário ou senha incorretos.
-                        </div>
-                    </HxAlert>
-                }
-
-                <HxButton Type="ButtonType.Submit" 
-                          Color="ThemeColor.Primary" 
-                          CssClass="w-100">
-                    Entrar @* TODO: Add loading state if IsBusy exists in VM *@
-                </HxButton>
-
-            </EditForm>
-
-            <div class="mt-4 pt-4 border-top">
-                <div class="text-xs text-muted">
-                    <p class="fw-medium mb-2">Usuários de teste:</p>
-                    <ul class="list-unstyled mb-0 small">
-                        <li>• bruno / 123</li>
-                        <li>• jose / 321</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+@* Exemplo simplificado da estrutura - Você precisará da lógica de máscara (JS ou C#) *@
+<div class="@Classes">
+  <div class="input-group">
+    @if (PrefixContent != null)
+    {
+      @PrefixContent
+    }
+        
+    @* Input real onde a máscara seria aplicada *@
+    <input type="@Type" 
+           class="@InputClass" 
+           value="@Value"
+           placeholder="@Placeholder"
+           @onchange="OnChange" />
+  </div>
 </div>
 
 @code {
+  [Parameter]
+  public string? Value { get; set; }
 
-    private async Task HandleValidSubmit()
-    {
-        await ViewModel.TryLoginCommand.ExecuteAsync(null);
-    }
+  [Parameter]
+  public EventCallback<string?> ValueChanged { get; set; }
 
+  [Parameter]
+  public MaskTypeEnum Mask { get; set; }
+
+  [Parameter]
+  public string? Placeholder { get; set; }
+
+  [Parameter]
+  public string? InputClass { get; set; }
+
+  [Parameter]
+  public string? Classes { get; set; }
+
+  [Parameter]
+  public string Type { get; set; } = "text";
+
+  [Parameter]
+  public RenderFragment? PrefixContent { get; set; }
+
+  private async Task OnChange(ChangeEventArgs e)
+  {
+    Value = e.Value?.ToString();
+    await ValueChanged.InvokeAsync(Value);
+  }
+    
+  // Observação: Para que a máscara funcione visualmente enquanto o usuário digita,
+  // você provavelmente precisará implementar lógica adicional aqui ou usar JS Interop 
+  // com base no enum 'Mask'.
 }
