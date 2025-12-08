@@ -25,7 +25,7 @@
                 <div class="col-12">
                     <label class="form-label fw-bold">Nome Completo *</label>
                     <InputText class="form-control form-control-lg" @bind-Value="UsuarioModel.Usuario.Nome"
-                               placeholder="Nome completo" disabled="@AreInputsDisabled"/>
+                               placeholder="Nome completo" disabled="@AreInputsDisabled" @onfocusout="NotificarAlteracao"/>
                 </div>
             </div>
 
@@ -36,7 +36,8 @@
                                  Mask="MaskTypeEnum.Cpf"
                                  Placeholder="999.999.999-99"
                                  InputClass="form-control" 
-                                 IsDisabled="AreInputsDisabled"/>
+                                 IsDisabled="AreInputsDisabled"
+                                 OnFocusOut="NotificarAlteracao"/>
                 </div>
                 
                 <div class="col-md-6">
@@ -85,7 +86,8 @@
                                  Mask="MaskTypeEnum.Cpf"
                                  Placeholder="999.999.999-99"
                                  InputClass="form-control"
-                                 IsDisabled="AreInputsDisabled"/>
+                                 IsDisabled="AreInputsDisabled"
+                                 OnFocusOut="NotificarAlteracao"/>
                 </div>
 
                 <div class="col-md-6">
@@ -154,6 +156,7 @@ else
 @code {
     [Parameter] public FamiliaUsuario UsuarioModel { get; set; }
     [Parameter] public MembroFamiliaTypeEnum ComponentMode { get; set; }
+    [Parameter] public EventCallback<Usuario> CanSearchUsuario { get; set; }
 
     [Parameter] public EventCallback DeactivateClicked { get; set; }
     
@@ -186,5 +189,13 @@ else
     public async Task TriggerDeactivateClicked(FamiliaUsuario usuario)
     {
         await DeactivateClicked.InvokeAsync(usuario);
+    }
+
+    private async Task NotificarAlteracao()
+    {
+        if (CanSearchUsuario.HasDelegate && UsuarioModel?.Usuario is not null)
+        {
+            await CanSearchUsuario.InvokeAsync(UsuarioModel.Usuario);
+        }
     }
 }

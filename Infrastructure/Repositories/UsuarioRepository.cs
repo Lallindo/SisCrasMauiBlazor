@@ -57,6 +57,22 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
         return await GetByDataNascimento(usuario.DataNascimento);
     }
 
+    public async Task<Usuario?> GetUsuarioByUsuarioSearch(string? nome, string? cpf, string? nis)
+    {
+        if (string.IsNullOrEmpty(nome) && string.IsNullOrEmpty(cpf) && string.IsNullOrEmpty(nis)) return null;
+
+        return await DbContext.Usuarios
+            .Select(u => u)
+            .Where(u => u.Nome == nome && u.Cpf == cpf && u.Nis == nis)
+            .Include(u => u.FamiliaUsuarios)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<Usuario?> GetUsuarioByUsuarioSearch(Usuario usuario)
+    {
+        return await GetUsuarioByUsuarioSearch(usuario.Nome, usuario.Cpf, usuario.Nis);
+    }
+    
     public async Task<List<Prontuario>> GetAllProntuariosByUsuarioSearch(string? nome, string? cpf, string? nis)
     {
         if (string.IsNullOrEmpty(nome) && string.IsNullOrEmpty(cpf) && string.IsNullOrEmpty(nis)) return [];

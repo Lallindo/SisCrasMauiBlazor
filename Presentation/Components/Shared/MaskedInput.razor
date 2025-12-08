@@ -15,7 +15,8 @@
            value="@Value"
            placeholder="@Placeholder"
            disabled="@IsDisabled"
-           @onchange="OnChange" />
+           @onchange="OnChange" 
+           @onfocusout="OnFocusOut"/>
   </div>
 </div>
 
@@ -37,6 +38,9 @@
 
   [Parameter]
   public string? Classes { get; set; }
+  
+  [Parameter]
+    public EventCallback OnFocusOut { get; set; }
 
   [Parameter]
   public string Type { get; set; } = "text";
@@ -51,8 +55,4 @@
     Value = e.Value?.ToString();
     await ValueChanged.InvokeAsync(Value);
   }
-    
-  // Observação: Para que a máscara funcione visualmente enquanto o usuário digita,
-  // você provavelmente precisará implementar lógica adicional aqui ou usar JS Interop 
-  // com base no enum 'Mask'.
 }

@@ -6,7 +6,7 @@
 
 @foreach (var usuario in ViewModel.Prontuario.Familia.FamiliaUsuarios)
 {
-    <MembroFamilia UsuarioModel="usuario"/>
+    <MembroFamilia UsuarioModel="usuario" CanSearchUsuario="@ViewModel.VerifyDuplicateCommand.Execute"/>
 }
 
 <button @onclick="@ViewModel.InsertNewProntuarioCommand.ExecuteAsync" class="btn-primary btn">Cadastrar família</button>

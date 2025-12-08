@@ -11,12 +11,14 @@ namespace SisCras.Presentation.ViewModels;
 public partial class RegistroViewModel(
     IProntuarioService prontuarioService,
     IFamiliaService familiaService,
-    ILoggedUserService loggedUserService
+    ILoggedUserService loggedUserService,
+    IUsuarioService usuarioService
 ) : BaseViewModel
 {
     private readonly IFamiliaService _familiaService = familiaService;
     private readonly ILoggedUserService _loggedUserService = loggedUserService;
     private readonly IProntuarioService _prontuarioService = prontuarioService;
+    private readonly IUsuarioService _usuarioService = usuarioService;
 
     [ObservableProperty] private Prontuario _prontuario = new()
     {
@@ -27,6 +29,7 @@ public partial class RegistroViewModel(
         }
     };
     [ObservableProperty] private Usuario? _usuario = new();
+    [ObservableProperty] private ObservableCollection<Prontuario> _prontuariosEncontrados = [];
 
     [RelayCommand]
     private async Task CreateNewUsuario()
@@ -46,10 +49,46 @@ public partial class RegistroViewModel(
     }
 
     [RelayCommand]
+    private async Task VerifyDuplicate(Usuario usuarioToVerify)
+    {
+        if (usuarioToVerify is null) return;
+        
+        bool temDados = !string.IsNullOrWhiteSpace(usuarioToVerify.Nome) || 
+                        !string.IsNullOrWhiteSpace(usuarioToVerify.Cpf) || 
+                        !string.IsNullOrWhiteSpace(usuarioToVerify.Nis);
+
+        if (!temDados) return;
+
+        try
+        {
+            var resultado = await _usuarioService.GetUsuarioByUsuarioSearch(
+                usuarioToVerify.Nome,
+                usuarioToVerify.Cpf,
+                usuarioToVerify.Nis
+            );
+            
+            if (resultado != null)
+            {
+                foreach (var f in resultado.FamiliaUsuarios)
+                {
+                    Debug.WriteLine($"{f.Parentesco}");
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Nada encontrado");
+            }
+        } catch (Exception ex)
+        {
+            Debug.WriteLine($"Erro na busca: {ex.Message}");
+        }
+    }
+
+    [RelayCommand]
     private async Task InsertNewProntuario()
     {
         Prontuario.Tecnico = _loggedUserService.GetCurrentUser();
-        Prontuario.Cras = Prontuario.Tecnico.CrasAtivo;
+        Prontuario.Cras = Prontuario.Tecnico?.CrasAtivo;
         Prontuario.Id = 0;
         await _prontuarioService.AddAsync(Prontuario);
     }
