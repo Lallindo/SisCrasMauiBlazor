@@ -111,8 +111,8 @@ public class CrasServiceTests
         {
             new() { Id = 1, Nome = "Tecnico 1" }
         };
-        _mockRepository.Setup(r => r.GetTecnicosFromCras(1))
-            .Returns(Task.FromResult(tecnicos)); // Fixed
+        // _mockRepository.Setup(r => r.GetTecnicosFromCras(1))
+           // .Returns(Task.FromResult(tecnicos)); // Fixed
 
         // Act
         var result = await _service.GetTecnicosFromCras(1);

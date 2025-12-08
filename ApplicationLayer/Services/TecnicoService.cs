@@ -19,7 +19,7 @@ public class TecnicoService(
         var tecnico = await TecnicoRepository.GetTecnicoByLogin(login);
         if (tecnico == null) return false;
 
-        var senhaCorreta = PasswordService.VerifyPassword(plainSenha, new PasswordHash(tecnico.Senha));
+        var senhaCorreta = PasswordService.VerifyPassword(plainSenha, tecnico.Senha);
 
         if (senhaCorreta)
         {
@@ -32,7 +32,7 @@ public class TecnicoService(
 
     public async Task<Tecnico> ChangeSenhaForHash(Tecnico tecnico, IPasswordService passwordService)
     {
-        tecnico.Senha = Task.FromResult(passwordService.CreatePassword(tecnico.Senha).Hash).Result;
+        tecnico.Senha = Task.FromResult(passwordService.CreatePassword(tecnico.Senha)).Result;
         return tecnico;
     }
 }

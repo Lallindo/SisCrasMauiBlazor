@@ -35,7 +35,8 @@
                     <MaskedInput @bind-Value="UsuarioModel.Usuario.Cpf" 
                                  Mask="MaskTypeEnum.Cpf"
                                  Placeholder="999.999.999-99"
-                                 InputClass="form-control" />
+                                 InputClass="form-control" 
+                                 IsDisabled="AreInputsDisabled"/>
                 </div>
                 
                 <div class="col-md-6">
@@ -43,7 +44,8 @@
                     <MaskedInput @bind-Value="UsuarioModel.Usuario.Rg" 
                                  Mask="MaskTypeEnum.Rg"
                                  Placeholder="999.999.999-99"
-                                 InputClass="form-control" />
+                                 InputClass="form-control"
+                                 IsDisabled="AreInputsDisabled"/>
                 </div>
 
                 <div class="col-md-4">
@@ -84,7 +86,8 @@
                     <MaskedInput @bind-Value="UsuarioModel.Usuario.Nis" 
                                  Mask="MaskTypeEnum.Cpf"
                                  Placeholder="999.999.999-99"
-                                 InputClass="form-control" />
+                                 InputClass="form-control"
+                                 IsDisabled="AreInputsDisabled"/>
                 </div>
 
                 <div class="col-md-6">
@@ -132,7 +135,8 @@
                         Placeholder="0,00"
                         Classes="rounded-pill border border-light"
                         InputClass="form-control"
-                        Type="text">
+                        Type="text"
+                        IsDisabled="AreInputsDisabled">
                         
                         <PrefixContent>
                             <span class="input-group-text bg-transparent border-0 text-white-50 pe-1">

@@ -2,6 +2,7 @@
 using System.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Havit.Blazor.Components.Web.Bootstrap;
 using SisCras.ApplicationLayer.Services;
 using SisCras.Domain.Entities;
 
@@ -18,29 +19,41 @@ public partial class AdminViewModel : ObservableObject
     [ObservableProperty] private Tecnico _novoTecnico = new();
     [ObservableProperty] private string _confirmarSenha = String.Empty;
     [ObservableProperty] private bool _buscandoTecnicos = false;
-    public ObservableCollection<Tecnico> Tecnicos { get; set; } = [];
+    [ObservableProperty] private bool _registroError = true;
+    [ObservableProperty] private ObservableCollection<Tecnico> _tecnicos = [];
 
+    public HxModal ConfirmationModal;
+
+    [ObservableProperty] private Tecnico? _tecnicoParaRemover;
+    [ObservableProperty] private string _senhaUsuarioExclusao = string.Empty;
+    [ObservableProperty] private string _erroModal = string.Empty;
+    
     public AdminViewModel(ILoggedUserService loggedUserService, ICrasService crasService, ITecnicoService tecnicoService, IPasswordService passwordService)
     {
         _tecnicoService = tecnicoService;
         _crasService = crasService;
         _loggedUserService = loggedUserService;
         _passwordService = passwordService;
-
         TecnicoLogado = _loggedUserService.GetCurrentUser();
-        Task.Run(BuscarTecnicos);
     }
 
     public async Task BuscarTecnicos()
     {
-        BuscandoTecnicos = false;
-        Tecnicos = new(await _crasService.GetTecnicosFromCras(TecnicoLogado.CrasAtivo));
         BuscandoTecnicos = true;
+        Tecnicos = new(await _crasService.GetTecnicosFromCras(TecnicoLogado.CrasAtivo));
+        BuscandoTecnicos = false;
     }
     
     [RelayCommand]
-    private async Task<Tecnico> AdicionarTecnico()
+    private async Task<Tecnico?> AdicionarTecnico()
     {
+        bool validacao = ValidarTecnico();
+        if (validacao)
+        {
+            RegistroError = validacao;
+            return null;
+        }
+
         NovoTecnico.TecnicoCras.Add(new()
         {
             Id = 0,
@@ -53,6 +66,46 @@ public partial class AdminViewModel : ObservableObject
         Tecnico tecnicoComHash = await _tecnicoService.ChangeSenhaForHash(NovoTecnico, _passwordService);
         return await _tecnicoService.AddAsync(tecnicoComHash);
     }
-    
-    
+
+    private bool ValidarTecnico()
+    {
+      return (
+        NovoTecnico.Nome == "" ||
+        NovoTecnico.Login == "" || 
+        NovoTecnico.Senha == ""
+      );
+    }
+
+    [RelayCommand]
+    private async Task SolicitarRemocao(Tecnico tecnico)
+    {
+        TecnicoParaRemover = tecnico;
+        SenhaUsuarioExclusao = string.Empty;
+        ErroModal = string.Empty;
+
+        await ConfirmationModal.ShowAsync();
+    }
+
+    [RelayCommand]
+    private async Task RemoverTecnico()
+    {
+        if (TecnicoParaRemover == null || TecnicoLogado == null) return;
+        bool senhaValida = _passwordService.VerifyPassword(SenhaUsuarioExclusao, TecnicoParaRemover.Senha);
+
+        if (!senhaValida)
+        {
+            ErroModal = "Senha incorreta. Verifique a senha do técnico que deseja remover.";
+            return;
+        }
+
+        try
+        {
+            await _tecnicoService.DeleteAsync(TecnicoParaRemover);
+            await ConfirmationModal.HideAsync();
+        }
+        catch (Exception ex)
+        {
+            ErroModal = $"Erro ao remover: {ex.Message}";
+        }
+    }
 }

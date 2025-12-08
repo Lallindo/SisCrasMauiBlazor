@@ -54,6 +54,7 @@ public class CrasRepository(SisCrasDbContext dbContext) : BaseRepository<Cras>(d
         return await DbContext.Cras
             .Where(c => c.Id == id)
             .SelectMany(c => c.TecnicosCras)
+            .Where(tc => tc.DataSaida == null)
             .Select(tc => tc.Tecnico)
             .ToListAsync();
     }

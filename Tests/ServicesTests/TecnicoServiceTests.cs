@@ -38,7 +38,7 @@ public class TecnicoServiceTests
 
         _mockTecnicoRepository.Setup(r => r.GetTecnicoByLogin("admin"))
             .Returns(Task.FromResult<Tecnico?>(tecnico));
-        _mockPasswordService.Setup(p => p.VerifyPassword("password", It.IsAny<PasswordHash>()))
+        _mockPasswordService.Setup(p => p.VerifyPassword("password", It.IsAny<string>()))
             .Returns(true);
         _mockTecnicoRepository.Setup(r => r.GetCurrentCrasById(1))
             .Returns(Task.FromResult<Cras?>);
@@ -49,7 +49,7 @@ public class TecnicoServiceTests
         // Assert
         Assert.True(result);
         _mockTecnicoRepository.Verify(r => r.GetTecnicoByLogin("admin"), Times.Once);
-        _mockPasswordService.Verify(p => p.VerifyPassword("password", It.IsAny<PasswordHash>()), Times.Once);
+        _mockPasswordService.Verify(p => p.VerifyPassword("password", It.IsAny<string>()), Times.Once);
         _mockTecnicoRepository.Verify(r => r.GetCurrentCrasById(1), Times.Once);
         _mockLoggedUserService.Verify(l => l.SetCurrentUser(tecnico), Times.Once);
     }
@@ -67,7 +67,7 @@ public class TecnicoServiceTests
         // Assert
         Assert.False(result);
         _mockTecnicoRepository.Verify(r => r.GetTecnicoByLogin("unknown"), Times.Once);
-        _mockPasswordService.Verify(p => p.VerifyPassword(It.IsAny<string>(), It.IsAny<PasswordHash>()), Times.Never);
+        _mockPasswordService.Verify(p => p.VerifyPassword(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         _mockLoggedUserService.Verify(l => l.SetCurrentUser(It.IsAny<Tecnico>()), Times.Never);
     }
 
@@ -79,7 +79,7 @@ public class TecnicoServiceTests
 
         _mockTecnicoRepository.Setup(r => r.GetTecnicoByLogin("admin"))
             .Returns(Task.FromResult<Tecnico?>(tecnico));
-        _mockPasswordService.Setup(p => p.VerifyPassword("wrongpassword", It.IsAny<PasswordHash>()))
+        _mockPasswordService.Setup(p => p.VerifyPassword("wrongpassword", It.IsAny<string>()))
             .Returns(false);
 
         // Act
@@ -88,7 +88,7 @@ public class TecnicoServiceTests
         // Assert
         Assert.False(result);
         _mockTecnicoRepository.Verify(r => r.GetTecnicoByLogin("admin"), Times.Once);
-        _mockPasswordService.Verify(p => p.VerifyPassword("wrongpassword", It.IsAny<PasswordHash>()), Times.Once);
+        _mockPasswordService.Verify(p => p.VerifyPassword("wrongpassword", It.IsAny<string>()), Times.Once);
         _mockLoggedUserService.Verify(l => l.SetCurrentUser(It.IsAny<Tecnico>()), Times.Never);
     }
 

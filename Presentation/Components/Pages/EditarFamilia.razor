@@ -2,8 +2,6 @@
 @using SisCras.Presentation.Components.Shared
 @inject EditarFamiliaViewModel ViewModel
 
-<button @onclick="@ViewModel.CreateNewUsuarioCommand.ExecuteAsync"><i class="bi bi-person-plus"></i></button>
-
 @foreach (var usuario in ViewModel.SelectedProntuario.Familia.FamiliaUsuarios)
 {
     <MembroFamilia UsuarioModel="usuario" ComponentMode="PageMode"

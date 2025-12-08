@@ -25,4 +25,10 @@ public class TecnicoRepository(SisCrasDbContext dbContext) : BaseRepository<Tecn
             .Select(tc => tc.Cras)
             .FirstOrDefaultAsync();
     }
+
+    public async Task DeleteAsync(Tecnico obj, CancellationToken cancellationToken = default)
+    {
+        obj.TecnicoCrasAtivo.DataSaida = DateOnly.FromDateTime(DateTime.Now);
+        await DbContext.SaveChangesAsync(cancellationToken);
+    }
 }

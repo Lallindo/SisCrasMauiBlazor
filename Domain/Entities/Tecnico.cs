@@ -16,11 +16,19 @@ public class Tecnico
     public string Senha { get; set; } = string.Empty;
     public ICollection<TecnicoCras> TecnicoCras { get; set; } = [];
 
+    public TecnicoCras? TecnicoCrasAtivo
+    {
+        get
+        {
+            return TecnicoCras?.FirstOrDefault(tc => tc.DataSaida == null);
+        }
+    }
+    
     public Cras? CrasAtivo
     {
         get
         {
-            return TecnicoCras?.FirstOrDefault(tc => tc.DataSaida == null)?.Cras;
+            return TecnicoCrasAtivo?.Cras;
         }
     }
 

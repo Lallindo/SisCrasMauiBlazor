@@ -21,7 +21,7 @@
     [Parameter] public ProntuarioCardTypeEnum ComponentMode { get; set; }
     [Parameter] public EventCallback ButtonProntuarioClicked { get; set; }
 
-    public async Task TriggerButtonProntuario()
+    private async Task TriggerButtonProntuario()
     {
         await ButtonProntuarioClicked.InvokeAsync(Prontuario.FamiliaId);
     }

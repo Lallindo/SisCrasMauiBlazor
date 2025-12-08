@@ -1,17 +1,14 @@
-using SisCras.Domain.ValueObjects;
-using SisCras.Domain.ValueObjects;
-
 namespace SisCras.ApplicationLayer.Services;
 
 public class PasswordService : IPasswordService
 {
-    public PasswordHash CreatePassword(string plainPassword)
+    public string CreatePassword(string plainPassword)
     {
-        return PasswordHash.Create(plainPassword);
+        return BCrypt.Net.BCrypt.HashPassword(plainPassword);
     }
 
-    public bool VerifyPassword(string plainPassword, PasswordHash hashedPassword)
+    public bool VerifyPassword(string plainPassword, string hashedPassword)
     {
-        return hashedPassword.Verify(plainPassword);
+        return BCrypt.Net.BCrypt.Verify(plainPassword, hashedPassword);
     }
 }

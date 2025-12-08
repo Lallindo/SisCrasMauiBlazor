@@ -20,7 +20,6 @@ public class PasswordServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.NotNull(result.Hash);
     }
 
     [Fact]
