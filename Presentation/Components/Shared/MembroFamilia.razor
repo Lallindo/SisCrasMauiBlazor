@@ -51,7 +51,6 @@
                 <div class="col-md-4">
                     <label class="form-label fw-bold">Sexo</label>
                     <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.Sexo" disabled="@AreInputsDisabled">
-                        <option value="">Selecione</option>
                         @foreach (SexoEnum sexo in Enum.GetValues(typeof(SexoEnum)))
                         {
                             <option value="@sexo">@sexo.GetDescription()</option>
@@ -62,7 +61,6 @@
                 <div class="col-md-4">
                     <label class="form-label fw-bold">Raça/Cor</label>
                     <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.Raca" disabled="@AreInputsDisabled">
-                        <option value="">Selecione</option>
                         @foreach (RacaEnum raca in Enum.GetValues(typeof(RacaEnum)))
                         {
                             <option value="@raca">@raca.GetDescription()</option>
@@ -98,7 +96,6 @@
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Estado Civil</label>
                     <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.EstadoCivil" disabled="@AreInputsDisabled">
-                        <option value="">Selecione</option>
                         @foreach (EstadoCivilEnum estado in Enum.GetValues(typeof(EstadoCivilEnum)))
                         {
                             <option value="@estado">@estado.GetDescription()</option>
@@ -109,7 +106,6 @@
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Grau de Instrução</label>
                     <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.Escolaridade" disabled="@AreInputsDisabled">
-                        <option value="">Selecione</option>
                         @foreach (EscolaridadeEnum escolaridade in Enum.GetValues(typeof(EscolaridadeEnum)))
                         {
                             <option value="@escolaridade">@escolaridade.GetDescription()</option>
@@ -120,7 +116,6 @@
                 <div class="col-md-6">
                     <label class="form-label">Orientação Sexual</label>
                     <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.OrientacaoSexual" required disabled="@AreInputsDisabled">
-                        <option value="">Selecione...</option>
                         @foreach (OrientacaoSexualEnum orientacaoSexual in Enum.GetValues(typeof(OrientacaoSexualEnum)))
                         {
                             <option value="@orientacaoSexual">@orientacaoSexual.GetDescription()</option>
