@@ -20,7 +20,7 @@
         <p>CRAS: @ViewModel.UsuarioForModal.Familia.Prontuarios.FirstOrDefault(p => p.DataSaida == null).Cras.Nome</p>
     </BodyTemplate>
     <FooterTemplate>
-        <button @onclick="">Fazer o role</button>
+        <button @onclick="() => Debug.WriteLine(ViewModel.Usuario.Nome)">Fazer o role</button>
     </FooterTemplate>
 </HxModal>
 

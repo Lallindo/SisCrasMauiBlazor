@@ -50,7 +50,7 @@ public partial class FamiliaViewModel(
     public async Task GetAllProntuarios()
     {
         Prontuarios =
-            new ObservableCollection<Prontuario>(await _crasService.GetProntuarioAndFamiliaAndUsuariosFromCras(1));
+            new ObservableCollection<Prontuario>(await _crasService.GetAllProntuariosAndFamiliaAndUsuarios());
     }
 
     public async Task GetLoggedUsuario()

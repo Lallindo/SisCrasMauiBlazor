@@ -49,7 +49,19 @@ public class CrasRepository(SisCrasDbContext dbContext) : BaseRepository<Cras>(d
         return await GetProntuarioAndFamiliaAndUsuariosFromCras(cras.Id);
     }
 
-    public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(int id)
+    public async Task<List<Prontuario>> GetAllProntuariosAndFamiliaAndUsuarios(int offset = 0, int limit = 20)
+    {
+        return await DbContext.Prontuarios
+            .Include(p => p.Cras)
+            .Include(p => p.Familia)
+            .ThenInclude(f => f.FamiliaUsuarios)
+            .ThenInclude(fu => fu.Usuario)
+            .Skip(offset)
+            .Take(limit)
+            .ToListAsync();
+    }
+
+    public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(int id) // TODO Adicionar OFFSET e LIMIT
     {
         return await DbContext.Cras
             .Where(c => c.Id == id)

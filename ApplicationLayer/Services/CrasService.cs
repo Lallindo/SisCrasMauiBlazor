@@ -47,6 +47,11 @@ public class CrasService(ICrasRepository crasRepository) : BaseService<Cras>(cra
         return await CrasRepository.GetProntuarioAndFamiliaAndUsuariosFromCras(cras);
     }
 
+    public async Task<List<Prontuario>> GetAllProntuariosAndFamiliaAndUsuarios(int offset = 0, int limit = 20)
+    {
+        return await CrasRepository.GetAllProntuariosAndFamiliaAndUsuarios(offset, limit);
+    }
+
     public async Task<List<Prontuario>> GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(int id)
     {
         return await CrasRepository.GetProntuarioAndFamiliaAndUsuariosFromCrasNoTracking(id);

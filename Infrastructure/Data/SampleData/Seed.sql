@@ -34,7 +34,7 @@ VALUES (1, 1, '03-11-2025', 1, 'Testando', 1),
 
 INSERT INTO TecnicoCras(CrasId, DataEntrada, TecnicoId, Admin)
 VALUES (1, '04-11-2023', 1, 1),
-       (2, '16-10-2022', 2, 1);
+       (2, '10-16-2022', 2, 1);
 
 INSERT INTO FamiliaUsuarios(Familiaid, Parentesco, UsuarioId, DataAdicao)
 VALUES ( 1, 1, 1, '12-08-2025'),
