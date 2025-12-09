@@ -35,7 +35,6 @@ public partial class RegistroViewModel(
     private Usuario? UsuarioBeingEdited = null;
     public HxModal DuplicateModal;
     [ObservableProperty] private FamiliaUsuario? _usuarioForModal = null;
-    [ObservableProperty] private string _nomeCras = string.Empty;
 
     [RelayCommand]
     private async Task CreateNewUsuario()
@@ -82,7 +81,6 @@ public partial class RegistroViewModel(
                     if (f.DataSaida == null)
                     {
                         UsuarioForModal = f;
-                        NomeCras = f.Familia.Prontuarios.FirstOrDefault(p => p.DataSaida == null).Cras.Nome;
                         await DuplicateModal.ShowAsync();
                     }
                 }
