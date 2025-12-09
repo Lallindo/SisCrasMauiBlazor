@@ -4,6 +4,7 @@ using SisCras.ApplicationLayer.Services;
 using SisCras.ApplicationLayer;
 using SisCras.Domain.Entities;
 using SisCras.Infrastructure.Data.Context;
+using SisCras.Infrastructure.Interceptors;
 using SisCras.Infrastructure.Repositories;
 using SisCras.Presentation.Services;
 using SisCras.Presentation.ViewModels;
@@ -55,10 +56,16 @@ public static class MauiProgram
         builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         builder.Services.AddScoped<ICrasRepository, CrasRepository>();
 
+        // Interceptors
+        builder.Services.AddSingleton<TrocaResponsavelInterceptor>();
+        
         // Database
-        builder.Services.AddDbContext<SisCrasDbContext>(options =>
+        builder.Services.AddDbContext<SisCrasDbContext>((sp, options) =>
         {
             options.UseSqlite($"Data Source={SisCrasDbContext.GetSqLiteConnection()}");
+            var responsavelInterceptor =
+                sp.GetService<TrocaResponsavelInterceptor>() ?? new TrocaResponsavelInterceptor();
+            options.AddInterceptors(responsavelInterceptor);
         });
 
         return builder.Build();

@@ -14,10 +14,10 @@ public class TecnicoService(
     private ILoggedUserService LoggedUserService { get; } = loggedUserService;
     private IPasswordService PasswordService { get; } = passwordService;
 
-    public async Task<bool> TryLoginAsync(string login, string plainSenha)
+    public async Task<bool?> TryLoginAsync(string login, string plainSenha)
     {
         var tecnico = await TecnicoRepository.GetTecnicoByLogin(login);
-        if (tecnico == null) return false;
+        if (tecnico == null) return null;
 
         var senhaCorreta = PasswordService.VerifyPassword(plainSenha, tecnico.Senha);
 

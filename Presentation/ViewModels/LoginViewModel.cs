@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Components;
 using SisCras.ApplicationLayer.Services;
 using SisCras.Domain.Entities;
 
-// Adicione este using
-
 namespace SisCras.Presentation.ViewModels;
 
 public partial class LoginViewModel(ITecnicoService tecnicoService, NavigationManager navigationManager) : BaseViewModel
@@ -13,13 +11,23 @@ public partial class LoginViewModel(ITecnicoService tecnicoService, NavigationMa
     private readonly NavigationManager _navigationManager = navigationManager;
     private readonly ITecnicoService _tecnicoService = tecnicoService;
     [ObservableProperty] private bool _loginError;
+    [ObservableProperty] private string? _loginErrorTxt = string.Empty;
 
     [ObservableProperty] private Tecnico _tecnico = new();
 
     [RelayCommand]
     private async Task TryLoginAsync()
     {
-        if (await _tecnicoService.TryLoginAsync(Tecnico.Login, Tecnico.Senha))
+        var tryLogin = await _tecnicoService.TryLoginAsync(Tecnico.Login, Tecnico.Senha);
+
+        if (tryLogin == null)
+        {
+            LoginError = true;
+            LoginErrorTxt = "Usuário não existe ou não está ligado a um CRAS";
+            return;
+        }
+        
+        if (tryLogin == true)
         {
             LoginError = false;
             _navigationManager.NavigateTo("/familias");
@@ -27,6 +35,7 @@ public partial class LoginViewModel(ITecnicoService tecnicoService, NavigationMa
         else
         {
             LoginError = true;
+            LoginErrorTxt = "Usuário ou senha incorretos";
         }
     }
 }
