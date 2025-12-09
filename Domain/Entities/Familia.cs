@@ -17,11 +17,10 @@ public class Familia
         get
         {
             if (FamiliaUsuarios == null || FamiliaUsuarios.Count == 0) return null;
-            if (FamiliaUsuarios.Count == 1)
-            {
-                return FamiliaUsuarios.ElementAt(0).Usuario;
-            }
-            return (from fu in FamiliaUsuarios where fu.Parentesco == ParentescoEnum.Responsavel select fu.Usuario)
+            return (from fu 
+                    in FamiliaUsuarios 
+                    where fu.Parentesco == ParentescoEnum.Responsavel && fu.DataSaida == null 
+                    select fu.Usuario)
                 .FirstOrDefault();
         }
     }

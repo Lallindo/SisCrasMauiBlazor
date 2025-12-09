@@ -29,8 +29,10 @@ public partial class RegistroViewModel(
             FamiliaUsuarios = []
         }
     };
-    [ObservableProperty] private Usuario? _usuario = new();
+    [ObservableProperty] private Usuario? _usuarioByQuery = new();
     [ObservableProperty] private ObservableCollection<Prontuario> _prontuariosEncontrados = [];
+    private List<int> VinculosParaEncerrar = [];
+    private Usuario? UsuarioBeingEdited = null;
     public HxModal DuplicateModal;
     [ObservableProperty] private FamiliaUsuario? _usuarioForModal = null;
     [ObservableProperty] private string _nomeCras = string.Empty;
@@ -43,9 +45,9 @@ public partial class RegistroViewModel(
         {
             Usuario = new Usuario
             {
-                Nome = usuarioCount == 1 ? Usuario.Nome : "",
-                Cpf = usuarioCount == 1 ? Usuario.Cpf : "",
-                Nis = usuarioCount == 1 ? Usuario.Nis : ""
+                Nome = usuarioCount == 1 ? UsuarioByQuery.Nome : "",
+                Cpf = usuarioCount == 1 ? UsuarioByQuery.Cpf : "",
+                Nis = usuarioCount == 1 ? UsuarioByQuery.Nis : ""
             },
             Parentesco = usuarioCount == 0 ? ParentescoEnum.Responsavel : ParentescoEnum.Default, 
             DataAdicao = DateOnly.FromDateTime(DateTime.Now.AddDays(-3))
@@ -57,7 +59,7 @@ public partial class RegistroViewModel(
     {
         if (usuarioToVerify is null) return;
 
-        NomeCras = string.Empty;
+        UsuarioBeingEdited = usuarioToVerify;
         
         bool temDados = !string.IsNullOrWhiteSpace(usuarioToVerify.Nome) || 
                         !string.IsNullOrWhiteSpace(usuarioToVerify.Cpf) || 
@@ -98,15 +100,42 @@ public partial class RegistroViewModel(
     [RelayCommand]
     private async Task InsertNewProntuario()
     {
-        Prontuario.Tecnico = _loggedUserService.GetCurrentUser();
-        Prontuario.Cras = Prontuario.Tecnico?.CrasAtivo;
-        Prontuario.Id = 0;
-        await _prontuarioService.AddAsync(Prontuario);
+        try
+        {
+            foreach (var idVinculoAntigo in VinculosParaEncerrar)
+            {
+                await _usuarioService.DeactivateActiveFamiliaUsuario(idVinculoAntigo);
+            }
+
+            Prontuario.Tecnico = _loggedUserService.GetCurrentUser();
+            Prontuario.Cras = Prontuario.Tecnico?.CrasAtivo;
+            Prontuario.Id = 0;
+
+            await _prontuarioService.UpdateAsync(Prontuario);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Erro ao salvar: {ex.Message}");
+        }
     }
 
     [RelayCommand]
     private async Task ImportUsuarioData()
     {
+        if (UsuarioForModal?.Usuario == null || UsuarioBeingEdited == null) return;
         
+        VinculosParaEncerrar.Add(UsuarioForModal.Usuario.Id);
+
+        var vinculoAtualNoFormulario = Prontuario.Familia.FamiliaUsuarios
+            .FirstOrDefault(fu => fu.Usuario == UsuarioBeingEdited);
+
+        if (vinculoAtualNoFormulario != null)
+        {
+            vinculoAtualNoFormulario.Usuario = UsuarioForModal.Usuario;
+            vinculoAtualNoFormulario.UsuarioId = UsuarioForModal.Usuario.Id;
+        }
+
+        await DuplicateModal.HideAsync();
+        Debug.WriteLine($"Usuário {UsuarioForModal.Usuario.Nome} importado para o cadastro");
     }
 }

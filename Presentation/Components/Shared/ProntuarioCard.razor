@@ -6,7 +6,7 @@
         </p>
     </div>
     <div class="card-body">
-        <p class="card-text">Nome do responsável: @Prontuario.Familia.Responsavel.Nome</p>
+        <p class="card-text">Nome do responsável: @ResponsavelName</p>
         <p class="card-text">Data de criação: @Prontuario.DataCriacao</p>
         <p class="card-text">Cras: @Prontuario.Cras.Nome</p>
     </div>
@@ -20,6 +20,16 @@
     [Parameter] public Prontuario Prontuario { get; set; }
     [Parameter] public ProntuarioCardTypeEnum ComponentMode { get; set; }
     [Parameter] public EventCallback ButtonProntuarioClicked { get; set; }
+
+    private string ResponsavelName
+    {
+        get
+        {
+            var resp = Prontuario.Familia.Responsavel;
+            if (resp is null) return "Nenhum responsável encontrado";
+            return resp.Nome;
+        }
+    }
 
     private async Task TriggerButtonProntuario()
     {

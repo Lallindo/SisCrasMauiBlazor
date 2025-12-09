@@ -77,4 +77,14 @@ public class UsuarioService(IUsuarioRepository usuarioRepository)
     {
         return await UsuarioRepository.GetUsuarioByUsuarioSearch(usuario);
     }
+
+    public async Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(int id)
+    {
+        return await UsuarioRepository.DeactivateActiveFamiliaUsuario(id);
+    }
+
+    public async Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(Usuario usuario)
+    {
+        return await UsuarioRepository.DeactivateActiveFamiliaUsuario(usuario);
+    }
 }

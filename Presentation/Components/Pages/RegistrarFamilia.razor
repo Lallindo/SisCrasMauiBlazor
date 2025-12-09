@@ -14,13 +14,25 @@
         <h2>Usuário encontrado</h2>
     </HeaderTemplate>
     <BodyTemplate>
-        <p>Nome: @ViewModel.UsuarioForModal.Usuario.Nome</p>
-        <p>CPF: @ViewModel.UsuarioForModal.Usuario.Cpf</p>
-        <p>NIS: @ViewModel.UsuarioForModal.Usuario.Nis</p>
-        <p>CRAS: @ViewModel.UsuarioForModal.Familia.Prontuarios.FirstOrDefault(p => p.DataSaida == null).Cras.Nome</p>
+        <p>Nome: @ViewModel.UsuarioForModal?.Usuario?.Nome</p>
+        <p>CPF: @ViewModel.UsuarioForModal?.Usuario?.Cpf</p>
+        <p>NIS: @ViewModel.UsuarioForModal?.Usuario?.Nis</p>
+        <p>CRAS: @ViewModel.UsuarioForModal?.Familia?.Prontuarios?.FirstOrDefault(p => p.DataSaida == null)?.Cras?.Nome</p>
+        
+        <div class="alert alert-info">
+            Deseja importar este usuário para a família atual? 
+            Isso irá removê-lo da família anterior ao concluir o cadastro.
+        </div>
     </BodyTemplate>
     <FooterTemplate>
-        <button @onclick="() => Debug.WriteLine(ViewModel.Usuario.Nome)">Fazer o role</button>
+        <button type="button" class="btn btn-secondary" 
+                @onclick="async () => await ViewModel.DuplicateModal.HideAsync()">
+            Cancelar
+        </button>
+        <button type="button" class="btn btn-success" 
+                @onclick="@ViewModel.ImportUsuarioDataCommand.ExecuteAsync">
+            Importar Dados
+        </button>
     </FooterTemplate>
 </HxModal>
 

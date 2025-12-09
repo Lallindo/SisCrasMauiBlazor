@@ -72,7 +72,26 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
     {
         return await GetUsuarioByUsuarioSearch(usuario.Nome, usuario.Cpf, usuario.Nis);
     }
-    
+
+    public async Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(int id)
+    {
+        var activeFamiliaUsuario = await DbContext.FamiliaUsuarios
+            .Where(fu => fu.UsuarioId == id && fu.DataSaida == null)
+            .FirstOrDefaultAsync();
+        
+        activeFamiliaUsuario.DataSaida = DateOnly.FromDateTime(DateTime.Now);
+        
+        await UpdateAsync(activeFamiliaUsuario.Usuario);
+        await DbContext.SaveChangesAsync();
+
+        return activeFamiliaUsuario;
+    }
+
+    public async Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(Usuario usuario)
+    {
+        return await DeactivateActiveFamiliaUsuario(usuario.Id);
+    }
+
     public async Task<List<Prontuario>> GetAllProntuariosByUsuarioSearch(string? nome, string? cpf, string? nis)
     {
         if (string.IsNullOrEmpty(nome) && string.IsNullOrEmpty(cpf) && string.IsNullOrEmpty(nis)) return [];

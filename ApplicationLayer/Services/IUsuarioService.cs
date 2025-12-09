@@ -18,4 +18,6 @@ public interface IUsuarioService : IBaseService<Usuario>
     Task<List<Prontuario?>> GetAllProntuariosByUsuarioSearch(Usuario usuario);
     Task<Usuario?> GetUsuarioByUsuarioSearch(string? nome, string? cpf, string? nis);
     Task<Usuario?> GetUsuarioByUsuarioSearch(Usuario usuario);
+    Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(int id);
+    Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(Usuario usuario);
 }
