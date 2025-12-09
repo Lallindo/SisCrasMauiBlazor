@@ -54,6 +54,7 @@ public class CrasRepository(SisCrasDbContext dbContext) : BaseRepository<Cras>(d
         return await DbContext.Cras
             .Where(c => c.Id == id)
             .SelectMany(c => c.Prontuarios)
+            .Include(p => p.Cras)
             .Include(p => p.Familia)
             .ThenInclude(f => f.FamiliaUsuarios)
             .ThenInclude(fu => fu.Usuario)

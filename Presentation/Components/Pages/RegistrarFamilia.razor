@@ -9,15 +9,19 @@
     <MembroFamilia UsuarioModel="usuario" CanSearchUsuario="@ViewModel.VerifyDuplicateCommand.Execute"/>
 }
 
-<button @onclick="ViewModel.ShowDuplicateUsuarioCommand.ExecuteAsync"></button>
-
 <HxModal @ref="ViewModel.DuplicateModal">
     <HeaderTemplate>
-        <h1>OLHA ELE AI</h1>
+        <h2>Usuário encontrado</h2>
     </HeaderTemplate>
     <BodyTemplate>
-        <p>Teste</p>
+        <p>Nome: @ViewModel.UsuarioForModal.Usuario.Nome</p>
+        <p>CPF: @ViewModel.UsuarioForModal.Usuario.Cpf</p>
+        <p>NIS: @ViewModel.UsuarioForModal.Usuario.Nis</p>
+        <p>CRAS: @ViewModel.UsuarioForModal.Familia.Prontuarios.FirstOrDefault(p => p.DataSaida == null).Cras.Nome</p>
     </BodyTemplate>
+    <FooterTemplate>
+        <button @onclick="">Fazer o role</button>
+    </FooterTemplate>
 </HxModal>
 
 <button @onclick="@ViewModel.InsertNewProntuarioCommand.ExecuteAsync" class="btn-primary btn">Cadastrar família</button>

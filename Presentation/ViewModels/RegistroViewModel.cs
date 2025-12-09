@@ -32,6 +32,8 @@ public partial class RegistroViewModel(
     [ObservableProperty] private Usuario? _usuario = new();
     [ObservableProperty] private ObservableCollection<Prontuario> _prontuariosEncontrados = [];
     public HxModal DuplicateModal;
+    [ObservableProperty] private FamiliaUsuario? _usuarioForModal = null;
+    [ObservableProperty] private string _nomeCras = string.Empty;
 
     [RelayCommand]
     private async Task CreateNewUsuario()
@@ -42,10 +44,10 @@ public partial class RegistroViewModel(
             Usuario = new Usuario
             {
                 Nome = usuarioCount == 1 ? Usuario.Nome : "",
-                Cpf = usuarioCount == 1 ? Usuario.Nome : "",
-                Nis = usuarioCount == 1 ? Usuario.Nome : ""
+                Cpf = usuarioCount == 1 ? Usuario.Cpf : "",
+                Nis = usuarioCount == 1 ? Usuario.Nis : ""
             },
-            Parentesco = usuarioCount == 0 ? ParentescoEnum.Responsavel : ParentescoEnum.Conjuge,
+            Parentesco = usuarioCount == 0 ? ParentescoEnum.Responsavel : ParentescoEnum.Default, 
             DataAdicao = DateOnly.FromDateTime(DateTime.Now.AddDays(-3))
         });
     }
@@ -54,6 +56,8 @@ public partial class RegistroViewModel(
     private async Task VerifyDuplicate(Usuario usuarioToVerify)
     {
         if (usuarioToVerify is null) return;
+
+        NomeCras = string.Empty;
         
         bool temDados = !string.IsNullOrWhiteSpace(usuarioToVerify.Nome) || 
                         !string.IsNullOrWhiteSpace(usuarioToVerify.Cpf) || 
@@ -73,7 +77,12 @@ public partial class RegistroViewModel(
             {
                 foreach (var f in resultado.FamiliaUsuarios)
                 {
-                    Debug.WriteLine($"{f.Parentesco}");
+                    if (f.DataSaida == null)
+                    {
+                        UsuarioForModal = f;
+                        NomeCras = f.Familia.Prontuarios.FirstOrDefault(p => p.DataSaida == null).Cras.Nome;
+                        await DuplicateModal.ShowAsync();
+                    }
                 }
             }
             else
@@ -96,8 +105,8 @@ public partial class RegistroViewModel(
     }
 
     [RelayCommand]
-    private async Task ShowDuplicateUsuario()
+    private async Task ImportUsuarioData()
     {
-        await DuplicateModal.ShowAsync();
+        
     }
 }
