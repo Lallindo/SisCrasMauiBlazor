@@ -9,6 +9,17 @@
     <MembroFamilia UsuarioModel="usuario" CanSearchUsuario="@ViewModel.VerifyDuplicateCommand.Execute"/>
 }
 
+<button @onclick="ViewModel.ShowDuplicateUsuarioCommand.ExecuteAsync"></button>
+
+<HxModal @ref="ViewModel.DuplicateModal">
+    <HeaderTemplate>
+        <h1>OLHA ELE AI</h1>
+    </HeaderTemplate>
+    <BodyTemplate>
+        <p>Teste</p>
+    </BodyTemplate>
+</HxModal>
+
 <button @onclick="@ViewModel.InsertNewProntuarioCommand.ExecuteAsync" class="btn-primary btn">Cadastrar família</button>
 
 @code {

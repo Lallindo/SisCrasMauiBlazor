@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Havit.Blazor.Components.Web.Bootstrap;
 using SisCras.ApplicationLayer.Services;
 using SisCras.Domain.Entities;
 using SisCras.Domain.Enums;
@@ -30,6 +31,7 @@ public partial class RegistroViewModel(
     };
     [ObservableProperty] private Usuario? _usuario = new();
     [ObservableProperty] private ObservableCollection<Prontuario> _prontuariosEncontrados = [];
+    public HxModal DuplicateModal;
 
     [RelayCommand]
     private async Task CreateNewUsuario()
@@ -91,5 +93,11 @@ public partial class RegistroViewModel(
         Prontuario.Cras = Prontuario.Tecnico?.CrasAtivo;
         Prontuario.Id = 0;
         await _prontuarioService.AddAsync(Prontuario);
+    }
+
+    [RelayCommand]
+    private async Task ShowDuplicateUsuario()
+    {
+        await DuplicateModal.ShowAsync();
     }
 }
