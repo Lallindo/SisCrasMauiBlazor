@@ -34,7 +34,7 @@ public class BaseRepository<T>(SisCrasDbContext dbContext) : IRepository<T> wher
 
     public async Task UpdateAsync(T obj, CancellationToken cancellationToken = default)
     {
-        DbContext.Entry(obj).State = EntityState.Modified;
+        DbContext.Set<T>().Update(obj);
         await DbContext.SaveChangesAsync(cancellationToken);
     }
 }
