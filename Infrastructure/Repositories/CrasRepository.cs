@@ -56,6 +56,7 @@ public class CrasRepository(SisCrasDbContext dbContext) : BaseRepository<Cras>(d
             .Include(p => p.Familia)
             .ThenInclude(f => f.FamiliaUsuarios)
             .ThenInclude(fu => fu.Usuario)
+            .AsNoTracking()
             .Skip(offset)
             .Take(limit)
             .ToListAsync();
