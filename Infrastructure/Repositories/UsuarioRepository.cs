@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SisCras.Domain.Entities;
+using SisCras.Domain.Enums;
 using SisCras.Infrastructure.Data.Context;
 
 namespace SisCras.Infrastructure.Repositories;
@@ -65,6 +66,7 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
             .Select(u => u)
             .Where(u => u.Nome == nome && u.Cpf == cpf && u.Nis == nis)
             .Include(u => u.FamiliaUsuarios)
+            .ThenInclude(fu => fu.Familia)
             .FirstOrDefaultAsync();
     }
 
@@ -80,6 +82,7 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
             .FirstOrDefaultAsync();
         
         activeFamiliaUsuario.DataSaida = DateOnly.FromDateTime(DateTime.Now);
+        activeFamiliaUsuario.Parentesco = ParentescoEnum.Default;
         
         await UpdateAsync(activeFamiliaUsuario.Usuario);
         await DbContext.SaveChangesAsync();
@@ -90,6 +93,36 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
     public async Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(Usuario usuario)
     {
         return await DeactivateActiveFamiliaUsuario(usuario.Id);
+    }
+
+    public async Task<FamiliaUsuario> ReactivateFamiliaUsuario(int id)
+    {
+        var resp = await DbContext.FamiliaUsuarios
+            .Where(fu => fu.Id == id)
+            .Include(fu => fu.UsuarioId)
+            .Include(fu => fu.FamiliaId)
+            .FirstOrDefaultAsync();
+
+        await DbContext.FamiliaUsuarios.AddAsync(new()
+        {
+            DataAdicao = DateOnly.FromDateTime(DateTime.Now),
+            DataSaida = null,
+            FamiliaId = resp.FamiliaId,
+            UsuarioId = resp.UsuarioId,
+            Parentesco = resp.Parentesco
+        });
+
+        var resp2 = await DbContext.FamiliaUsuarios
+            .Where(fu => fu.UsuarioId == resp.UsuarioId && fu.DataSaida == null)
+            .FirstOrDefaultAsync();
+        
+        resp2.DataSaida = DateOnly.FromDateTime(DateTime.Now);
+
+        await Task.Run(() => DbContext.FamiliaUsuarios.Update(resp2));
+
+        await DbContext.SaveChangesAsync();
+
+        return resp;
     }
 
     public async Task<List<Prontuario>> GetAllProntuariosByUsuarioSearch(string? nome, string? cpf, string? nis)
