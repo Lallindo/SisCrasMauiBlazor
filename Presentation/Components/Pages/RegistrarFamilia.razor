@@ -5,8 +5,6 @@
 <EditForm Model="ViewModel.Prontuario" OnValidSubmit="ViewModel.InsertNewProntuarioCommand.ExecuteAsync">
     
     <FluentValidationValidator />
-    
-    <ValidationSummary class="text-danger mb-3" />
 
     <div class="d-flex justify-content-end mb-3">
         <button type="button" class="btn btn-outline-secondary" @onclick="@ViewModel.CreateNewUsuarioCommand.ExecuteAsync">
@@ -54,8 +52,6 @@
         </button>
     </FooterTemplate>
 </HxModal>
-
-<button @onclick="@ViewModel.InsertNewProntuarioCommand.ExecuteAsync" class="btn-primary btn">Cadastrar família</button>
 
 @code {
     [SupplyParameterFromQuery(Name = "nome")]

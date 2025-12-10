@@ -1,58 +1,74 @@
-﻿@using SisCras.Presentation.Enums
+﻿@using System.Linq.Expressions
+@using SisCras.Presentation.Enums
 @using Microsoft.AspNetCore.Components.Forms
+@using SisCras.ApplicationLayer.Extensions
 
-@* Exemplo simplificado da estrutura - Você precisará da lógica de máscara (JS ou C#) *@
 <div class="@Classes">
-  <div class="input-group">
-    @if (PrefixContent != null)
-    {
-      @PrefixContent
-    }
-        
-    @* Input real onde a máscara seria aplicada *@
-    <input type="@Type" 
-           class="@InputClass" 
-           value="@Value"
-           placeholder="@Placeholder"
-           disabled="@IsDisabled"
-           @onchange="OnChange" 
-           @onfocusout="OnFocusOut"/>
-  </div>
+    <label class="form-label fw-bold">@LabelTxt</label>
+    
+    <div class="input-group">
+        @if (PrefixContent != null)
+        {
+            @PrefixContent
+        }
+
+        <InputText type="@Type"
+                   class="@_inputClass"
+                   Value="@Value"
+                   ValueChanged="@OnChange"
+                   ValueExpression="@ValueExpression"
+                   placeholder="@Placeholder"
+                   disabled="@IsDisabled"
+                   @onfocusout="OnFocusOut"/>
+    </div>
+    <ValidationMessage For="@ValueExpression" class="text-danger small"/>
 </div>
 
 @code {
-  [Parameter]
-  public string? Value { get; set; }
+    // 1. Renomeado para 'Value' para funcionar nativamente com @bind-Value no pai
+    [Parameter]
+    public string? Value { get; set; }
+    
+    [Parameter]
+    public string LabelTxt { get; set; }
 
-  [Parameter]
-  public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter]
+    public EventCallback<string?> ValueChanged { get; set; }
 
-  [Parameter]
-  public MaskTypeEnum Mask { get; set; }
+    // 2. O PARÂMETRO MÁGICO: Recebe a expressão lambda do pai (ex: () => model.Cpf)
+    [Parameter]
+    public Expression<Func<string?>>? ValueExpression { get; set; }
 
-  [Parameter]
-  public string? Placeholder { get; set; }
+    [Parameter]
+    public MaskTypeEnum Mask { get; set; }
 
-  [Parameter]
-  public string? InputClass { get; set; }
+    [Parameter]
+    public string? Placeholder { get; set; }
 
-  [Parameter]
-  public string? Classes { get; set; }
+    [Parameter]
+    public string? InputClass { get; set; }
+
+    private string? _inputClass => $"form-control {InputClass}"; 
+
+    [Parameter]
+    public string? Classes { get; set; }
   
-  [Parameter]
+    [Parameter]
     public EventCallback OnFocusOut { get; set; }
 
-  [Parameter]
-  public string Type { get; set; } = "text";
+    [Parameter]
+    public string Type { get; set; } = "text";
 
-  [Parameter]
-  public RenderFragment? PrefixContent { get; set; }
+    [Parameter]
+    public RenderFragment? PrefixContent { get; set; }
 
-  [Parameter] public bool IsDisabled { get; set; } = false; 
+    [Parameter] 
+    public bool IsDisabled { get; set; } = false; 
 
-  private async Task OnChange(ChangeEventArgs e)
-  {
-    Value = e.Value?.ToString();
-    await ValueChanged.InvokeAsync(Value);
-  }
+    // Ajuste no OnChange para usar o ValueChanged correto
+    private async Task OnChange(string? value)
+    {
+        Value = value;
+        await ValueChanged.InvokeAsync(Value);
+    }
 }

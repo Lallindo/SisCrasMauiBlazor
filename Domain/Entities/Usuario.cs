@@ -22,6 +22,4 @@ public class Usuario
     public EscolaridadeEnum Escolaridade { get; set; }
     public SexoEnum Sexo { get; set; }
     public FonteRendaEnum FonteRenda { get; set; }
-    
-    
 }

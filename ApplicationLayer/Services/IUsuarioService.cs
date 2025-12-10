@@ -2,7 +2,7 @@ using SisCras.Domain.Entities;
 
 namespace SisCras.ApplicationLayer.Services;
 
-public interface IUsuarioService : IBaseService<Usuario>
+public partial interface IUsuarioService : IBaseService<Usuario>
 {
     Task<List<Familia?>> GetFamiliasFromUsuario(int id);
     Task<List<Familia?>> GetFamiliasFromUsuario(Usuario usuario);

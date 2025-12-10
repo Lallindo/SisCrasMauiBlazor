@@ -5,14 +5,18 @@
 @if (UsuarioModel != null)
 {
     <div class="card mb-4">
-        <div class="card-header @(UsuarioModel.Ativo ? "bg-primary" : "bg-warning") text-white">
-            <h5 class="card-title mb-0">Membro da família</h5>
-            <small class="card-subtitle">@UsuarioModel.Parentesco.GetDescription()</small><br/>
-            <small class="card-subtitle">Data de inserção: @UsuarioModel.DataAdicao</small>
-            <button class="btn btn-dark border-1"
-                    disabled="@AreInputsDisabled"
-                    hidden="@AreInputsDisabled"
-                    @onclick="() => TriggerDeactivateClicked(UsuarioModel)">@(UsuarioModel.Ativo ? "Desativar" : "Reativar")</button>
+        <div class="card-header @(UsuarioModel.Ativo ? "bg-primary" : "bg-warning") text-white d-flex justify-content-between align-items-center">
+            <div class="flex-column">
+                <h5 class="card-title mb-0">Membro da família</h5>
+                <small class="card-subtitle">@UsuarioModel.Parentesco.GetDescription()</small><br/>
+                <small class="card-subtitle">Data de inserção: @UsuarioModel.DataAdicao</small>
+            </div>
+            <div class="flex-lg-column ">
+                <button class="btn btn-dark justify-content-end p-2"
+                        disabled="@AreInputsDisabled"
+                        hidden="@AreInputsDisabled"
+                        @onclick="() => TriggerDeactivateClicked(UsuarioModel)">@(UsuarioModel.Ativo ? "Desativar" : "Reativar")</button>
+            </div>
         </div>
         <div class="card-body">
             <div class="row mb-3">
@@ -20,122 +24,126 @@
                     <label class="form-label fw-bold">Nome Completo *</label>
                     <InputText class="form-control form-control-lg" @bind-Value="UsuarioModel.Usuario.Nome"
                                placeholder="Nome completo" disabled="@AreInputsDisabled" @onfocusout="NotificarAlteracao"/>
+                    <ValidationMessage For="@(() => UsuarioModel.Usuario.Nome)"  class="text-danger small" />
                 </div>
             </div>
 
             <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label fw-bold">CPF</label>
-                    <MaskedInput @bind-Value="UsuarioModel.Usuario.Cpf" 
-                                 Mask="MaskTypeEnum.Cpf"
-                                 Placeholder="999.999.999-99"
-                                 InputClass="form-control" 
-                                 IsDisabled="AreInputsDisabled"
-                                 OnFocusOut="NotificarAlteracao"/>
-                </div>
+                <MaskedInput @bind-Value="UsuarioModel.Usuario.Cpf"
+                             Classes="col-md-6"
+                             LabelTxt="CPF"
+                             Mask="MaskTypeEnum.Cpf"
+                             Placeholder="999.999.999-99"
+                             InputClass="form-control-lg" 
+                             IsDisabled="AreInputsDisabled"
+                             OnFocusOut="NotificarAlteracao"/>
                 
-                <div class="col-md-6">
-                    <label class="form-label fw-bold">RG</label>
-                    <MaskedInput @bind-Value="UsuarioModel.Usuario.Rg" 
-                                 Mask="MaskTypeEnum.Rg"
-                                 Placeholder="999.999.999-99"
-                                 InputClass="form-control"
-                                 IsDisabled="AreInputsDisabled"/>
-                </div>
+                <MaskedInput @bind-Value="UsuarioModel.Usuario.Rg"
+                             Classes="col-md-6"
+                             LabelTxt="RG"
+                             Mask="MaskTypeEnum.Rg"
+                             Placeholder="999.999.999-99"
+                             InputClass="form-control-lg" 
+                             IsDisabled="AreInputsDisabled"
+                             OnFocusOut="NotificarAlteracao"/>
 
                 <div class="col-md-4">
                     <label class="form-label fw-bold">Sexo</label>
-                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.Sexo" disabled="@AreInputsDisabled">
+                    <InputSelect class="form-select form-control-lg" @bind-Value="UsuarioModel.Usuario.Sexo" disabled="@AreInputsDisabled">
                         @foreach (SexoEnum sexo in Enum.GetValues(typeof(SexoEnum)))
                         {
                             <option value="@sexo">@sexo.GetDescription()</option>
                         }
                     </InputSelect>
+                    <ValidationMessage For="@(() => UsuarioModel.Usuario.Sexo)" class="text-danger small"/>
                 </div>
 
                 <div class="col-md-4">
                     <label class="form-label fw-bold">Raça/Cor</label>
-                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.Raca" disabled="@AreInputsDisabled">
+                    <InputSelect class="form-select form-control-lg" @bind-Value="UsuarioModel.Usuario.Raca" disabled="@AreInputsDisabled">
                         @foreach (RacaEnum raca in Enum.GetValues(typeof(RacaEnum)))
                         {
                             <option value="@raca">@raca.GetDescription()</option>
                         }
                     </InputSelect>
+                    <ValidationMessage For="@(() => UsuarioModel.Usuario.Raca)" class="text-danger small"/>
                 </div>
-
-                <div class="col-md-4">
-                    <label class="form-label fw-bold">Profissão</label>
-                    <InputText class="form-control" @bind-Value="UsuarioModel.Usuario.Profissao"
-                               placeholder="Profissão" disabled="@AreInputsDisabled"/>
-                </div>
+                
+                <MaskedInput @bind-Value="UsuarioModel.Usuario.Profissao"
+                             Classes="col-md-4"
+                             LabelTxt="Profissão"
+                             Placeholder="A profissão do usuário aqui"
+                             InputClass="form-control-lg" 
+                             IsDisabled="AreInputsDisabled"
+                             OnFocusOut="NotificarAlteracao"/>
             </div>
 
             <hr class="my-4"/>
 
             <div class="row g-3">
-                <!-- NIS -->
-                <div class="col-md-6">
-                    <label class="form-label fw-bold">NIS</label>
-                    <MaskedInput @bind-Value="UsuarioModel.Usuario.Nis" 
-                                 Mask="MaskTypeEnum.Cpf"
-                                 Placeholder="999.999.999-99"
-                                 InputClass="form-control"
-                                 IsDisabled="AreInputsDisabled"
-                                 OnFocusOut="NotificarAlteracao"/>
-                </div>
+                <MaskedInput @bind-Value="UsuarioModel.Usuario.Profissao"
+                             Classes="col-md-6"
+                             LabelTxt="NIS"
+                             Placeholder="O NIS do usuário aqui"
+                             InputClass="form-control-lg" 
+                             IsDisabled="AreInputsDisabled"
+                             OnFocusOut="NotificarAlteracao"/>
 
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Data de Nascimento</label>
-                    <InputDate class="form-control" @bind-Value="UsuarioModel.Usuario.DataNascimento" disabled="@AreInputsDisabled"/>
+                    <InputDate class="form-control form-control-lg" @bind-Value="UsuarioModel.Usuario.DataNascimento" disabled="@AreInputsDisabled"/>
+                    <ValidationMessage For="@(() => UsuarioModel.Usuario.DataNascimento)" class="text-danger small"/>
                 </div>
 
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Estado Civil</label>
-                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.EstadoCivil" disabled="@AreInputsDisabled">
+                    <InputSelect class="form-select form-control-lg" @bind-Value="UsuarioModel.Usuario.EstadoCivil" disabled="@AreInputsDisabled">
                         @foreach (EstadoCivilEnum estado in Enum.GetValues(typeof(EstadoCivilEnum)))
                         {
                             <option value="@estado">@estado.GetDescription()</option>
                         }
                     </InputSelect>
+                    <ValidationMessage For="@(() => UsuarioModel.Usuario.EstadoCivil)" class="text-danger small"/>
                 </div>
 
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Grau de Instrução</label>
-                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.Escolaridade" disabled="@AreInputsDisabled">
+                    <InputSelect class="form-select form-control-lg" @bind-Value="UsuarioModel.Usuario.Escolaridade" disabled="@AreInputsDisabled">
                         @foreach (EscolaridadeEnum escolaridade in Enum.GetValues(typeof(EscolaridadeEnum)))
                         {
                             <option value="@escolaridade">@escolaridade.GetDescription()</option>
                         }
                     </InputSelect>
+                    <ValidationMessage For="@(() => UsuarioModel.Usuario.Escolaridade)" class="text-danger small"/>
                 </div>
 
                 <div class="col-md-6">
                     <label class="form-label">Orientação Sexual</label>
-                    <InputSelect class="form-select" @bind-Value="UsuarioModel.Usuario.OrientacaoSexual" required disabled="@AreInputsDisabled">
+                    <InputSelect class="form-select form-control-lg" @bind-Value="UsuarioModel.Usuario.OrientacaoSexual" required disabled="@AreInputsDisabled">
                         @foreach (OrientacaoSexualEnum orientacaoSexual in Enum.GetValues(typeof(OrientacaoSexualEnum)))
                         {
                             <option value="@orientacaoSexual">@orientacaoSexual.GetDescription()</option>
                         }
                     </InputSelect>
+                    <ValidationMessage For="@(() => UsuarioModel.Usuario.OrientacaoSexual)" class="text-danger small"/>
                 </div>
                 
-                <div class="col-md-6">
-                    <MaskedInput
-                        @bind-Value="RendaBrutaString"
-                        Mask="MaskTypeEnum.Dinheiro"
-                        Placeholder="0,00"
-                        Classes="rounded-pill border border-light"
-                        InputClass="form-control"
-                        Type="text"
-                        IsDisabled="AreInputsDisabled">
+                <MaskedInput
+                    @bind-Value="RendaBrutaString"
+                    Mask="MaskTypeEnum.Dinheiro"
+                    LabelTxt="Renda do usuário"
+                    Placeholder="0,00"
+                    Classes="col-md-6 rounded-pill border border-light"
+                    InputClass="form-control-lg"
+                    Type="text"
+                    IsDisabled="AreInputsDisabled">
                         
-                        <PrefixContent>
-                            <span class="input-group-text bg-transparent border-0 text-white-50 pe-1">
-                                R$
-                            </span>
-                        </PrefixContent>
-                    </MaskedInput>
-                </div>
+                    <PrefixContent>
+                        <span class="input-group-text bg-transparent border-2 pe-2">
+                            R$
+                        </span>
+                    </PrefixContent>
+                </MaskedInput>
             </div>
         </div>
     </div>

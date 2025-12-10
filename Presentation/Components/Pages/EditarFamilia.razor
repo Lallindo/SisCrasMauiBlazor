@@ -6,8 +6,6 @@
     
     <FluentValidationValidator />
     
-    <ValidationSummary class="text-danger mb-3" />
-    
     @if (PageMode == MembroFamiliaTypeEnum.Editar)
     {
         <div class="d-flex justify-content-start mb-1 mt-3">
@@ -90,6 +88,6 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Task.Run(async () => await ViewModel.GetProntuario(FamiliaId));
+        ViewModel.GetProntuario(FamiliaId);
     }
 }

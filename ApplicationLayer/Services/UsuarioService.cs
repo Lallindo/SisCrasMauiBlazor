@@ -97,4 +97,51 @@ public class UsuarioService(IUsuarioRepository usuarioRepository)
     {
         return await UsuarioRepository.ReactivateFamiliaUsuario(familiaUsuario.Id);
     }
+    
+    public static bool CheckCpf(string? cpf)
+    {
+        if (string.IsNullOrWhiteSpace(cpf)) return false;
+
+        string cleanCpf = cpf.Replace(".", "").Replace("-", "").Trim();
+    
+        if (cleanCpf.Length != 11) return false;
+
+        if (cleanCpf.Distinct().Count() == 1) return false;
+
+        List<int> valores = new();
+    
+        foreach (char digito in cleanCpf)
+        {
+            if (!char.IsDigit(digito)) return false;
+            valores.Add((int)char.GetNumericValue(digito));
+        }
+
+        if (GetDigitCpf(valores.GetRange(0, 9)) != valores[9]) return false;
+    
+        if (GetDigitCpf(valores.GetRange(0, 10)) != valores[10]) return false;
+    
+        return true;
+    }
+
+    public static bool CheckCpf(Usuario usuario)
+    {
+        return CheckCpf(usuario.Cpf);
+    }
+
+    private static int GetDigitCpf(List<int> list)
+    {
+        int mult = list.Count + 1; 
+        int sum = 0;
+    
+        foreach (int numero in list)
+        {
+            sum += numero * mult;
+            mult--;
+        }
+
+        int resto = sum % 11;
+        int digit = 11 - resto;
+
+        return (digit >= 10) ? 0 : digit;
+    }
 }
