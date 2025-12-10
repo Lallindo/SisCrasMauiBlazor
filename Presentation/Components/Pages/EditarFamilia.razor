@@ -2,44 +2,62 @@
 @using SisCras.Presentation.Components.Shared
 @inject EditarFamiliaViewModel ViewModel
 
-@if (PageMode == MembroFamiliaTypeEnum.Editar)
-{
-    <button @onclick="@ViewModel.CreateNewUsuarioCommand.ExecuteAsync"><i class="bi bi-person-plus"></i></button>
-}
+<EditForm Model="ViewModel.SelectedProntuario" OnValidSubmit="ViewModel.UpdateProntuarioCommand.ExecuteAsync">
+    
+    <FluentValidationValidator />
+    
+    <ValidationSummary class="text-danger mb-3" />
+    
+    @if (PageMode == MembroFamiliaTypeEnum.Editar)
+    {
+        <div class="d-flex justify-content-start mb-1 mt-3">
+            <button type="button" class="btn btn-outline-secondary" @onclick="@ViewModel.CreateNewUsuarioCommand.ExecuteAsync">
+                <i class="bi bi-person-plus"></i> Adicionar Membro
+            </button>
+        </div>   
+    }
 
-<label for="chkb_ativos">Mostrar usuários inativos:</label>
-<input id="chkb_ativos" type="checkbox" @bind="ViewModel.ShowUnactiveUsuarios"/>
-
-@if (ViewModel.Usuarios.Count == 0 && ViewModel.ShowUnactiveUsuarios)
-{
-    <div class="card mb-4">
-        <h5 class="card-title mb-0">Nenhum usuário nessa família</h5>
-    </div>  
-}
-else if (ViewModel.Usuarios.Count == 0 && !ViewModel.ShowUnactiveUsuarios)
-{
-    <div class="card mb-4 flex">
-        <h3 class="card-title mb-0 text-center">Nenhum usuário ativo nessa família</h3>
-    </div>  
-}
-else 
-{
-    @foreach (var usuario in (from fu in ViewModel.Usuarios orderby fu.Ativo select fu))
+    @foreach (var usuario in ViewModel.SelectedProntuario.Familia.FamiliaUsuarios)
     {
         <MembroFamilia UsuarioModel="usuario" ComponentMode="PageMode"
-                       DeactivateClicked="ViewModel.DeactivateUsuarioCommand.ExecuteAsync">
-        </MembroFamilia>
+                       CanSearchUsuario="ViewModel.VerifyDuplicateCommand.ExecuteAsync"
+                       DeactivateClicked="ViewModel.DeactivateUsuarioCommand.ExecuteAsync"/>
     }
-}
 
-@if (PageMode == MembroFamiliaTypeEnum.Editar)
-{
-    <button class="btn btn-warning" @onclick="() => ViewModel.UpdateProntuarioCommand.ExecuteAsync(ViewModel.SelectedProntuario)">Editar</button>
-}
-else
-{
-    <button disabled="disabled" class="btn btn-warning" @onclick="() => ViewModel.UpdateProntuarioCommand.ExecuteAsync(ViewModel.SelectedProntuario)">Editar</button>
-}
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary btn-lg w-100">
+            Cadastrar família
+        </button>
+    </div>
+
+</EditForm>
+
+<HxModal @ref="ViewModel.DuplicateModal">
+    <HeaderTemplate>
+        <h2>Usuário encontrado</h2>
+    </HeaderTemplate>
+    <BodyTemplate>
+        <p>Nome: @ViewModel.UsuarioForModal?.Usuario?.Nome</p>
+        <p>CPF: @ViewModel.UsuarioForModal?.Usuario?.Cpf</p>
+        <p>NIS: @ViewModel.UsuarioForModal?.Usuario?.Nis</p>
+        <p>CRAS: @ViewModel.UsuarioForModal?.Familia?.Prontuarios?.FirstOrDefault(p => p.DataSaida == null)?.Cras?.Nome</p>
+        
+        <div class="alert alert-info">
+            Deseja importar este usuário para a família atual? 
+            Isso irá removê-lo da família anterior ao concluir o cadastro.
+        </div>
+    </BodyTemplate>
+    <FooterTemplate>
+        <button type="button" class="btn btn-secondary" 
+                @onclick="async () => await ViewModel.DuplicateModal.HideAsync()">
+            Cancelar
+        </button>
+        <button type="button" class="btn btn-success" 
+                @onclick="@ViewModel.ImportUsuarioDataCommand.ExecuteAsync">
+            Importar Dados
+        </button>
+    </FooterTemplate>
+</HxModal>
 
 @code {
     [Parameter] public int FamiliaId { get; set; }
@@ -61,6 +79,9 @@ else
                 case "registrar":
                     tempEnum = MembroFamiliaTypeEnum.Registrar;
                     break;
+                default:
+                    tempEnum = MembroFamiliaTypeEnum.Visualizar;
+                    break;
             }
             return tempEnum;
         }
@@ -69,6 +90,6 @@ else
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        ViewModel.GetProntuario(FamiliaId);
+        Task.Run(async () => await ViewModel.GetProntuario(FamiliaId));
     }
 }

@@ -2,12 +2,31 @@
 @using SisCras.Presentation.Components.Shared
 @inject RegistroViewModel ViewModel
 
-<button @onclick="@ViewModel.CreateNewUsuarioCommand.ExecuteAsync"><i class="bi bi-person-plus"></i></button>
+<EditForm Model="ViewModel.Prontuario" OnValidSubmit="ViewModel.InsertNewProntuarioCommand.ExecuteAsync">
+    
+    <FluentValidationValidator />
+    
+    <ValidationSummary class="text-danger mb-3" />
 
-@foreach (var usuario in ViewModel.Prontuario.Familia.FamiliaUsuarios)
-{
-    <MembroFamilia UsuarioModel="usuario" CanSearchUsuario="@ViewModel.VerifyDuplicateCommand.Execute"/>
-}
+    <div class="d-flex justify-content-end mb-3">
+        <button type="button" class="btn btn-outline-secondary" @onclick="@ViewModel.CreateNewUsuarioCommand.ExecuteAsync">
+            <i class="bi bi-person-plus"></i> Adicionar Membro
+        </button>
+    </div>
+
+    @foreach (var usuario in ViewModel.Prontuario.Familia.FamiliaUsuarios)
+    {
+        <MembroFamilia UsuarioModel="usuario" 
+                       CanSearchUsuario="@ViewModel.VerifyDuplicateCommand.Execute"/>
+    }
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary btn-lg w-100">
+            Cadastrar família
+        </button>
+    </div>
+
+</EditForm>
 
 <HxModal @ref="ViewModel.DuplicateModal">
     <HeaderTemplate>
@@ -39,7 +58,6 @@
 <button @onclick="@ViewModel.InsertNewProntuarioCommand.ExecuteAsync" class="btn-primary btn">Cadastrar família</button>
 
 @code {
-
     [SupplyParameterFromQuery(Name = "nome")]
     public string Nome { get; set; }
 

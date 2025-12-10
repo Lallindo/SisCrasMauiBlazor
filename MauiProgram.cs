@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SisCras.ApplicationLayer.Services;
 using SisCras.ApplicationLayer;
@@ -7,7 +8,9 @@ using SisCras.Infrastructure.Data.Context;
 using SisCras.Infrastructure.Interceptors;
 using SisCras.Infrastructure.Repositories;
 using SisCras.Presentation.Services;
+using SisCras.Presentation.Validators;
 using SisCras.Presentation.ViewModels;
+
 
 namespace SisCras;
 
@@ -55,6 +58,9 @@ public static class MauiProgram
         builder.Services.AddScoped<IFamiliaRepository, FamiliaRepository>();
         builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         builder.Services.AddScoped<ICrasRepository, CrasRepository>();
+        
+        // Validators
+        builder.Services.AddValidatorsFromAssemblyContaining<ProntuarioValidator>();
 
         // Interceptors
         builder.Services.AddSingleton<TrocaResponsavelInterceptor>();

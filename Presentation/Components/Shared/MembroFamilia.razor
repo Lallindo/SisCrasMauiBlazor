@@ -9,16 +9,10 @@
             <h5 class="card-title mb-0">Membro da família</h5>
             <small class="card-subtitle">@UsuarioModel.Parentesco.GetDescription()</small><br/>
             <small class="card-subtitle">Data de inserção: @UsuarioModel.DataAdicao</small>
-            @if (ComponentMode == MembroFamiliaTypeEnum.Editar)
-            {
-                <button
-                    @onclick="() => TriggerDeactivateClicked(UsuarioModel)">@(UsuarioModel.Ativo ? "Reativar" : "Desativar")</button>
-            }
-            else if (ComponentMode == MembroFamiliaTypeEnum.Visualizar)
-            {
-                <button disabled="@AreInputsDisabled"
-                        @onclick="() => TriggerDeactivateClicked(UsuarioModel)">@(UsuarioModel.Ativo ? "Reativar" : "Desativar")</button>
-            }
+            <button class="btn btn-dark border-1"
+                    disabled="@AreInputsDisabled"
+                    hidden="@AreInputsDisabled"
+                    @onclick="() => TriggerDeactivateClicked(UsuarioModel)">@(UsuarioModel.Ativo ? "Desativar" : "Reativar")</button>
         </div>
         <div class="card-body">
             <div class="row mb-3">
@@ -183,7 +177,7 @@ else
 
     public bool AreInputsDisabled
     {
-        get => (ComponentMode == MembroFamiliaTypeEnum.Visualizar);
+        get => (ComponentMode != MembroFamiliaTypeEnum.Editar);
     }
 
     public async Task TriggerDeactivateClicked(FamiliaUsuario usuario)
@@ -193,7 +187,7 @@ else
 
     private async Task NotificarAlteracao()
     {
-        if (CanSearchUsuario.HasDelegate && UsuarioModel?.Usuario is not null)
+        if (CanSearchUsuario.HasDelegate && UsuarioModel?.Usuario is not null && UsuarioModel?.Usuario.Id == 0)
         {
             await CanSearchUsuario.InvokeAsync(UsuarioModel.Usuario);
         }
