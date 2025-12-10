@@ -20,4 +20,5 @@ public interface IUsuarioRepository : IRepository<Usuario>
     Task<Usuario?> GetUsuarioByUsuarioSearch(Usuario usuario);
     Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(int id);
     Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(Usuario usuario);
+    Task<FamiliaUsuario> ReactivateFamiliaUsuario(int id);
 }

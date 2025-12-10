@@ -13,8 +13,18 @@ public partial class EditarFamiliaViewModel(IFamiliaService familiaService, IPro
     private IFamiliaService _FamiliaService = familiaService;
 
     [ObservableProperty] private Prontuario? _selectedProntuario = new();
-
-    [ObservableProperty] private ObservableCollection<Usuario> _usuarios = [];
+    [ObservableProperty] private bool _showUnactiveUsuarios = false; 
+    public ObservableCollection<FamiliaUsuario> Usuarios
+    {
+        get
+        {
+            if (!ShowUnactiveUsuarios)
+            {
+                return new(from fu in SelectedProntuario.Familia.FamiliaUsuarios where fu.Ativo select fu);
+            }
+            return new((from fu in SelectedProntuario.Familia.FamiliaUsuarios select fu).OrderBy(fu => fu.Ativo ? 0 : 1));
+        }
+    }
 
     public async Task GetProntuario(int familiaId)
     {
