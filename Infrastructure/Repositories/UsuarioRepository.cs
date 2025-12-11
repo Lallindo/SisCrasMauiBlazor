@@ -75,11 +75,13 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
         return await GetUsuarioByUsuarioSearch(usuario.Nome, usuario.Cpf, usuario.Nis);
     }
 
-    public async Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(int id)
+    public async Task<FamiliaUsuario?> DeactivateActiveFamiliaUsuario(int id)
     {
         var activeFamiliaUsuario = await DbContext.FamiliaUsuarios
             .Where(fu => fu.UsuarioId == id && fu.DataSaida == null)
             .FirstOrDefaultAsync();
+
+        if (activeFamiliaUsuario == null) return null;
         
         activeFamiliaUsuario.DataSaida = DateOnly.FromDateTime(DateTime.Now);
         activeFamiliaUsuario.Parentesco = ParentescoEnum.Default;
@@ -90,7 +92,7 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
         return activeFamiliaUsuario;
     }
 
-    public async Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(Usuario usuario)
+    public async Task<FamiliaUsuario?> DeactivateActiveFamiliaUsuario(Usuario usuario)
     {
         return await DeactivateActiveFamiliaUsuario(usuario.Id);
     }
@@ -99,27 +101,30 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
     {
         var resp = await DbContext.FamiliaUsuarios
             .Where(fu => fu.Id == id)
-            .Include(fu => fu.UsuarioId)
-            .Include(fu => fu.FamiliaId)
+            .Include(fu => fu.Usuario)
+            .Include(fu => fu.Familia)
             .FirstOrDefaultAsync();
 
-        await DbContext.FamiliaUsuarios.AddAsync(new()
+        // Se 'resp' for nulo, a linha 'resp.UsuarioId' logo abaixo causaria NRE. 
+        // É uma boa prática verificar:
+        if (resp == null)
         {
-            DataAdicao = DateOnly.FromDateTime(DateTime.Now),
-            DataSaida = null,
-            FamiliaId = resp.FamiliaId,
-            UsuarioId = resp.UsuarioId,
-            Parentesco = resp.Parentesco
-        });
+            // Trate o caso de ID inválido aqui, como retornar null ou lançar exceção.
+            return null; 
+        }
 
         var resp2 = await DbContext.FamiliaUsuarios
             .Where(fu => fu.UsuarioId == resp.UsuarioId && fu.DataSaida == null)
             .FirstOrDefaultAsync();
-        
-        resp2.DataSaida = DateOnly.FromDateTime(DateTime.Now);
 
-        await Task.Run(() => DbContext.FamiliaUsuarios.Update(resp2));
-
+        // ** CORREÇÃO: Verifica se resp2 não é nulo antes de usá-lo. **
+        if (resp2 != null)
+        {
+            resp2.DataSaida = DateOnly.FromDateTime(DateTime.Now);
+            DbContext.FamiliaUsuarios.Update(resp2); 
+        }
+        resp.DataSaida = null;
+        DbContext.FamiliaUsuarios.Update(resp);
         await DbContext.SaveChangesAsync();
 
         return resp;

@@ -61,7 +61,11 @@ public partial class AdminViewModel : ObservableObject
             TecnicoId = 0,
             DataEntrada = DateOnly.FromDateTime(DateTime.Now)
         });
-        return await _tecnicoService.AddAsync(novoTecnico);
+        
+        await _tecnicoService.AddAsync(novoTecnico);
+        await BuscarTecnicos();
+
+        return novoTecnico;
     }
 
     [RelayCommand]

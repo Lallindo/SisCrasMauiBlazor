@@ -8,7 +8,6 @@
         <div class="card-header @(UsuarioModel.Ativo ? "bg-primary" : "bg-warning") text-white d-flex justify-content-between align-items-center">
             <div class="flex-column">
                 <h5 class="card-title mb-0">Membro da família</h5>
-                <small class="card-subtitle">@UsuarioModel.Parentesco.GetDescription()</small><br/>
                 <small class="card-subtitle">Data de inserção: @UsuarioModel.DataAdicao</small>
             </div>
             <div class="flex-lg-column ">
@@ -21,12 +20,23 @@
         <div class="card-body">
             <div class="row mb-3">
                 <MaskedInput @bind-Value="UsuarioModel.Usuario.Nome"
-                             Classes="col-12"
+                             Classes="col-6"
                              LabelTxt="Nome do usuário"
                              Placeholder="O nome do usuário aqui"
                              InputClass="form-control-lg" 
                              IsDisabled="AreInputsDisabled"
                              OnFocusOut="NotificarAlteracao"/>
+                
+                <div class="col-6">
+                    <label class="form-label fw-bold">Parentesco</label>
+                    <InputSelect class="form-select form-control-lg" @bind-Value="UsuarioModel.Parentesco" disabled="@AreInputsDisabled">
+                        @foreach (ParentescoEnum parentesco in Enum.GetValues(typeof(ParentescoEnum)))
+                        {
+                            <option value="@parentesco">@parentesco.GetDescription()</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => UsuarioModel.Parentesco)" class="text-danger small"/>
+                </div>
             </div>
 
             <div class="row g-3">
@@ -39,14 +49,13 @@
                              IsDisabled="AreInputsDisabled"
                              OnFocusOut="NotificarAlteracao"/>
                 
-                <MaskedInput @bind-Value="UsuarioModel.Usuario.Rg"
-                             Classes="col-md-6"
-                             LabelTxt="RG"
-                             Mask="MaskTypeEnum.Rg"
-                             Placeholder="999.999.999-99"
-                             InputClass="form-control-lg" 
-                             IsDisabled="AreInputsDisabled"
-                             OnFocusOut="NotificarAlteracao"/>
+                <MaskedInput @bind-Value="UsuarioModel.Usuario.Nis"
+                            Classes="col-md-6"
+                            LabelTxt="NIS"
+                            Placeholder="O NIS do usuário aqui"
+                            InputClass="form-control-lg" 
+                            IsDisabled="AreInputsDisabled"
+                            OnFocusOut="NotificarAlteracao"/>
 
                 <div class="col-md-4">
                     <label class="form-label fw-bold">Sexo</label>
@@ -82,10 +91,11 @@
             <hr class="my-4"/>
 
             <div class="row g-3">
-                <MaskedInput @bind-Value="UsuarioModel.Usuario.Nis"
+                <MaskedInput @bind-Value="UsuarioModel.Usuario.Rg"
                              Classes="col-md-6"
-                             LabelTxt="NIS"
-                             Placeholder="O NIS do usuário aqui"
+                             LabelTxt="RG"
+                             Mask="MaskTypeEnum.Rg"
+                             Placeholder="999.999.999-99"
                              InputClass="form-control-lg" 
                              IsDisabled="AreInputsDisabled"
                              OnFocusOut="NotificarAlteracao"/>

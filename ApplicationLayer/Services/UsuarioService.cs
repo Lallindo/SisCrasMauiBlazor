@@ -78,12 +78,12 @@ public class UsuarioService(IUsuarioRepository usuarioRepository)
         return await UsuarioRepository.GetUsuarioByUsuarioSearch(usuario);
     }
 
-    public async Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(int id)
+    public async Task<FamiliaUsuario?> DeactivateActiveFamiliaUsuario(int id)
     {
         return await UsuarioRepository.DeactivateActiveFamiliaUsuario(id);
     }
 
-    public async Task<FamiliaUsuario> DeactivateActiveFamiliaUsuario(Usuario usuario)
+    public async Task<FamiliaUsuario?> DeactivateActiveFamiliaUsuario(Usuario usuario)
     {
         return await UsuarioRepository.DeactivateActiveFamiliaUsuario(usuario);
     }
@@ -143,5 +143,15 @@ public class UsuarioService(IUsuarioRepository usuarioRepository)
         int digit = 11 - resto;
 
         return (digit >= 10) ? 0 : digit;
+    }
+    
+    public async Task DeleteIfEmptyAsync(Usuario usuario, CancellationToken cancellationToken = default)
+    {
+        // A exclusão só deve ocorrer se o usuário já tiver sido persistido (Id > 0)
+        // e seus dados de identificação estiverem vazios.
+        if (usuario.Id > 0 && usuario.IsEmpty())
+        {
+            await UsuarioRepository.DeleteAsync(usuario, cancellationToken);
+        }
     }
 }

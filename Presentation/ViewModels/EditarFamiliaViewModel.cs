@@ -21,6 +21,8 @@ public partial class EditarFamiliaViewModel(IFamiliaService familiaService, IPro
     private Usuario? UsuarioBeingEdited = null;
     public HxModal DuplicateModal;
     [ObservableProperty] private FamiliaUsuario? _usuarioForModal = null;
+    [ObservableProperty]
+    private ObservableCollection<FamiliaUsuario> _membrosFamilia;
     public ObservableCollection<FamiliaUsuario> Usuarios
     {
         get
@@ -49,7 +51,14 @@ public partial class EditarFamiliaViewModel(IFamiliaService familiaService, IPro
     [RelayCommand]
     private async Task DeactivateUsuario(FamiliaUsuario usuario)
     {
-        await SelectedProntuario.Familia.ToggleAtivoUsuario(usuario);
+        await _usuarioService.DeactivateActiveFamiliaUsuario(usuario.Usuario);
+    }
+
+    [RelayCommand]
+    private async Task ReactivateUsuario(FamiliaUsuario usuario)
+    {
+        await _usuarioService.DeactivateActiveFamiliaUsuario(usuario.Usuario);
+        await _usuarioService.ReactivateFamiliaUsuario(usuario);
     }
     
     [RelayCommand]
@@ -59,7 +68,7 @@ public partial class EditarFamiliaViewModel(IFamiliaService familiaService, IPro
         SelectedProntuario.Familia.FamiliaUsuarios.Add(new FamiliaUsuario
         {
             Usuario = new Usuario(),
-            Parentesco = usuarioCount == 0 ? ParentescoEnum.Responsavel : ParentescoEnum.Conjuge,
+            Parentesco = usuarioCount == 0 ? ParentescoEnum.Responsavel : ParentescoEnum.Default,
             DataAdicao = DateOnly.FromDateTime(DateTime.Now.AddDays(-3))
         });
     }

@@ -73,26 +73,28 @@
                                         <p class="text-muted mb-1">@tecnico.Login</p>
                                         <small class="text-muted">ID: @tecnico.Id</small>
                                     </div>
-                                    @if (tecnico.CrasAtivo == ViewModel.TecnicoLogado.CrasAtivo)
-                                    {
-                                        <button class="btn btn-outline-danger btn-sm" value="@tecnico.Id" @onclick="() => ViewModel.SolicitarRemocaoCommand.ExecuteAsync(tecnico)">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </button>
-                                    }
-                                    else if (tecnico.CrasAtivo != ViewModel.TecnicoLogado.CrasAtivo && tecnico.CrasAtivo != null)
-                                    {
-                                        <button class="btn btn-outline-danger btn-sm" value="@tecnico.Id" @onclick="() => ViewModel.ImportTecnicoCommand.ExecuteAsync(tecnico)">
-                                            <i class="bi bi-box-arrow-left"></i>
-                                        </button>      
-                                    }
-                                    else
-                                    {
-                                        <button class="btn btn-outline-danger btn-sm" value="@tecnico.Id" @onclick="() => ViewModel.ReactivateTecnicoCommand.ExecuteAsync(tecnico)">
-                                            <i class="bi bi-arrow-clockwise"></i>
-                                        </button>   
-                                    }
                                     
-                                    
+                                    @if (!tecnico.IsAdmin)
+                                    {
+                                        @if (tecnico.CrasAtivo == ViewModel.TecnicoLogado.CrasAtivo)
+                                        {
+                                            <button class="btn btn-outline-danger btn-sm" value="@tecnico.Id" @onclick="() => ViewModel.SolicitarRemocaoCommand.ExecuteAsync(tecnico)">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        }
+                                        else if (tecnico.CrasAtivo != ViewModel.TecnicoLogado.CrasAtivo && tecnico.CrasAtivo != null)
+                                        {
+                                            <button class="btn btn-outline-danger btn-sm" value="@tecnico.Id" @onclick="() => ViewModel.ImportTecnicoCommand.ExecuteAsync(tecnico)">
+                                                <i class="bi bi-box-arrow-left"></i>
+                                            </button>      
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-outline-danger btn-sm" value="@tecnico.Id" @onclick="() => ViewModel.ReactivateTecnicoCommand.ExecuteAsync(tecnico)">
+                                                <i class="bi bi-arrow-clockwise"></i>
+                                            </button>   
+                                        }
+                                    }
                                 </div>
                             </div>
                         }

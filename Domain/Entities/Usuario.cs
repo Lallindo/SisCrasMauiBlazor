@@ -22,4 +22,20 @@ public class Usuario
     public EscolaridadeEnum Escolaridade { get; set; }
     public SexoEnum Sexo { get; set; }
     public FonteRendaEnum FonteRenda { get; set; }
+
+    public bool Ativo
+    {
+        get
+        {
+            return FamiliaUsuarios.Any(fu => fu.DataSaida != null);
+        }
+    }
+    
+    public bool IsEmpty()
+    {
+        return string.IsNullOrWhiteSpace(Nome) &&
+               string.IsNullOrWhiteSpace(Cpf) &&
+               string.IsNullOrWhiteSpace(Rg) &&
+               string.IsNullOrWhiteSpace(Nis);
+    }
 }

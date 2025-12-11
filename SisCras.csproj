@@ -100,7 +100,6 @@
     <ItemGroup>
         <Folder Include="Domain\"/>
         <Folder Include="Infrastructure\Data\Context\" />
-        <Folder Include="Infrastructure\Data\Migrations\" />
     </ItemGroup>
 
     <ItemGroup>

@@ -65,14 +65,4 @@ public class Familia
             return Task.FromException(ex);
         }
     }
-
-    public Task ToggleAtivoUsuario(FamiliaUsuario usuario)
-    {
-        if (usuario.DataSaida != null
-            && DateTime.Now - usuario.DataSaida.Value.ToDateTime(new TimeOnly()) < TimeSpan.FromDays(30))
-            usuario.DataSaida = null;
-        else
-            usuario.DataSaida = DateOnly.FromDateTime(DateTime.Now);
-        return Task.CompletedTask;
-    }
 }
