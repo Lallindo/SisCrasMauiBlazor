@@ -64,4 +64,15 @@ public class ProntuarioRepository(SisCrasDbContext dbContext)
     {
         return await GetProntuarioByFamiliaIdNoTracking(familia.Id);
     }
+
+    public async Task DeleteAsync(Prontuario obj, CancellationToken cancellationToken = default)
+    {
+        Prontuario currObj = await GetByIdAsync(obj.Id);
+        
+        if (currObj != null)
+        {
+            currObj.DataSaida = DateOnly.FromDateTime(DateTime.Now);
+            await DbContext.SaveChangesAsync();
+        }
+    }
 }

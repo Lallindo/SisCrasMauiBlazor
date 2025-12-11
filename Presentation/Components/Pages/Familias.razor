@@ -37,7 +37,8 @@ else
         if (prontuario.CrasId == ViewModel.LoggedTecnico.CrasAtivo.Id)
         {
             <ProntuarioCard Prontuario="prontuario" ComponentMode="ProntuarioCardTypeEnum.Editar"
-                            ButtonProntuarioClicked="ViewModel.GoToEditarFamiliaCommand.ExecuteAsync"></ProntuarioCard>
+                            ButtonProntuarioClicked="ViewModel.GoToEditarFamiliaCommand.ExecuteAsync"
+                            ButtonDeactivateClicked="ViewModel.DeactivateProntuarioCommand.ExecuteAsync"></ProntuarioCard>
         }
         else
         {

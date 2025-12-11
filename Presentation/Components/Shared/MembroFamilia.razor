@@ -12,7 +12,7 @@
                 <small class="card-subtitle">Data de inserção: @UsuarioModel.DataAdicao</small>
             </div>
             <div class="flex-lg-column ">
-                <button class="btn btn-dark justify-content-end p-2"
+                <button class="btn @(UsuarioModel.Ativo ? "btn-danger" : "btn-warning") justify-content-end p-2"
                         disabled="@AreInputsDisabled"
                         hidden="@AreInputsDisabled"
                         @onclick="() => TriggerDeactivateClicked(UsuarioModel)">@(UsuarioModel.Ativo ? "Desativar" : "Reativar")</button>

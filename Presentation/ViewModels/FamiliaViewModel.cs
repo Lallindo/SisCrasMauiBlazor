@@ -10,7 +10,8 @@ namespace SisCras.Presentation.ViewModels;
 public partial class FamiliaViewModel(
     IFamiliaService familiaService,
     IUsuarioService usuarioService,
-    ICrasService crasService,
+    ICrasService crasService, 
+    IProntuarioService prontuarioService,
     ILoggedUserService loggedUserService,
     NavigationManager navigationManager) : BaseViewModel
 {
@@ -21,8 +22,9 @@ public partial class FamiliaViewModel(
 
     private IFamiliaService _familiaService { get; } = familiaService;
     private IUsuarioService _usuarioService { get; } = usuarioService;
-    private ILoggedUserService _loggedUserService { get; } = loggedUserService;
     private ICrasService _crasService { get; } = crasService;
+    private IProntuarioService _prontuarioService { get; } = prontuarioService;
+    private ILoggedUserService _loggedUserService { get; } = loggedUserService;
     private NavigationManager _navigationManager { get; } = navigationManager;
 
     private bool HasSearchTerm => !string.IsNullOrEmpty(SearchUsuario.Nome) ||
@@ -68,5 +70,11 @@ public partial class FamiliaViewModel(
     private async Task GoToVisualizarFamilia(int familiaId)
     {
         _navigationManager.NavigateTo($"/familias/visualizar/{familiaId}");
+    }
+    
+    [RelayCommand]
+    private async Task DeactivateProntuario(Prontuario prontuario)
+    {
+        await _prontuarioService.DeleteAsync(prontuario);
     }
 }
