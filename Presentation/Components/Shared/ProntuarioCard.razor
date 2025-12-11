@@ -1,6 +1,6 @@
 ﻿@using SisCras.ApplicationLayer.Extensions
 <div class="card">
-    <div class="card-header">
+    <div class="card-header @(Prontuario.Ativo ? "bg-white" : "bg-warning")">
         <p class="card-title">
             Prontuário @Prontuario.Id
         </p>

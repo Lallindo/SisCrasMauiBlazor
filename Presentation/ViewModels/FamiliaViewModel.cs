@@ -15,11 +15,27 @@ public partial class FamiliaViewModel(
     ILoggedUserService loggedUserService,
     NavigationManager navigationManager) : BaseViewModel
 {
-    private Prontuario? _prontuarioParaRemover;
-    [ObservableProperty] private ObservableCollection<Prontuario?> _prontuarios = [];
     [ObservableProperty] private Tecnico? _loggedTecnico = new();
     [ObservableProperty] private Usuario _searchUsuario = new();
+    [ObservableProperty] private bool _showDeactivated = false;
 
+    public ObservableCollection<Prontuario> Prontuarios
+    {
+        get
+        {
+            if (ShowDeactivated)
+            {
+                return _prontuarios;
+            }
+            else
+            {
+                return new(from p in _prontuarios where p.Ativo select p);
+            }
+        }
+    }
+
+    private ObservableCollection<Prontuario> _prontuarios = [];
+    
     private IFamiliaService _familiaService { get; } = familiaService;
     private IUsuarioService _usuarioService { get; } = usuarioService;
     private ICrasService _crasService { get; } = crasService;
@@ -42,8 +58,8 @@ public partial class FamiliaViewModel(
     public async Task SearchFamiliasByUsuario()
     {
         if (HasSearchTerm)
-            Prontuarios =
-                new ObservableCollection<Prontuario?>(
+            _prontuarios =
+                new ObservableCollection<Prontuario>(
                     await _usuarioService.GetAllProntuariosByUsuarioSearch(SearchUsuario));
         else
             await GetAllProntuarios();
@@ -51,7 +67,7 @@ public partial class FamiliaViewModel(
 
     public async Task GetAllProntuarios()
     {
-        Prontuarios =
+        _prontuarios =
             new ObservableCollection<Prontuario>(await _crasService.GetAllProntuariosAndFamiliaAndUsuarios());
     }
 
@@ -76,6 +92,7 @@ public partial class FamiliaViewModel(
     private async Task DeactivateProntuario(Prontuario prontuario)
     {
         await _prontuarioService.DeleteAsync(prontuario);
+        await GetAllProntuarios();
     }
 
     [RelayCommand]
