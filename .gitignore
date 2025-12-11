@@ -6,6 +6,11 @@
 .bin
 .obj
 
+Infrastructure/Data/*
+
+wwwroot/lib/bootstrap
+wwwroot/lib/bootstrap-icons
+
 # dotenv files
 .env
 
