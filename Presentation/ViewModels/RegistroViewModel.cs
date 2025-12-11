@@ -23,7 +23,6 @@ public partial class RegistroViewModel(
 
     [ObservableProperty] private Prontuario _prontuario = new()
     {
-        DataCriacao = DateOnly.FromDateTime(DateTime.Now),
         Familia = new()
         {
             FamiliaUsuarios = []
@@ -98,18 +97,44 @@ public partial class RegistroViewModel(
     [RelayCommand]
     private async Task InsertNewProntuario()
     {
+        var tecnicoLogado = _loggedUserService.GetCurrentUser();
+
+        if (tecnicoLogado?.CrasAtivo == null)
+        {
+            Debug.WriteLine("Erro: Técnico não logado ou sem CRAS ativo.");
+            return;
+        }
+    
         try
         {
+            // 1. Encerra vínculos antigos de usuários importados
             foreach (var idVinculoAntigo in VinculosParaEncerrar)
             {
                 await _usuarioService.DeactivateActiveFamiliaUsuario(idVinculoAntigo);
             }
 
-            Prontuario.Tecnico = _loggedUserService.GetCurrentUser();
-            Prontuario.Cras = Prontuario.Tecnico?.CrasAtivo;
-            Prontuario.Id = 0;
+            // 2. Preenche os IDs de "Cache" no Prontuario Pai (para listagem rápida)
+            Prontuario.CrasId = tecnicoLogado.CrasAtivo.Id;
+            Prontuario.TecnicoId = tecnicoLogado.Id;
+        
+            // 3. CRIA O PRIMEIRO REGISTRO DE HISTÓRICO (ProntuarioCras ATIVO)
+            var primeiroVinculo = new ProntuarioCras
+            {
+                CrasId = tecnicoLogado.CrasAtivo.Id,
+                TecnicoResponsavelId = tecnicoLogado.Id,
+                DataEntrada = DateTime.Now,
+                DataSaida = null, // Ativo
+                FormaDeAcesso = Prontuario.FormaDeAcesso 
+            };
+        
+            // Adiciona o primeiro vínculo à lista (o EF preencherá o ProntuarioId automaticamente)
+            Prontuario.HistoricoCras.Add(primeiroVinculo);
+        
+            // 4. Garante que o ID seja 0 para ser um novo registro
+            Prontuario.Id = 0; 
 
-            await _prontuarioService.UpdateAsync(Prontuario);
+            // 5. Salva o Prontuário Pai, o que salva a Família e o novo ProntuarioCras em cascata.
+            await _prontuarioService.AddAsync(Prontuario); 
         }
         catch (Exception ex)
         {

@@ -35,7 +35,7 @@ public partial class EditarFamiliaViewModel(IFamiliaService familiaService, IPro
 
     public async Task GetProntuario(int familiaId)
     {
-        SelectedProntuario = await _ProntuarioService.GetProntuarioByFamiliaIdNoTracking(familiaId);
+        SelectedProntuario = await _ProntuarioService.GetProntuarioByFamiliaId(familiaId);
     }
 
     [RelayCommand]

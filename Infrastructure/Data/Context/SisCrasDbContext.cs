@@ -7,6 +7,8 @@ public class SisCrasDbContext : DbContext
 {
     public DbSet<Tecnico> Tecnicos { get; set; }
     public DbSet<Prontuario> Prontuarios { get; set; }
+    // NOVA TABELA
+    public DbSet<ProntuarioCras> ProntuarioCras { get; set; } 
     public DbSet<Familia> Familias { get; set; }
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<FamiliaUsuario> FamiliaUsuarios { get; set; }
@@ -34,9 +36,15 @@ public class SisCrasDbContext : DbContext
 
         modelBuilder.Entity<Prontuario>(entity =>
         {
+            // Relacionamentos do "Cache" (Estado Atual)
             entity.HasOne(p => p.Tecnico)
                 .WithMany(t => t.Prontuarios)
                 .HasForeignKey(p => p.TecnicoId)
+                .IsRequired();
+
+            entity.HasOne(p => p.Cras)
+                .WithMany(c => c.Prontuarios)
+                .HasForeignKey(p => p.CrasId)
                 .IsRequired();
 
             entity.HasOne(p => p.Familia)
@@ -44,21 +52,51 @@ public class SisCrasDbContext : DbContext
                 .HasForeignKey(p => p.FamiliaId)
                 .IsRequired();
 
+            // Configurações de propriedades
             entity.Property(p => p.FormaDeAcesso).HasConversion<int>();
-            entity.Ignore(p => p.Ativo);
+            
+            // Ignorar propriedades calculadas que não vão pro banco na tabela Pai
+            // (Note que DataSaida agora é calculada, então garantimos que o EF ignore se não houver atributo [NotMapped] na classe)
+            entity.Ignore(p => p.ProntuarioAtivo);
+        });
+
+        // --- CONFIGURAÇÃO DA NOVA TABELA DE HISTÓRICO ---
+        modelBuilder.Entity<ProntuarioCras>(entity =>
+        {
+            // Chave Primária (BaseEntity tem Id, então usamos ele)
+            entity.HasKey(pc => pc.Id);
+
+            // Relacionamento com o Prontuário Pai
+            entity.HasOne(pc => pc.Prontuario)
+                .WithMany(p => p.HistoricoCras) // Liga com a coleção na classe Prontuario
+                .HasForeignKey(pc => pc.ProntuarioId)
+                .IsRequired();
+
+            // Relacionamento com o CRAS onde ocorreu o vínculo
+            entity.HasOne(pc => pc.Cras)
+                .WithMany() // Não precisamos de uma lista de históricos dentro da classe CRAS por enquanto
+                .HasForeignKey(pc => pc.CrasId)
+                .IsRequired();
+
+            // Relacionamento com o Técnico que fez a movimentação
+            entity.HasOne(pc => pc.TecnicoResponsavel)
+                .WithMany()
+                .HasForeignKey(pc => pc.TecnicoResponsavelId)
+                .IsRequired();
+
+            // Conversão do Enum
+            entity.Property(pc => pc.FormaDeAcesso).HasConversion<int>();
         });
 
         modelBuilder.Entity<Familia>(entity =>
         {
             entity.Property(f => f.ConfiguracaoFamiliar).HasConversion<int>();
-
             entity.Ignore(f => f.Usuarios);
         });
 
         modelBuilder.Entity<FamiliaUsuario>(entity =>
         {
             entity.HasKey(fu => new { fu.Id });
-
             entity.Property(fu => fu.Parentesco).HasConversion<int>();
 
             entity.HasOne(fu => fu.Familia)

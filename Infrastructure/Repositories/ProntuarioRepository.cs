@@ -7,13 +7,22 @@ namespace SisCras.Infrastructure.Repositories;
 public class ProntuarioRepository(SisCrasDbContext dbContext)
     : BaseRepository<Prontuario>(dbContext), IProntuarioRepository
 {
+    // Método auxiliar para garantir que o histórico venha junto
+    private IQueryable<Prontuario> GetQueryWithIncludes()
+    {
+        return DbContext.Prontuarios
+            .Include(p => p.HistoricoCras)
+                .ThenInclude(hc => hc.Cras)
+            .Include(p => p.Familia)
+                .ThenInclude(f => f.FamiliaUsuarios)
+                .ThenInclude(fu => fu.Usuario)
+            .Include(p => p.Cras)     // Carrega o CRAS do "cache"
+            .Include(p => p.Tecnico); // Carrega o Tecnico do "cache"
+    }
+
     public async Task<Prontuario?> GetFamiliaAndUsuariosFromProntuario(int id)
     {
-        return await DbContext.Prontuarios
-            .Include(p => p.Cras)
-            .Include(p => p.Familia)
-            .ThenInclude(f => f.FamiliaUsuarios)
-            .ThenInclude(fu => fu.Usuario)
+        return await GetQueryWithIncludes()
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
@@ -25,6 +34,7 @@ public class ProntuarioRepository(SisCrasDbContext dbContext)
     public async Task<Prontuario?> GetFamiliaFromProntuario(int id)
     {
         return await DbContext.Prontuarios
+            .Include(p => p.HistoricoCras)
             .Include(p => p.Familia)
             .FirstOrDefaultAsync(p => p.Id == id);
     }
@@ -36,12 +46,11 @@ public class ProntuarioRepository(SisCrasDbContext dbContext)
 
     public async Task<Prontuario?> GetProntuarioByFamiliaId(int familiaId)
     {
-        return await DbContext.Prontuarios
-            .Where(p => p.FamiliaId == familiaId && p.DataSaida == null)
-            .Include(p => p.Familia)
-            .ThenInclude(f => f.FamiliaUsuarios)
-            .ThenInclude(fu => fu.Usuario)
-            .FirstOrDefaultAsync();
+        // Pega o prontuário onde o histórico atual está aberto (DataSaida == null)
+        // OU simplesmente pega pelo ID da família, e o código filtra depois.
+        return await GetQueryWithIncludes()
+            .Where(p => p.FamiliaId == familiaId)
+            .FirstOrDefaultAsync(); 
     }
 
     public async Task<Prontuario?> GetProntuarioByFamiliaId(Familia familia)
@@ -51,11 +60,8 @@ public class ProntuarioRepository(SisCrasDbContext dbContext)
 
     public async Task<Prontuario?> GetProntuarioByFamiliaIdNoTracking(int familiaId)
     {
-        return await DbContext.Prontuarios
-            .Where(p => p.FamiliaId == familiaId && p.DataSaida == null)
-            .Include(p => p.Familia)
-            .ThenInclude(f => f.FamiliaUsuarios)
-            .ThenInclude(fu => fu.Usuario)
+        return await GetQueryWithIncludes()
+            .Where(p => p.FamiliaId == familiaId)
             .AsNoTracking()
             .FirstOrDefaultAsync();
     }
@@ -67,12 +73,15 @@ public class ProntuarioRepository(SisCrasDbContext dbContext)
 
     public async Task DeleteAsync(Prontuario obj, CancellationToken cancellationToken = default)
     {
-        Prontuario currObj = await GetByIdAsync(obj.Id);
+        // Soft Delete: Encerra o histórico atual
+        var currObj = await DbContext.Prontuarios
+            .Include(p => p.HistoricoCras)
+            .FirstOrDefaultAsync(p => p.Id == obj.Id, cancellationToken);
         
-        if (currObj != null)
+        if (currObj != null && currObj.ProntuarioAtivo != null)
         {
-            currObj.DataSaida = DateOnly.FromDateTime(DateTime.Now);
-            await DbContext.SaveChangesAsync();
+            currObj.ProntuarioAtivo.DataSaida = DateTime.Now;
+            await DbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

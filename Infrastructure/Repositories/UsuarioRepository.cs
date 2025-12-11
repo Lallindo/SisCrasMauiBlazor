@@ -130,6 +130,8 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
         if (string.IsNullOrEmpty(nome) && string.IsNullOrEmpty(cpf) && string.IsNullOrEmpty(nis)) return [];
 
         var query = DbContext.Prontuarios.AsQueryable();
+        
+        // Mantendo sua lógica de filtro OR/AND que corrigimos anteriormente
         query = query.Where(p => p.Familia.FamiliaUsuarios.Any(fu =>
             (string.IsNullOrEmpty(nome) || fu.Usuario.Nome.ToLower().Contains(nome.ToLower())) &&
             (string.IsNullOrEmpty(cpf)  || fu.Usuario.Cpf.ToLower().Contains(cpf.ToLower())) &&
@@ -137,6 +139,8 @@ public class UsuarioRepository(SisCrasDbContext dbContext) : BaseRepository<Usua
         ));
 
         return await query
+            .Include(p => p.HistoricoCras) // ADICIONADO
+                .ThenInclude(hc => hc.Cras)
             .Include(p => p.Cras)
             .Include(p => p.Familia)
             .ThenInclude(f => f.FamiliaUsuarios)

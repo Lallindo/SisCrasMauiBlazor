@@ -29,7 +29,7 @@ public partial class FamiliaViewModel(
             }
             else
             {
-                return new(from p in _prontuarios where p.Ativo select p);
+                return new(from p in _prontuarios where p.ProntuarioAtivo != null select p);
             }
         }
     }
@@ -67,8 +67,16 @@ public partial class FamiliaViewModel(
 
     public async Task GetAllProntuarios()
     {
+        // O CrasService deve retornar TODOS os prontuários vinculados a esse CRAS (ativos e inativos)
+        // Se o seu CrasRepository já filtra por DataSaida == null no ProntuarioCras, ignore o .Where abaixo
+        // Mas, para segurança, filtramos aqui pelo ProntuarioAtivo
+        var todosProntuarios =
+            await _crasService.GetAllProntuariosAndFamiliaAndUsuarios();
+    
+        // FILTRO ESSENCIAL: Garante que apenas os prontuários que possuem um vínculo ativo (ProntuarioAtivo != null) sejam exibidos
+        // Isso usa a propriedade calculada ProntuarioAtivo na sua entidade Prontuario.
         _prontuarios =
-            new ObservableCollection<Prontuario>(await _crasService.GetAllProntuariosAndFamiliaAndUsuarios());
+            new ObservableCollection<Prontuario>(todosProntuarios.Where(p => p.ProntuarioAtivo != null)); 
     }
 
     public async Task GetLoggedUsuario()
@@ -91,14 +99,26 @@ public partial class FamiliaViewModel(
     [RelayCommand]
     private async Task DeactivateProntuario(Prontuario prontuario)
     {
+        var confirm = await Application.Current.MainPage.DisplayAlert("Confirmar", "Deseja realmente desativar este prontuário?", "Sim", "Não");
+        if (!confirm) return;
+
+        // O Repositório agora sabe que "Delete" significa "Encerrar Histórico Atual"
         await _prontuarioService.DeleteAsync(prontuario);
+    
+        // Atualiza a lista na tela
         await GetAllProntuarios();
     }
 
     [RelayCommand]
     private async Task ImportProntuario(Prontuario prontuario)
     {
-        await _prontuarioService.ImportProntuario(prontuario);
-        await GetAllProntuarios();
+        // Apenas chama o serviço. Toda a lógica complexa de fechar histórico antigo e abrir novo está lá.
+        var novoProntuario = await _prontuarioService.ImportProntuario(prontuario);
+    
+        if (novoProntuario != null)
+        {
+            await Application.Current.MainPage.DisplayAlert("Sucesso", "Família transferida para seu CRAS com sucesso!", "OK");
+            await GetAllProntuarios();
+        }
     }
 }

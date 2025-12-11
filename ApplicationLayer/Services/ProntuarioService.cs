@@ -1,4 +1,5 @@
 using SisCras.Domain.Entities;
+using SisCras.Domain.Enums;
 using SisCras.Infrastructure.Repositories;
 
 namespace SisCras.ApplicationLayer.Services;
@@ -51,37 +52,49 @@ public class ProntuarioService(
         return await ProntuarioRepository.GetProntuarioByFamiliaIdNoTracking(familia);
     }
 
-    public async Task<Prontuario?> ImportProntuario(Prontuario prontuario)
+    public async Task<Prontuario?> ImportProntuario(Prontuario prontuarioParam)
     {
-        if (prontuario.Id == 0) return null;
-        
-        var resp = await ProntuarioRepository.GetByIdAsync(prontuario.Id);
+        if (prontuarioParam.Id == 0) return null;
 
-        if (resp == null) return null;
+        // 1. Busca o prontuário (O Repository já traz o HistoricoCras com Include)
+        var prontuarioExistente = await ProntuarioRepository.GetProntuarioByFamiliaId(prontuarioParam.FamiliaId);
 
-        var familiaId = resp.FamiliaId; 
-        var formaAcesso = resp.FormaDeAcesso;
-
-        await ProntuarioRepository.DeleteAsync(resp);
+        if (prontuarioExistente == null) return null;
 
         var tecnicoLogado = LoggedUserService.GetCurrentUser();
+        if (tecnicoLogado?.CrasAtivo == null) return null; // Validação simples
 
-        if (tecnicoLogado.CrasAtivo == null)
+        // 2. Fecha o histórico anterior
+        var vinculoAnterior = prontuarioExistente.ProntuarioAtivo;
+        if (vinculoAnterior != null)
         {
-            throw new InvalidOperationException("O técnico logado não possui um CRAS ativo para realizar a importação.");
+            // Se já está no mesmo CRAS, não faz nada
+            if (vinculoAnterior.CrasId == tecnicoLogado.CrasAtivo.Id) 
+                return prontuarioExistente;
+
+            vinculoAnterior.DataSaida = DateTime.Now;
         }
 
-        Prontuario novoProntuario = new()
+        // 3. Adiciona o novo histórico (Entrada)
+        var novoHistorico = new ProntuarioCras
         {
-            CrasId = tecnicoLogado.CrasAtivo.Id, 
-            FamiliaId = familiaId,               
-            TecnicoId = tecnicoLogado.Id,        
-            DataCriacao = DateOnly.FromDateTime(DateTime.Now),
-            FormaDeAcesso = formaAcesso
+            // ProntuarioId será preenchido automaticamente ao adicionar na lista
+            CrasId = tecnicoLogado.CrasAtivo.Id,
+            TecnicoResponsavelId = tecnicoLogado.Id,
+            DataEntrada = DateTime.Now,
+            DataSaida = null,
+            FormaDeAcesso = vinculoAnterior?.FormaDeAcesso ?? FormaAcessoEnum.Espontanea
         };
         
-        await ProntuarioRepository.AddAsync(novoProntuario);
+        prontuarioExistente.HistoricoCras.Add(novoHistorico);
 
-        return novoProntuario;
+        // 4. Atualiza o "Cache" no pai para compatibilidade com telas antigas
+        prontuarioExistente.CrasId = tecnicoLogado.CrasAtivo.Id;
+        prontuarioExistente.TecnicoId = tecnicoLogado.Id;
+
+        // 5. Salva (O EF identifica as mudanças na lista e na entidade pai)
+        await ProntuarioRepository.UpdateAsync(prontuarioExistente);
+
+        return prontuarioExistente;
     }
 }

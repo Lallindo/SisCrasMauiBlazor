@@ -25,6 +25,7 @@ public class CrasRepository(SisCrasDbContext dbContext) : BaseRepository<Cras>(d
         return await DbContext.Cras
             .Where(c => c.Id == id)
             .SelectMany(c => c.Prontuarios)
+            .Include(p => p.HistoricoCras) // ADICIONADO: Necessário para lógica de histórico
             .ToListAsync();
     }
 
@@ -38,6 +39,8 @@ public class CrasRepository(SisCrasDbContext dbContext) : BaseRepository<Cras>(d
         return await DbContext.Cras
             .Where(c => c.Id == id)
             .SelectMany(c => c.Prontuarios)
+            .Include(p => p.HistoricoCras) // ADICIONADO
+                .ThenInclude(hc => hc.Cras) // Opcional: carrega o CRAS do histórico
             .Include(p => p.Familia)
             .ThenInclude(f => f.FamiliaUsuarios)
             .ThenInclude(fu => fu.Usuario)
@@ -52,6 +55,8 @@ public class CrasRepository(SisCrasDbContext dbContext) : BaseRepository<Cras>(d
     public async Task<List<Prontuario>> GetAllProntuariosAndFamiliaAndUsuarios(int offset = 0, int limit = 20)
     {
         return await DbContext.Prontuarios
+            .Include(p => p.HistoricoCras) // ADICIONADO
+                .ThenInclude(hc => hc.Cras)
             .Include(p => p.Cras)
             .Include(p => p.Familia)
             .ThenInclude(f => f.FamiliaUsuarios)
@@ -67,6 +72,8 @@ public class CrasRepository(SisCrasDbContext dbContext) : BaseRepository<Cras>(d
         return await DbContext.Cras
             .Where(c => c.Id == id)
             .SelectMany(c => c.Prontuarios)
+            .Include(p => p.HistoricoCras) // ADICIONADO
+                .ThenInclude(hc => hc.Cras)
             .Include(p => p.Cras)
             .Include(p => p.Familia)
             .ThenInclude(f => f.FamiliaUsuarios)
