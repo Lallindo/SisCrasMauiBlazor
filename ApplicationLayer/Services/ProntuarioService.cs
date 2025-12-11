@@ -59,17 +59,27 @@ public class ProntuarioService(
 
         if (resp == null) return null;
 
+        var familiaId = resp.FamiliaId; 
+        var formaAcesso = resp.FormaDeAcesso;
+
         await ProntuarioRepository.DeleteAsync(resp);
+
+        var tecnicoLogado = LoggedUserService.GetCurrentUser();
+
+        if (tecnicoLogado.CrasAtivo == null)
+        {
+            throw new InvalidOperationException("O técnico logado não possui um CRAS ativo para realizar a importação.");
+        }
 
         Prontuario novoProntuario = new()
         {
-            Cras = LoggedUserService.GetCurrentUser().CrasAtivo,
-            Familia = resp.Familia,
-            Tecnico = LoggedUserService.GetCurrentUser(),
+            CrasId = tecnicoLogado.CrasAtivo.Id, 
+            FamiliaId = familiaId,               
+            TecnicoId = tecnicoLogado.Id,        
             DataCriacao = DateOnly.FromDateTime(DateTime.Now),
-            FormaDeAcesso = resp.FormaDeAcesso
+            FormaDeAcesso = formaAcesso
         };
-
+        
         await ProntuarioRepository.AddAsync(novoProntuario);
 
         return novoProntuario;
