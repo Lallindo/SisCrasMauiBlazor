@@ -6,11 +6,11 @@
     
     <FluentValidationValidator />
 
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-start mb-1 mt-3">
         <button type="button" class="btn btn-outline-secondary" @onclick="@ViewModel.CreateNewUsuarioCommand.ExecuteAsync">
             <i class="bi bi-person-plus"></i> Adicionar Membro
         </button>
-    </div>
+    </div>   
 
     @foreach (var usuario in ViewModel.Prontuario.Familia.FamiliaUsuarios)
     {

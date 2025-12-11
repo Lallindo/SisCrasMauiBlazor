@@ -20,12 +20,13 @@
         </div>
         <div class="card-body">
             <div class="row mb-3">
-                <div class="col-12">
-                    <label class="form-label fw-bold">Nome Completo *</label>
-                    <InputText class="form-control form-control-lg" @bind-Value="UsuarioModel.Usuario.Nome"
-                               placeholder="Nome completo" disabled="@AreInputsDisabled" @onfocusout="NotificarAlteracao"/>
-                    <ValidationMessage For="@(() => UsuarioModel.Usuario.Nome)"  class="text-danger small" />
-                </div>
+                <MaskedInput @bind-Value="UsuarioModel.Usuario.Nome"
+                             Classes="col-12"
+                             LabelTxt="Nome do usuário"
+                             Placeholder="O nome do usuário aqui"
+                             InputClass="form-control-lg" 
+                             IsDisabled="AreInputsDisabled"
+                             OnFocusOut="NotificarAlteracao"/>
             </div>
 
             <div class="row g-3">

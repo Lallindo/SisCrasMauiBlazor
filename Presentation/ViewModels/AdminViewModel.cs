@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using Havit.Blazor.Components.Web.Bootstrap;
 using SisCras.ApplicationLayer.Services;
 using SisCras.Domain.Entities;
+using SisCras.Presentation.DTOs;
 
 namespace SisCras.Presentation.ViewModels;
 
@@ -16,10 +17,8 @@ public partial class AdminViewModel : ObservableObject
     private IPasswordService _passwordService { get; }
 
     [ObservableProperty] private Tecnico? _tecnicoLogado = new();
-    [ObservableProperty] private Tecnico _novoTecnico = new();
-    [ObservableProperty] private string _confirmarSenha = String.Empty;
+    [ObservableProperty] private TecnicoDto _novoTecnico = new();
     [ObservableProperty] private bool _buscandoTecnicos = false;
-    [ObservableProperty] private bool _registroError = true;
     [ObservableProperty] private ObservableCollection<Tecnico> _tecnicos = [];
 
     public HxModal ConfirmationModal;
@@ -47,33 +46,22 @@ public partial class AdminViewModel : ObservableObject
     [RelayCommand]
     private async Task<Tecnico?> AdicionarTecnico()
     {
-        bool validacao = ValidarTecnico();
-        if (validacao)
+        Tecnico novoTecnico = new()
         {
-            RegistroError = validacao;
-            return null;
-        }
-
-        NovoTecnico.TecnicoCras.Add(new()
+            Nome = NovoTecnico.Nome,
+            Login = NovoTecnico.Login,
+            Senha = _passwordService.CreatePassword(NovoTecnico.Senha)
+        };
+        novoTecnico.TecnicoCras.Add(new()
         {
             Id = 0,
             CrasId = TecnicoLogado.CrasAtivo.Id,
             Cras = TecnicoLogado.CrasAtivo,
-            Tecnico = NovoTecnico,
+            Tecnico = novoTecnico,
             TecnicoId = 0,
             DataEntrada = DateOnly.FromDateTime(DateTime.Now)
         });
-        Tecnico tecnicoComHash = await _tecnicoService.ChangeSenhaForHash(NovoTecnico, _passwordService);
-        return await _tecnicoService.AddAsync(tecnicoComHash);
-    }
-
-    private bool ValidarTecnico()
-    {
-      return (
-        NovoTecnico.Nome == "" ||
-        NovoTecnico.Login == "" || 
-        NovoTecnico.Senha == ""
-      );
+        return await _tecnicoService.AddAsync(novoTecnico);
     }
 
     [RelayCommand]

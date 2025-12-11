@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.LifecycleEvents;
 using SisCras.ApplicationLayer.Services;
 using SisCras.ApplicationLayer;
 using SisCras.Domain.Entities;
@@ -24,6 +25,24 @@ public static class MauiProgram
             .ConfigureFonts(fonts => { fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular"); });
 
         builder.Services.AddMauiBlazorWebView();
+        
+#if WINDOWS
+        builder.ConfigureLifecycleEvents(events =>  
+        {  
+            events.AddWindows(wndLifeCycleBuilder =>  
+            {  
+                wndLifeCycleBuilder.OnWindowCreated(window =>  
+                {  
+                    //    window.ExtendsContentIntoTitleBar = false;  
+                    IntPtr hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+                    Microsoft.UI.WindowId myWndId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);  
+                    var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(myWndId);  
+                    appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Default);   
+                    (appWindow.Presenter as Microsoft.UI.Windowing.OverlappedPresenter).Maximize();   
+                });  
+            });  
+        });
+#endif
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
@@ -64,6 +83,7 @@ public static class MauiProgram
 
         // Interceptors
         builder.Services.AddSingleton<TrocaResponsavelInterceptor>();
+        
         
         // Database
         builder.Services.AddDbContext<SisCrasDbContext>((sp, options) =>
