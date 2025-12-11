@@ -39,7 +39,7 @@ public partial class AdminViewModel : ObservableObject
     public async Task BuscarTecnicos()
     {
         BuscandoTecnicos = true;
-        Tecnicos = new(await _crasService.GetTecnicosFromCras(TecnicoLogado.CrasAtivo));
+        Tecnicos = new(await _tecnicoService.GetAllTecnicos());
         BuscandoTecnicos = false;
     }
     
@@ -68,6 +68,7 @@ public partial class AdminViewModel : ObservableObject
     private async Task SolicitarRemocao(Tecnico tecnico)
     {
         TecnicoParaRemover = tecnico;
+        if (TecnicoParaRemover.IsAdmin) return;
         SenhaUsuarioExclusao = string.Empty;
         ErroModal = string.Empty;
 
@@ -95,5 +96,17 @@ public partial class AdminViewModel : ObservableObject
         {
             ErroModal = $"Erro ao remover: {ex.Message}";
         }
+    }
+
+    [RelayCommand]
+    private async Task ReactivateTecnico(Tecnico tecnico)
+    {
+        await _tecnicoService.ReactivateTecnico(tecnico);
+    }
+
+    [RelayCommand]
+    private async Task ImportTecnico(Tecnico tecnico)
+    {
+        await _tecnicoService.ImportTecnico(tecnico);
     }
 }

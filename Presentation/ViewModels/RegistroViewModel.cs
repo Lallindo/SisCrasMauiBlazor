@@ -140,6 +140,9 @@ public partial class RegistroViewModel(
         {
             Debug.WriteLine($"Erro ao salvar: {ex.Message}");
         }
+        
+        await Application.Current.MainPage.DisplayAlert("Cadastro realizado", 
+            $"O prontuário {Prontuario.Id} foi cadastrado com sucesso", "Ok");
     }
 
     [RelayCommand]

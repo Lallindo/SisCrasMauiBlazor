@@ -7,8 +7,8 @@
     </div>
     <div class="card-body">
         <p class="card-text">Nome do responsável: @ResponsavelName</p>
-        <p class="card-text">Data de criação: @Prontuario.ProntuarioAtivo.DataEntrada</p>
-        <p class="card-text">Cras: @Prontuario.Cras.Nome</p>
+        <p class="card-text">Data de criação: @Prontuario.UltimoVinculo.DataEntrada</p>
+        <p class="card-text">Cras: @Prontuario.UltimoVinculo?.Cras.Nome </p>
     </div>
     <div class="card-footer">
         <button class="btn btn-primary"
@@ -16,7 +16,7 @@
         @if (ComponentMode == ProntuarioCardTypeEnum.Editar)
         {
             <button class="btn btn-danger"
-                    @onclick="@(() => TriggerChangeProntuario())">Desativar</button>
+                    @onclick="@(() => TriggerChangeProntuario())">@(Prontuario.ProntuarioAtivo != null ? "Desativar" : "Reativar")</button>
         }
         else
         {

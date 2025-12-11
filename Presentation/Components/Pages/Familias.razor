@@ -70,9 +70,18 @@ else
     {
         if (prontuario.CrasId == ViewModel.LoggedTecnico.CrasAtivo.Id)
         {
-            <ProntuarioCard Prontuario="prontuario" ComponentMode="ProntuarioCardTypeEnum.Editar"
-                            ButtonProntuarioClicked="ViewModel.GoToEditarFamiliaCommand.ExecuteAsync"
-                            ButtonChangeClicked="ViewModel.DeactivateProntuarioCommand.ExecuteAsync"></ProntuarioCard>
+            if (prontuario.ProntuarioAtivo != null)
+            {
+                <ProntuarioCard Prontuario="prontuario" ComponentMode="ProntuarioCardTypeEnum.Editar"
+                                ButtonProntuarioClicked="ViewModel.GoToEditarFamiliaCommand.ExecuteAsync"
+                                ButtonChangeClicked="ViewModel.DeactivateProntuarioCommand.ExecuteAsync"/>   
+            }
+            else
+            {
+                <ProntuarioCard Prontuario="prontuario" ComponentMode="ProntuarioCardTypeEnum.Editar"
+                                ButtonProntuarioClicked="ViewModel.GoToEditarFamiliaCommand.ExecuteAsync"
+                                ButtonChangeClicked="ViewModel.ReactivateProntuarioCommand.ExecuteAsync"/>
+            }
         }
         else
         {

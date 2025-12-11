@@ -20,14 +20,7 @@ public partial class LoginViewModel(ITecnicoService tecnicoService, NavigationMa
     {
         var tryLogin = await _tecnicoService.TryLoginAsync(Tecnico.Login, Tecnico.Senha);
 
-        if (tryLogin == null)
-        {
-            LoginError = true;
-            LoginErrorTxt = "Usuário não existe ou não está ligado a um CRAS";
-            return;
-        }
-        
-        if (tryLogin == true)
+        if (tryLogin.CrasAtivo != null)
         {
             LoginError = false;
             _navigationManager.NavigateTo("/familias");
@@ -36,6 +29,13 @@ public partial class LoginViewModel(ITecnicoService tecnicoService, NavigationMa
         {
             LoginError = true;
             LoginErrorTxt = "Usuário ou senha incorretos";
+        }
+        
+        if (tryLogin.CrasAtivo == null)
+        {
+            LoginError = true;
+            LoginErrorTxt = "Usuário não existe ou não está ligado a um CRAS";
+            return;
         }
     }
 }

@@ -14,7 +14,7 @@ public class TecnicoService(
     private ILoggedUserService LoggedUserService { get; } = loggedUserService;
     private IPasswordService PasswordService { get; } = passwordService;
 
-    public async Task<bool?> TryLoginAsync(string login, string plainSenha)
+    public async Task<Tecnico?> TryLoginAsync(string login, string plainSenha)
     {
         var tecnico = await TecnicoRepository.GetTecnicoByLogin(login);
         if (tecnico == null) return null;
@@ -24,15 +24,66 @@ public class TecnicoService(
         if (senhaCorreta)
         {
             LoggedUserService.SetCurrentUser(tecnico);
-            return true;
+            return tecnico;
         }
 
-        return false;
+        return null;
     }
 
     public async Task<Tecnico> ChangeSenhaForHash(Tecnico tecnico, IPasswordService passwordService)
     {
         tecnico.Senha = Task.FromResult(passwordService.CreatePassword(tecnico.Senha)).Result;
+        return tecnico;
+    }
+
+    public async Task<List<Tecnico>> GetAllTecnicos()
+    {
+        return await TecnicoRepository.GetAllTecnicos();
+    }
+
+    public async Task<Tecnico?> ImportTecnico(Tecnico tecnico)
+    {
+        var loggedTecnico = LoggedUserService.GetCurrentUser();
+
+        if (loggedTecnico == null) return null;
+        if (tecnico.IsAdmin) return null;
+        
+        tecnico.TecnicoCrasAtivo.DataSaida = DateOnly.FromDateTime(DateTime.Now);
+
+        tecnico.TecnicoCras.Add(
+            new()
+            {
+                Admin = false,
+                CrasId = loggedTecnico.CrasAtivo.Id,
+                DataEntrada = DateOnly.FromDateTime(DateTime.Now),
+                DataSaida = null,
+                TecnicoId = loggedTecnico.Id
+            });
+
+        await TecnicoRepository.UpdateAsync(tecnico);
+
+        return tecnico;
+    }
+
+    public async Task<Tecnico?> ReactivateTecnico(Tecnico tecnico)
+    {
+        var loggedTecnico = LoggedUserService.GetCurrentUser();
+
+        if (loggedTecnico == null) return null;
+        if (tecnico.IsAdmin) return null;
+
+        tecnico.TecnicoCras.Add(
+            new()
+            {
+                Admin = false,
+                CrasId = loggedTecnico.CrasAtivo.Id,
+                DataEntrada = DateOnly.FromDateTime(DateTime.Now),
+                DataSaida = null,
+                TecnicoId = loggedTecnico.Id
+            });
+
+        await TecnicoRepository.UpdateAsync(tecnico);
+
         return tecnico;
     }
 }

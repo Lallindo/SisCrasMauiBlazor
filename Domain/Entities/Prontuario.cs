@@ -36,4 +36,14 @@ public class Prontuario
     // Removemos a propriedade DataSaida antiga, pois agora é calculada pelo histórico
     [NotMapped]
     public DateTime? DataSaida => ProntuarioAtivo == null ? DateTime.Now : null; 
+    
+    [NotMapped]
+    public ProntuarioCras? UltimoVinculo
+    {
+        get
+        {
+            // Ordena por DataEntrada decrescente para pegar o mais recente.
+            return HistoricoCras?.OrderByDescending(pc => pc.DataEntrada).FirstOrDefault();
+        }
+    }
 }

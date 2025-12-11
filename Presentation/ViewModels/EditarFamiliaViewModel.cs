@@ -42,6 +42,8 @@ public partial class EditarFamiliaViewModel(IFamiliaService familiaService, IPro
     public async Task UpdateProntuario()
     {
         await _ProntuarioService.UpdateAsync(SelectedProntuario);
+        await Application.Current.MainPage.DisplayAlert("Alteração feita", 
+            $"O prontuário {SelectedProntuario.Id} foi alterado com sucesso", "Ok");
     }
 
     [RelayCommand]

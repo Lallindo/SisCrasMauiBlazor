@@ -17,18 +17,20 @@ public partial class FamiliaViewModel(
 {
     [ObservableProperty] private Tecnico? _loggedTecnico = new();
     [ObservableProperty] private Usuario _searchUsuario = new();
-    [ObservableProperty] private bool _showDeactivated = false;
+    [ObservableProperty] private bool _showDeactivated = false; // Valor do Checkbox
 
     public ObservableCollection<Prontuario> Prontuarios
     {
         get
         {
-            if (ShowDeactivated)
+            // O filtro é aplicado AQUI, com base no valor do _showDeactivated (checkbox)
+            if (_showDeactivated) // Se o checkbox estiver marcado, retorna todos
             {
                 return _prontuarios;
             }
             else
             {
+                // Se o checkbox NÃO estiver marcado, filtra para retornar apenas os ativos
                 return new(from p in _prontuarios where p.ProntuarioAtivo != null select p);
             }
         }
@@ -58,25 +60,31 @@ public partial class FamiliaViewModel(
     public async Task SearchFamiliasByUsuario()
     {
         if (HasSearchTerm)
-            _prontuarios =
-                new ObservableCollection<Prontuario>(
-                    await _usuarioService.GetAllProntuariosByUsuarioSearch(SearchUsuario));
+        {
+            // FIX: Carrega TODOS os prontuários que correspondem à busca, ativos ou inativos.
+            // O filtro visual é aplicado no getter da propriedade Prontuarios.
+            var searchResults = await _usuarioService.GetAllProntuariosByUsuarioSearch(SearchUsuario);
+            _prontuarios = new ObservableCollection<Prontuario>(searchResults);
+        }
         else
             await GetAllProntuarios();
+            
+        // Notifica a UI para que a propriedade computada 'Prontuarios' seja reavaliada.
+        OnPropertyChanged(nameof(Prontuarios));
     }
 
     public async Task GetAllProntuarios()
     {
-        // O CrasService deve retornar TODOS os prontuários vinculados a esse CRAS (ativos e inativos)
-        // Se o seu CrasRepository já filtra por DataSaida == null no ProntuarioCras, ignore o .Where abaixo
-        // Mas, para segurança, filtramos aqui pelo ProntuarioAtivo
+        // FIX: Remove o filtro desnecessário aqui. Carrega TODOS os prontuários.
         var todosProntuarios =
             await _crasService.GetAllProntuariosAndFamiliaAndUsuarios();
     
-        // FILTRO ESSENCIAL: Garante que apenas os prontuários que possuem um vínculo ativo (ProntuarioAtivo != null) sejam exibidos
-        // Isso usa a propriedade calculada ProntuarioAtivo na sua entidade Prontuario.
+        // A coleção interna deve conter TUDO.
         _prontuarios =
-            new ObservableCollection<Prontuario>(todosProntuarios.Where(p => p.ProntuarioAtivo != null)); 
+            new ObservableCollection<Prontuario>(todosProntuarios); 
+        
+        // Notifica a UI para que a propriedade computada 'Prontuarios' seja reavaliada.
+        OnPropertyChanged(nameof(Prontuarios));
     }
 
     public async Task GetLoggedUsuario()
@@ -102,7 +110,7 @@ public partial class FamiliaViewModel(
         var confirm = await Application.Current.MainPage.DisplayAlert("Confirmar", "Deseja realmente desativar este prontuário?", "Sim", "Não");
         if (!confirm) return;
 
-        // O Repositório agora sabe que "Delete" significa "Encerrar Histórico Atual"
+        // O Repositório encerra o vínculo ativo no ProntuarioCras
         await _prontuarioService.DeleteAsync(prontuario);
     
         // Atualiza a lista na tela
@@ -112,6 +120,8 @@ public partial class FamiliaViewModel(
     [RelayCommand]
     private async Task ImportProntuario(Prontuario prontuario)
     {
+        var confirm = await Application.Current.MainPage.DisplayAlert("Realizar transferência?", "Deseja mesmo realizar a transferência?", "Sim", "Não");
+        if (!confirm) return;
         // Apenas chama o serviço. Toda a lógica complexa de fechar histórico antigo e abrir novo está lá.
         var novoProntuario = await _prontuarioService.ImportProntuario(prontuario);
     
@@ -119,6 +129,30 @@ public partial class FamiliaViewModel(
         {
             await Application.Current.MainPage.DisplayAlert("Sucesso", "Família transferida para seu CRAS com sucesso!", "OK");
             await GetAllProntuarios();
+        }
+    }
+    
+    partial void OnShowDeactivatedChanged(bool value)
+    {
+        OnPropertyChanged(nameof(Prontuarios));
+    }
+    
+    [RelayCommand]
+    private async Task ReactivateProntuario(Prontuario prontuario)
+    {
+        var confirm = await Application.Current.MainPage.DisplayAlert("Confirmar", 
+            $"Deseja reativar o prontuário {prontuario.Id} no seu CRAS?", "Sim", "Não");
+        if (!confirm) return;
+
+        try
+        {
+            await _prontuarioService.ReactivateProntuario(prontuario.Id);
+            await Application.Current.MainPage.DisplayAlert("Sucesso", "Prontuário reativado com sucesso!", "OK");
+            await GetAllProntuarios();
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Erro", ex.Message, "OK");
         }
     }
 }
