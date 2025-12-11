@@ -8,9 +8,15 @@
 <h3>Busca de Famílias</h3>
 
 <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Nome do usuário" @bind="ViewModel.SearchUsuario.Nome"/>
-    <input type="text" class="form-control" placeholder="CPF do usuário" @bind="ViewModel.SearchUsuario.Cpf"/>
-    <input type="text" class="form-control" placeholder="NIS do usuário" @bind="ViewModel.SearchUsuario.Nis"/>
+    <input type="text" class="form-control" placeholder="Nome do usuário" 
+           @bind="ViewModel.SearchUsuario.Nome"
+           @onfocusout="@ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync"/>
+    <input type="text" class="form-control" placeholder="CPF do usuário" 
+           @bind="ViewModel.SearchUsuario.Cpf"
+           @onfocusout="@ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync"/>
+    <input type="text" class="form-control" placeholder="NIS do usuário" 
+           @bind="ViewModel.SearchUsuario.Nis"
+           @onfocusout="@ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync"/>
     <button class="btn btn-primary" type="button" @onclick="ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync">
         Buscar
     </button>
@@ -22,7 +28,7 @@
 
 @if (ViewModel.Prontuarios.Count == 0)
 {
-    <p>Nenhum prontuário buscado</p>
+    <p>Nenhum prontuário encontrado</p>
 }
 else
 {

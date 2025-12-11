@@ -15,7 +15,7 @@ public partial class FamiliaViewModel(
     NavigationManager navigationManager) : BaseViewModel
 {
     private Prontuario? _prontuarioParaRemover;
-    [ObservableProperty] private ObservableCollection<Prontuario> _prontuarios = [];
+    [ObservableProperty] private ObservableCollection<Prontuario?> _prontuarios = [];
     [ObservableProperty] private Tecnico? _loggedTecnico = new();
     [ObservableProperty] private Usuario _searchUsuario = new();
 
@@ -41,7 +41,7 @@ public partial class FamiliaViewModel(
     {
         if (HasSearchTerm)
             Prontuarios =
-                new ObservableCollection<Prontuario>(
+                new ObservableCollection<Prontuario?>(
                     await _usuarioService.GetAllProntuariosByUsuarioSearch(SearchUsuario));
         else
             await GetAllProntuarios();

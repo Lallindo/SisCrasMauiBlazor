@@ -7,7 +7,7 @@ public class Prontuario
 {
     public int Id { get; set; }
     public int Codigo { get; set; } = 0;
-    public Cras? Cras { get; set; }
+    public Cras Cras { get; set; }
     public Tecnico? Tecnico { get; set; }
     public Familia? Familia { get; set; }
     public DateOnly DataCriacao { get; set; }
