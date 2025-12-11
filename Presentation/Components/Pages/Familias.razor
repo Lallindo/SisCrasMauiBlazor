@@ -7,18 +7,53 @@
 
 <h3>Busca de Famílias</h3>
 
-<div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Nome do usuário" 
-           @bind="ViewModel.SearchUsuario.Nome"
-           @onfocusout="@ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync"/>
-    <input type="text" class="form-control" placeholder="CPF do usuário" 
-           @bind="ViewModel.SearchUsuario.Cpf"
-           @onfocusout="@ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync"/>
-    <input type="text" class="form-control" placeholder="NIS do usuário" 
-           @bind="ViewModel.SearchUsuario.Nis"
-           @onfocusout="@ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync"/>
-    <input class="bi-check" id="chkb_ativos" type="checkbox" @bind="ViewModel.ShowDeactivated"/>
-    <label for="chkb_ativos">Mostrar prontuários desativados?</label>
+<div class="card border-0 shadow-sm mb-4 p-3 bg-light">
+    <div class="card-body">
+        <EditForm Model="ViewModel.SearchUsuario">
+            <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-4">
+                    <label for="filtroNome" class="form-label fw-bold">Nome do Usuário</label>
+                    <InputText id="filtroNome" 
+                               @bind-Value="ViewModel.SearchUsuario.Nome" 
+                               class="form-control form-control-lg" 
+                               placeholder="Digite o nome..." 
+                               @onfocusout="@ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync" />
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <MaskedInput @bind-Value="ViewModel.SearchUsuario.Cpf"
+                                 LabelTxt="CPF"
+                                 Mask="MaskTypeEnum.Cpf"
+                                 Placeholder="000.000.000-00"
+                                 InputClass="form-control-lg"
+                                 OnFocusOut="@ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync" />
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <MaskedInput @bind-Value="ViewModel.SearchUsuario.Nis"
+                                 LabelTxt="NIS"
+                                 Placeholder="00000000000"
+                                 InputClass="form-control-lg"
+                                 OnFocusOut="@ViewModel.SearchFamiliasByUsuarioCommand.ExecuteAsync" />
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-12 d-flex align-items-center">
+                    <div class="form-check form-switch ps-0">
+                        <input class="form-check-input ms-0 me-2" 
+                               type="checkbox" 
+                               role="switch" 
+                               id="chkInativos"
+                               @bind="ViewModel.ShowDeactivated"> 
+                        <label class="form-check-label fw-bold text-secondary" for="chkInativos">
+                            Exibir prontuários desativados
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </div>
 </div>
 
 <button class="btn btn-success mb-3" @onclick="ViewModel.GoToRegistrarFamiliaCommand.ExecuteAsync">Registrar Nova
