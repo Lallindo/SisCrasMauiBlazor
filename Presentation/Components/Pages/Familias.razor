@@ -38,12 +38,13 @@ else
         {
             <ProntuarioCard Prontuario="prontuario" ComponentMode="ProntuarioCardTypeEnum.Editar"
                             ButtonProntuarioClicked="ViewModel.GoToEditarFamiliaCommand.ExecuteAsync"
-                            ButtonDeactivateClicked="ViewModel.DeactivateProntuarioCommand.ExecuteAsync"></ProntuarioCard>
+                            ButtonChangeClicked="ViewModel.DeactivateProntuarioCommand.ExecuteAsync"></ProntuarioCard>
         }
         else
         {
             <ProntuarioCard Prontuario="prontuario" ComponentMode="ProntuarioCardTypeEnum.Visualizar"
-                            ButtonProntuarioClicked="ViewModel.GoToVisualizarFamiliaCommand.ExecuteAsync"></ProntuarioCard>
+                            ButtonProntuarioClicked="ViewModel.GoToVisualizarFamiliaCommand.ExecuteAsync"
+                            ButtonChangeClicked="ViewModel.ImportProntuarioCommand.ExecuteAsync"></ProntuarioCard>
         }
     }
 }

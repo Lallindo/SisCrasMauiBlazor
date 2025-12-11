@@ -12,4 +12,5 @@ public interface IProntuarioService : IBaseService<Prontuario>
     Task<Prontuario?> GetProntuarioByFamiliaId(Familia familia);
     Task<Prontuario?> GetProntuarioByFamiliaIdNoTracking(int familiaId);
     Task<Prontuario?> GetProntuarioByFamiliaIdNoTracking(Familia familia);
+    Task<Prontuario?> ImportProntuario(Prontuario prontuario);
 }

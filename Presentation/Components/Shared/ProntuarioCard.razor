@@ -16,7 +16,12 @@
         @if (ComponentMode == ProntuarioCardTypeEnum.Editar)
         {
             <button class="btn btn-danger"
-                    @onclick="@(() => TriggerDeactivateProntuario())">Desativar</button>
+                    @onclick="@(() => TriggerChangeProntuario())">Desativar</button>
+        }
+        else
+        {
+            <button class="btn btn-warning"
+                    @onclick="@(() => TriggerChangeProntuario())">Desativar</button>
         }
     </div>
 </div>
@@ -25,7 +30,7 @@
     [Parameter] public Prontuario Prontuario { get; set; }
     [Parameter] public ProntuarioCardTypeEnum ComponentMode { get; set; }
     [Parameter] public EventCallback ButtonProntuarioClicked { get; set; }
-    [Parameter] public EventCallback ButtonDeactivateClicked { get; set; }
+    [Parameter] public EventCallback ButtonChangeClicked { get; set; }
 
     private string ResponsavelName
     {
@@ -42,9 +47,8 @@
         await ButtonProntuarioClicked.InvokeAsync(Prontuario.FamiliaId);
     }
 
-    private async Task TriggerDeactivateProntuario()
+    private async Task TriggerChangeProntuario()
     {
-        await ButtonDeactivateClicked.InvokeAsync(Prontuario);
+        await ButtonChangeClicked.InvokeAsync(Prontuario);
     }
-
 }

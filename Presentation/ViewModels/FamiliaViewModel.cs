@@ -77,4 +77,11 @@ public partial class FamiliaViewModel(
     {
         await _prontuarioService.DeleteAsync(prontuario);
     }
+
+    [RelayCommand]
+    private async Task ImportProntuario(Prontuario prontuario)
+    {
+        await _prontuarioService.ImportProntuario(prontuario);
+        await GetAllProntuarios();
+    }
 }

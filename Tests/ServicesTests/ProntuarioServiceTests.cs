@@ -20,7 +20,7 @@ public class ProntuarioServiceTests
     public ProntuarioServiceTests()
     {
         _mockRepository = new Mock<IProntuarioRepository>();
-        _service = new ProntuarioService(_mockRepository.Object);
+        _service = new ProntuarioService(_mockRepository.Object, new LoggedUserService());
     }
 
     [Fact]
